@@ -4,7 +4,7 @@ export class Player {
     this.x = x;
     this.y = y;
     this.width = 8;
-    this.height = 9;
+    this.height = 8;
     this.ctx = ctx;
   }
   draw() {
