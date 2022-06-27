@@ -23,7 +23,7 @@ export class Map {
         var Xo = x * this.mapS;
         var Yo = y * this.mapS;
         this.ctx.fillStyle = color;
-        this.ctx.fillRect(Xo +1, Yo + 1, this.mapS -2, this.mapS-2)
+        this.ctx.fillRect(Xo + 1, Yo + 1, this.mapS - 2, this.mapS - 2)
       }
     }
   }
