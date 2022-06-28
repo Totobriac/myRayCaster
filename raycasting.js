@@ -11,7 +11,7 @@ canvas.width = 1024;
 var player = new Player(200,200,ctx);
 var controls = new Controls(player);
 var map = new Map(ctx);
-var ray = new Ray(player);
+var ray = new Ray(player, map);
 
 function animate() {
   ctx.clearRect(0,0,canvas.width, canvas.height);
