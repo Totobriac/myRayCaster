@@ -8,9 +8,10 @@ var ctx = canvas.getContext('2d');
 canvas.height = 512;
 canvas.width = 1024;
 
-var player = new Player(200,200,ctx);
-var controls = new Controls(player);
 var map = new Map(ctx);
+var player = new Player(200,200,map,ctx);
+var controls = new Controls(player);
+
 var ray = new Ray(player, map, ctx);
 
 function animate() {
