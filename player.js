@@ -6,37 +6,42 @@ export class Player {
     this.width = 8;
     this.height = 8;
     this.ctx = ctx;
-    this.angle = Math.PI /2;
-    this.dX = Math.cos(this.angle) * 5;
-    this.dY = Math.sin(this.angle) * 5;
-  }
-  draw() {
-    this.ctx.fillStyle = this.color;
-    this.ctx.fillRect(this.x, this.y, this.width, this.height);
-    this.ctx.beginPath();
-    this.ctx.strokeStyle = this.color;
-    this.ctx.moveTo(this.x + 4, this.y + 4);
-    this.ctx.lineTo(this.x + this.dX * 10 + 4, this.y + this.dY * 10 + 4);
-    this.ctx.stroke();
+    this.angle =0;
+    this.speed = 3;
+    this.moveForward = 0;
+    this.rotate = 0;
+    this.rotationSpeed = 3 * (Math.PI / 180);
   }
   up() {
-    this.x += this.dX;
-    this.y += this.dY;
+    this.moveForward = 1;
   }
   down() {
-    this.x -= this.dX;
-    this.y -= this.dY;
+    this.moveForward = -1;
   }
   right() {
-    this.angle += 0.1;
-    if (this.angle > 2 * Math.PI) this.angle -= 2 * Math.PI;
-    this.dX = Math.cos(this.angle) * 10;
-    this.dY = Math.sin(this.angle) * 10;
+    this.rotate = 1;
   }
   left() {
-    this.angle -= 0.1;
-    if (this.angle < 0) this.angle += 2 * Math.PI;
-    this.dX = Math.cos(this.angle) * 10;
-    this.dY = Math.sin(this.angle) * 10;
+    this.rotate = -1;
+  }
+  stopMove() {
+    this.moveForward = 0;
+  }
+  stopTurn() {
+    this.rotate = 0;
+  }
+  update() {
+    var newX = this.x + this.moveForward * Math.cos(this.angle) * this.speed;
+    var newY = this.y + this.moveForward * Math.sin(this.angle) * this.speed;
+
+    this.angle += this.rotate * this.rotationSpeed;
+    this.x = newX;
+    this.y = newY;
+    console.log(newX, newY);
+  }
+  draw() {
+    this.update();
+    this.ctx.fillStyle = this.color;
+    this.ctx.fillRect(this.x, this.y, this.width, this.height);
   }
 }
