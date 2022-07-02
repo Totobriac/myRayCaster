@@ -37,7 +37,6 @@ export class Player {
     this.angle += this.rotate * this.rotationSpeed;
     this.x = newX;
     this.y = newY;
-    console.log(newX, newY);
   }
   draw() {
     this.update();
