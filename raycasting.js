@@ -11,7 +11,6 @@ canvas.width = 1024;
 var map = new Map(ctx);
 var player = new Player(200,200,map,ctx);
 var controls = new Controls(player);
-
 var ray = new Ray(player, map, ctx);
 
 function animate() {
@@ -20,7 +19,8 @@ function animate() {
   ctx.fillRect(0,0,canvas.width, canvas.height);
   map.draw();
   player.draw();
-  ray.draw();
+  ray.cast();
+
   requestAnimationFrame(animate);
 }
 

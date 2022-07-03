@@ -1,4 +1,5 @@
 import { normalizeAngle } from "./functions.js";
+import { Ray } from "./ray.js";
 
 export class Player {
   constructor(x, y, map, ctx) {
@@ -14,7 +15,7 @@ export class Player {
     this.moveForward = 0;
     this.rotate = 0;
     this.rotationSpeed = 3 * (Math.PI / 180);
-    this.isColliding = false;
+    this.isColliding = false;    
   }
   up() {
     this.moveForward = 1;
@@ -52,8 +53,7 @@ export class Player {
     this.angle += this.rotate * this.rotationSpeed;
     this.angle = normalizeAngle(this.angle);
 
-    console.log(this.angle);
-    
+
     if (!this.checkForCollision(newX, newY)) {
       this.x = newX;
       this.y = newY;
@@ -73,5 +73,6 @@ export class Player {
     this.ctx.moveTo(this.x, this.y);
     this.ctx.lineTo(xDestino, yDestino);
     this.ctx.stroke();
+    
   }
 }
