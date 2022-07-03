@@ -15,7 +15,9 @@ export class Player {
     this.moveForward = 0;
     this.rotate = 0;
     this.rotationSpeed = 3 * (Math.PI / 180);
-    this.isColliding = false;    
+    this.isColliding = false;
+    this.lookRight;
+    this.lookUp;
   }
   up() {
     this.moveForward = 1;
@@ -46,7 +48,11 @@ export class Player {
 
     return collision;
   }
-  update() {
+  update() {  
+
+    this.angle > Math.PI ? this.lookUp = true : this.lookUp = false;
+    this.angle > Math.PI / 2 && this.angle < 3 * Math.PI / 2 ? this.lookRight = false : this.lookRight = true;
+
     var newX = this.x + this.moveForward * Math.cos(this.angle) * this.speed;
     var newY = this.y + this.moveForward * Math.sin(this.angle) * this.speed;
 
