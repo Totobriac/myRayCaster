@@ -15,11 +15,11 @@ var ray = new Ray(player, map, ctx);
 
 function animate() {
   ctx.clearRect(0,0,canvas.width, canvas.height);
-  ctx.fillStyle = "grey";
+  ctx.fillStyle = "green";
   ctx.fillRect(0,0,canvas.width, canvas.height);
   map.draw();
   player.draw();
-  ray.cast();
+  ray.cast(); 
 
   requestAnimationFrame(animate);
 }

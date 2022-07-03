@@ -69,16 +69,6 @@ export class Player {
   draw() {
     this.update();
     this.ctx.fillStyle = this.color;
-    this.ctx.fillRect(this.x - 4, this.y - 4, this.width, this.height);
-
-    var xDestino = this.x + Math.cos(this.angle) * 20;
-    var yDestino = this.y + Math.sin(this.angle) * 20;
-
-    this.ctx.beginPath();
-    this.ctx.strokeStyle = "red";
-    this.ctx.moveTo(this.x, this.y);
-    this.ctx.lineTo(xDestino, yDestino);
-    this.ctx.stroke();
-    
+    this.ctx.fillRect(this.x - 4, this.y - 4, this.width, this.height);    
   }
 }
