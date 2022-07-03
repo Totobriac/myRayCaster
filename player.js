@@ -18,6 +18,7 @@ export class Player {
     this.isColliding = false;
     this.lookRight;
     this.lookUp;
+    this.FOV = 60;
   }
   up() {
     this.moveForward = 1;

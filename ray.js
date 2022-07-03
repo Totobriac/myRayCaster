@@ -1,10 +1,9 @@
-import { distance } from "./functions.js";
+import { distance, toRadians } from "./functions.js";
 
 export class Ray {
-  constructor(player, map, ctx) {
+  constructor(player, map, ctx, angleR) {
     this.x;
     this.y;
-    this.anglele;
     this.player = player;
     this.dist = 0;
     this.map = map;
@@ -13,6 +12,8 @@ export class Ray {
     this.xIntercept;
     this.xStep;
     this.yStep;
+
+    this.angleR = angleR;
 
     this.isHittingX;
     this.isHittingY;
@@ -24,19 +25,18 @@ export class Ray {
     this.wallHitVY;
 
     this.wallHitX;
-    this.wallHitY;
+    this.wallHitY;    
+    this.angle;
   }
   update() {
     this.x = this.player.x;
     this.y = this.player.y;
-    this.angle = this.player.angle;
+    this.angle = this.player.angle + this.angleR;
   }
   cast() {
-
     this.update();
     this.xCollision();
     this.yCollision();
-
     this.checkTile();
   }
   yCollision() {
@@ -48,7 +48,7 @@ export class Ray {
 
     var xOffset = (this.yIntercept - this.y) / Math.tan(this.angle);
 
-    this.xIntercept = this.x + xOffset;   
+    this.xIntercept = this.x + xOffset;
 
     this.xStep = this.map.mapS / Math.tan(this.angle);
     this.yStep = this.map.mapS;
@@ -101,7 +101,7 @@ export class Ray {
     if ((this.player.lookUp && this.yStep > 0) || (!this.player.lookUp && this.yStep < 0)) {
       this.yStep = -this.yStep;
     }
-    
+
 
     var nextHorizX = this.xIntercept;
     var nextHorizY = this.yIntercept;
@@ -118,7 +118,7 @@ export class Ray {
       var xTile = Math.floor(nextHorizX / this.map.mapS);
       var yTile = Math.floor(nextHorizY / this.map.mapS);
 
-      if (this.map.checkCollision(yTile, xTile)) {        
+      if (this.map.checkCollision(yTile, xTile)) {
         this.isHittingX = true;
         this.wallHitVX = nextHorizX;
         this.wallHitVY = nextHorizY;
@@ -133,14 +133,14 @@ export class Ray {
   }
   checkTile() {
     var horizDst = 999999;
-    var vertiDst = 999999;  
+    var vertiDst = 999999;
 
     if (this.isHittingY) {
-      vertiDst = distance(this.x, this.y, this.wallHitHX, this.wallHitHY);      
+      vertiDst = distance(this.x, this.y, this.wallHitHX, this.wallHitHY);
     }
 
     if (this.isHittingX) {
-      horizDst = distance(this.x, this.y, this.wallHitVX, this.wallHitVY);      
+      horizDst = distance(this.x, this.y, this.wallHitVX, this.wallHitVY);
     }
 
     if (horizDst < vertiDst) {
@@ -151,11 +151,11 @@ export class Ray {
       this.wallHitY = this.wallHitHY;
     }
 
-  this.ctx.beginPath();
-  this.ctx.strokeStyle = "blue";
-  this.ctx.moveTo(this.x, this.y );
-  this.ctx.lineTo(this.wallHitX, this.wallHitY);
-  this.ctx.stroke();
+    this.ctx.beginPath();
+    this.ctx.strokeStyle = "blue";
+    this.ctx.moveTo(this.x, this.y);
+    this.ctx.lineTo(this.wallHitX, this.wallHitY);
+    this.ctx.stroke();
   }
 
 }
