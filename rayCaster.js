@@ -15,7 +15,7 @@ class RayCaster {
   }
   init() {
     for (let i = 0; i < this.rayNb; i++) {
-      this.rays[i] = new Ray(this.player, this.map, this.ctx, this.rayAngle,i);
+      this.rays[i] = new Ray(this.player, this.map, this.ctx, this.rayAngle, i);
       this.rayAngle += this.incAngle;
     }
   }

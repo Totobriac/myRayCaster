@@ -29,13 +29,12 @@ export class Ray {
   update() {
 
     this.angle = this.player.angle + this.angleR;
-
+    this.angle = normalizeAngle(this.angle)
     this.angle > Math.PI ? this.lookUp = true : this.lookUp = false;
     this.angle > Math.PI / 2 && this.angle < ( 3 * Math.PI) / 2 ? this.lookRight = false : this.lookRight = true;
 
     this.x = this.player.x;
     this.y = this.player.y;
-
   }
   cast() {
     this.update();
@@ -45,6 +44,7 @@ export class Ray {
     this.draw();
   }
   yCollision() {
+
     this.isHittingY = false;
 
     this.yIntercept = Math.floor(this.y / this.map.mapS) * this.map.mapS;
@@ -53,11 +53,12 @@ export class Ray {
 
     var xOffset = (this.yIntercept - this.y) / Math.tan(this.angle);
 
+
     this.xIntercept = this.x + xOffset;
-
     this.xStep = this.map.mapS / Math.tan(this.angle);
-    this.yStep = this.map.mapS;
 
+    this.yStep = this.map.mapS;
+    if(this.index === 0) console.log(this.yStep, this.lookUp);
     if (this.lookUp) this.yStep *= -1;
 
     if ((!this.lookRight && this.xStep > 0) || (this.lookRight && this.xStep < 0)) {
@@ -106,7 +107,7 @@ export class Ray {
     var nextHorizY = this.yIntercept;
     if (!this.lookRight) {
       nextHorizX--;
-    } 
+    }
     var mapWidth = this.map.mapX * this.map.mapS;
     var mapHeight = this.map.mapY * this.map.mapS;
     while (!this.isHittingX && (nextHorizX > 1 && nextHorizY > 1 && nextHorizX < mapWidth - 1 && nextHorizY < mapHeight - 1)) {

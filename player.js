@@ -62,52 +62,5 @@ export class Player {
     this.update();
     this.ctx.fillStyle = this.color;
     this.ctx.fillRect(this.x - 4, this.y - 4, this.width, this.height);
-
-    var ttt = -30 * (Math.PI / 180) + this.angle;
-    var tt = 30 * (Math.PI / 180) + this.angle;
-
-    var xDest = this.x + Math.cos(ttt) * 220;
-    var yDest = this.y + Math.sin(ttt) * 220;
-
-    var xDes = this.x + Math.cos(tt) * 220;
-    var yDes = this.y + Math.sin(tt) * 220;
-
-    this.ctx.save();
-    this.ctx.lineWidth = 4;
-    this.ctx.beginPath();
-    this.ctx.strokeStyle = "white";
-    this.ctx.moveTo(this.x, this.y);
-    this.ctx.lineTo(xDest, yDest);
-    this.ctx.stroke();
-
-    this.ctx.lineWidth = 4;
-    this.ctx.beginPath();
-    this.ctx.strokeStyle = "white";
-    this.ctx.moveTo(this.x, this.y);
-    this.ctx.lineTo(xDes, yDes);
-    this.ctx.stroke();
-
-    this.ctx.lineWidth = 4;
-    this.ctx.beginPath();
-    this.ctx.strokeStyle = "red";
-    this.ctx.moveTo(this.x, this.y);
-    this.ctx.lineTo(this.rays[399].wallHitX, this.rays[399].wallHitY);
-    this.ctx.stroke();
-
-    this.ctx.lineWidth = 4;
-    this.ctx.beginPath();
-    this.ctx.strokeStyle = "orange";
-    this.ctx.moveTo(this.x, this.y);
-    this.ctx.lineTo(this.rays[799].wallHitX, this.rays[799].wallHitY);
-    this.ctx.stroke();
-
-    this.ctx.lineWidth = 4;
-    this.ctx.beginPath();
-    this.ctx.strokeStyle = "green";
-    this.ctx.moveTo(this.x, this.y);
-    this.ctx.lineTo(this.rays[0].wallHitX, this.rays[0].wallHitY);
-    this.ctx.stroke();
-
-    this.ctx.restore();
   }
 }
