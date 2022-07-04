@@ -7,7 +7,7 @@ import { RayCaster } from "./rayCaster.js";
 var canvas = document.getElementById('canvas');
 var ctx = canvas.getContext('2d');
 canvas.height = 400;
-canvas.width = 800;
+canvas.width = 1200;
 
 var map = new Map(ctx);
 var player = new Player(200, 200, map, ctx);
