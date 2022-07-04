@@ -1,7 +1,6 @@
 import { Player } from "./player.js";
 import { Controls } from "./controls.js";
 import { Map } from "./map.js";
-import { Ray } from "./ray.js";
 import { RayCaster } from "./rayCaster.js";
 
 var canvas = document.getElementById('canvas');
@@ -18,14 +17,12 @@ Player.prototype.rays = rayCaster.rays;
 
 function animate() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  ctx.fillStyle = "green";
-  //ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-  //map.draw();
+ 
+  
   rayCaster.draw();
+  
+  // map.draw();
   player.draw();
-  rayCaster.renderWalls();
-
   requestAnimationFrame(animate);
 }
 

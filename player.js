@@ -11,7 +11,7 @@ export class Player {
     this.map = map;
     this.ctx = ctx;
     this.angle = 0;
-    this.speed = 3;
+    this.speed = 4;
     this.moveForward = 0;
     this.rotate = 0;
     this.rotationSpeed = 3 * (Math.PI / 180);
@@ -61,6 +61,6 @@ export class Player {
   draw() {
     this.update();
     // this.ctx.fillStyle = this.color;
-    // this.ctx.fillRect(this.x - 4, this.y - 4, this.width, this.height);
+    // this.ctx.fillRect(this.x/ 10 - 4, this.y/10 - 4, this.width, this.height);
   }
 }
