@@ -16,8 +16,6 @@ export class Player {
     this.rotate = 0;
     this.rotationSpeed = 3 * (Math.PI / 180);
     this.isColliding = false;
-    this.lookRight;
-    this.lookUp;
     this.FOV = 60;
   }
   up() {
@@ -42,17 +40,12 @@ export class Player {
     var collision = false;
     var xGridNb = Math.floor(x / this.map.mapS);
     var yGridNb = Math.floor(y / this.map.mapS);
-
     if (this.map.checkCollision(yGridNb, xGridNb)) {
       collision = true;
     };
-
     return collision;
   }
-  update() {  
-
-    this.angle > Math.PI ? this.lookUp = true : this.lookUp = false;
-    this.angle > Math.PI / 2 && this.angle < 3 * Math.PI / 2 ? this.lookRight = false : this.lookRight = true;
+  update() {
 
     var newX = this.x + this.moveForward * Math.cos(this.angle) * this.speed;
     var newY = this.y + this.moveForward * Math.sin(this.angle) * this.speed;
@@ -60,16 +53,61 @@ export class Player {
     this.angle += this.rotate * this.rotationSpeed;
     this.angle = normalizeAngle(this.angle);
 
-
     if (!this.checkForCollision(newX, newY)) {
       this.x = newX;
       this.y = newY;
     }
-
   }
   draw() {
     this.update();
     this.ctx.fillStyle = this.color;
-    this.ctx.fillRect(this.x - 4, this.y - 4, this.width, this.height);    
+    this.ctx.fillRect(this.x - 4, this.y - 4, this.width, this.height);
+
+    var ttt = -30 * (Math.PI / 180) + this.angle;
+    var tt = 30 * (Math.PI / 180) + this.angle;
+
+    var xDest = this.x + Math.cos(ttt) * 220;
+    var yDest = this.y + Math.sin(ttt) * 220;
+
+    var xDes = this.x + Math.cos(tt) * 220;
+    var yDes = this.y + Math.sin(tt) * 220;
+
+    this.ctx.save();
+    this.ctx.lineWidth = 4;
+    this.ctx.beginPath();
+    this.ctx.strokeStyle = "white";
+    this.ctx.moveTo(this.x, this.y);
+    this.ctx.lineTo(xDest, yDest);
+    this.ctx.stroke();
+
+    this.ctx.lineWidth = 4;
+    this.ctx.beginPath();
+    this.ctx.strokeStyle = "white";
+    this.ctx.moveTo(this.x, this.y);
+    this.ctx.lineTo(xDes, yDes);
+    this.ctx.stroke();
+
+    this.ctx.lineWidth = 4;
+    this.ctx.beginPath();
+    this.ctx.strokeStyle = "red";
+    this.ctx.moveTo(this.x, this.y);
+    this.ctx.lineTo(this.rays[399].wallHitX, this.rays[399].wallHitY);
+    this.ctx.stroke();
+
+    this.ctx.lineWidth = 4;
+    this.ctx.beginPath();
+    this.ctx.strokeStyle = "orange";
+    this.ctx.moveTo(this.x, this.y);
+    this.ctx.lineTo(this.rays[799].wallHitX, this.rays[799].wallHitY);
+    this.ctx.stroke();
+
+    this.ctx.lineWidth = 4;
+    this.ctx.beginPath();
+    this.ctx.strokeStyle = "green";
+    this.ctx.moveTo(this.x, this.y);
+    this.ctx.lineTo(this.rays[0].wallHitX, this.rays[0].wallHitY);
+    this.ctx.stroke();
+
+    this.ctx.restore();
   }
 }
