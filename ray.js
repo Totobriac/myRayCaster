@@ -170,7 +170,7 @@ export class Ray {
     this.ctx.stroke();
   }
   wallRendering() {
-    var realWallHeight = 700;
+    var realWallHeight = 800;
     var screenDist = (canvas.width / 2) / Math.tan(this.player.FOV / 2);
     var wallHeight = (realWallHeight / this.distHit) * screenDist;
 
