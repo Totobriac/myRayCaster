@@ -19,11 +19,12 @@ Player.prototype.rays = rayCaster.rays;
 function animate() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   ctx.fillStyle = "green";
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  //ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-  map.draw();
+  //map.draw();
   rayCaster.draw();
   player.draw();
+  rayCaster.renderWalls();
 
   requestAnimationFrame(animate);
 }

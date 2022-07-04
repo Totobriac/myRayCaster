@@ -24,5 +24,11 @@ class RayCaster {
       this.rays[i].cast();
     }
   }
+  renderWalls() {
+    for (let i = 0; i < this.rays.length; i++) {
+      this.rays[i].wallRendering();
+    }
+
+  }
 }
 export { RayCaster };

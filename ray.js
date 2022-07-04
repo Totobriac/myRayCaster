@@ -25,6 +25,7 @@ export class Ray {
     this.lookUp;
     this.lookRight;
     this.index = i;
+    this.distHit = 0;
   }
   update() {
 
@@ -41,7 +42,7 @@ export class Ray {
     this.xCollision();
     this.yCollision();
     this.checkTile();
-    this.draw();
+    //this.draw();
   }
   yCollision() {
 
@@ -58,7 +59,7 @@ export class Ray {
     this.xStep = this.map.mapS / Math.tan(this.angle);
 
     this.yStep = this.map.mapS;
-    if(this.index === 0) console.log(this.yStep, this.lookUp);
+
     if (this.lookUp) this.yStep *= -1;
 
     if ((!this.lookRight && this.xStep > 0) || (this.lookRight && this.xStep < 0)) {
@@ -136,16 +137,33 @@ export class Ray {
     if (horizDst < vertiDst) {
       this.wallHitX = this.wallHitVX;
       this.wallHitY = this.wallHitVY;
+      this.distHit = horizDst;
     } else {
       this.wallHitX = this.wallHitHX;
       this.wallHitY = this.wallHitHY;
+      this.distHit = vertiDst;
     }
+    this.distHit = this.distHit * Math.cos(this.player.angle - this.angle);
   }
   draw() {
     this.ctx.beginPath();
     this.ctx.strokeStyle = "blue";
     this.ctx.moveTo(this.x, this.y);
     this.ctx.lineTo(this.wallHitX, this.wallHitY);
+    this.ctx.stroke();
+  }
+  wallRendering () {
+    var realWallHeight = 500;
+    var screenDist = (canvas.width / 2) / Math.tan(this.player.FOV / 2);
+    var wallHeight = (realWallHeight/ this.distHit) * screenDist;
+
+    var y0 = canvas.height / 2 - Math.floor(wallHeight/2);
+    var y1 = y0 + wallHeight;
+    var x = this.index;
+
+    this.ctx.beginPath();
+    this.ctx.moveTo(x, y0);
+    this.ctx.lineTo(x, y1);
     this.ctx.stroke();
   }
 }
