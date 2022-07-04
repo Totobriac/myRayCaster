@@ -30,6 +30,7 @@ export class Ray {
     this.index = i;
     this.distHit = 0;
     this.texturePix;
+    this.texture;
   }
   update() {
 
@@ -84,7 +85,6 @@ export class Ray {
         this.isHittingY = true;
         this.wallHitHX = nextHorizX;
         this.wallHitHY = nextHorizY;
-        //if (this.index === 0) console.log(this.wallHitHY, this.yIntercept, this.xStep)
       }
       else {
         nextHorizX += this.xStep;
@@ -150,13 +150,16 @@ export class Ray {
       square = Math.floor(this.wallHitY / this.map.mapS);
       this.texturePix = this.wallHitY - (square * this.map.mapS);
 
+      this.texture = this.map.getTile(this.wallHitX,this.wallHitY);
     } else {
       this.wallHitX = this.wallHitHX;
       this.wallHitY = this.wallHitHY;
       this.distHit = vertiDst;
 
       square = Math.floor(this.wallHitX / this.map.mapS) * this.map.mapS;
-      this.texturePix = this.wallHitX - square;      
+      this.texturePix = this.wallHitX - square;
+
+      this.texture = this.map.getTile(this.wallHitX,this.wallHitY);
      }
 
     this.distHit = this.distHit * Math.cos(this.player.angle - this.angle);
@@ -165,7 +168,6 @@ export class Ray {
     this.ctx.beginPath();
     this.ctx.strokeStyle = "blue";
     this.ctx.moveTo(this.x, this.y);
-    if( this.index === 0) console.log(this.wallHitX, this.wallHitY);
     this.ctx.lineTo(this.wallHitX, this.wallHitY);
     this.ctx.stroke();
   }
@@ -176,17 +178,16 @@ export class Ray {
 
     var y0 = canvas.height / 2 - Math.floor(wallHeight / 2);
     var y1 = y0 + wallHeight;
-    var x = this.index;
 
-    var spriteHeight = 64;    
+    var spriteHeight = 64;
     var screenSpriteHeight = y0 - y1;
 
     this.ctx.imageSmoothingEnabled = false;
 
     this.ctx.drawImage(
       wallsSprite,
-      this.texturePix,     
-      64,
+      this.texturePix,
+      this.texture * spriteHeight,
       1,
       63,
       this.index,
@@ -194,10 +195,5 @@ export class Ray {
       1,
       screenSpriteHeight
     );
-
-    // this.ctx.beginPath();
-    // this.ctx.moveTo(x, y0);
-    // this.ctx.lineTo(x, y1);
-    // this.ctx.stroke();
   }
 }
