@@ -32,6 +32,8 @@ export class Ray {
     this.texturePix;
     this.texture;
     this.wallBottom;
+    this.playerHeight = canvas.height / 2;
+    this.screenDist;
   }
   update() {
 
@@ -49,6 +51,7 @@ export class Ray {
     this.yCollision();
     this.checkTile();
     this.wallRendering();
+    this.floorRendering();
     //this.draw();
   }
   yCollision() {
@@ -151,7 +154,7 @@ export class Ray {
       square = Math.floor(this.wallHitY / this.map.mapS);
       this.texturePix = this.wallHitY - (square * this.map.mapS);
 
-      this.texture = this.map.getTile(this.wallHitX,this.wallHitY);
+      this.texture = this.map.getTile(this.wallHitX, this.wallHitY);
     } else {
       this.wallHitX = this.wallHitHX;
       this.wallHitY = this.wallHitHY;
@@ -160,8 +163,8 @@ export class Ray {
       square = Math.floor(this.wallHitX / this.map.mapS) * this.map.mapS;
       this.texturePix = this.wallHitX - square;
 
-      this.texture = this.map.getTile(this.wallHitX,this.wallHitY);
-     }
+      this.texture = this.map.getTile(this.wallHitX, this.wallHitY);
+    }
 
     this.distHit = this.distHit * Math.cos(this.player.angle - this.angle);
   }
@@ -174,14 +177,13 @@ export class Ray {
   }
   wallRendering() {
     var realWallHeight = 700;
-    var screenDist = (canvas.width / 2) / Math.tan(this.player.FOV / 2);
-    var wallHeight = (realWallHeight / this.distHit) * screenDist;
+    this.screenDist = (canvas.width / 2) / Math.tan(this.player.FOV / 2);
+    var wallHeight = (realWallHeight / this.distHit) * this.screenDist;
 
     var y0 = canvas.height / 2 - Math.floor(wallHeight / 2);
     var y1 = y0 + wallHeight;
 
     this.wallBottom = y1 + (wallHeight) * -1;
-    this.ctx.fillRect(this.index, this.wallBottom, 1,45);
 
     var spriteHeight = 64;
     var screenSpriteHeight = y0 - y1;
@@ -202,8 +204,34 @@ export class Ray {
   }
   floorRendering() {
 
+    if (this.wallBottom < 400) {
+
+      var pixies = 400 - this.wallBottom;
+      var pixel = this.wallBottom;
+
+      for (let i = 0; i < pixies; i++) {
+        var directDistFloor = (this.screenDist * this.playerHeight) / pixel;
+        var realDistance = directDistFloor / Math.cos(this.angle);
+
+        var floorPointx = this.player.x + Math.cos(this.angle) * realDistance;
+        var floorPointy = this.player.y - Math.sin(this.angle) * realDistance;
+
+        var textX = Math.floor(floorPointx) - Math.floor(floorPointx / 64) * 64;
+        var textY = Math.floor(floorPointy) - Math.floor(floorPointy / 64) * 64;
+
+        // this.ctx.save()
+        //this.ctx.fillStyle = "red"
+        //this.ctx.fillRect(this.index, pixel,1,1)
+
+        
+        //this.ctx.drawImage(wallsSprite, textX, textY, 1, 1, this.index, pixel, 10, 10);
+        //this.ctx.restore()
+        pixel += 1;
+      }
+    }
   }
 }
+
 
 
 /*

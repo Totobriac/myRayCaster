@@ -21,7 +21,7 @@ function animate() {
 
   rayCaster.draw();
 
-  // map.draw();
+  map.draw();
   player.draw();
   requestAnimationFrame(animate);
 }
