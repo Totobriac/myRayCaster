@@ -34,9 +34,10 @@ export class Ray {
     this.wallBottom;
     this.playerHeight = canvas.height / 2;
     this.screenDist;
+    this.floorPointx;
+    this.floorPointy;
   }
   update() {
-
     this.angle = this.player.angle + this.angleR;
     this.angle = normalizeAngle(this.angle)
     this.angle > Math.PI ? this.lookUp = true : this.lookUp = false;
@@ -207,60 +208,27 @@ export class Ray {
     if (this.wallBottom < 400) {
 
       var pixies = 400 - this.wallBottom;
-      var pixel = this.wallBottom;
+      var pixel = 200 - (400 - this.wallBottom);
 
       for (let i = 0; i < pixies; i++) {
+
         var directDistFloor = (this.screenDist * this.playerHeight) / pixel;
         var realDistance = directDistFloor / Math.cos(this.angle);
 
-        var floorPointx = this.player.x + Math.cos(this.angle) * realDistance;
-        var floorPointy = this.player.y - Math.sin(this.angle) * realDistance;
+        this.floorPointx = this.player.x + Math.cos(this.angle) * realDistance;
+        this.floorPointy = this.player.y - Math.sin(this.angle) * realDistance;
 
-        var textX = Math.floor(floorPointx) - Math.floor(floorPointx / 64) * 64;
-        var textY = Math.floor(floorPointy) - Math.floor(floorPointy / 64) * 64;
+        var textX = Math.floor(this.floorPointx) - Math.floor(this.floorPointx / 64) * 64;
+        var textY = Math.floor(this.floorPointy) - Math.floor(this.floorPointy / 64) * 64;
 
-        // this.ctx.save()
-        //this.ctx.fillStyle = "red"
-        //this.ctx.fillRect(this.index, pixel,1,1)
+        var realPixHeight = 1;
+        var pixDist = distance(this.player.x, this.player.y, this.floorPointx, this.floorPointy);
+        var pixHeight = (realPixHeight / pixDist) * this.screenDist;
 
-        
-        //this.ctx.drawImage(wallsSprite, textX, textY, 1, 1, this.index, pixel, 10, 10);
-        //this.ctx.restore()
+        this.ctx.drawImage(wallsSprite, textX, textY, 1, 1, this.index, pixel + 200, pixHeight, pixHeight);
+
         pixel += 1;
       }
     }
   }
 }
-
-
-
-/*
-
-if (this.wallBottom < 400) {
-
-  var pixies = 400 - this.wallBottom;
-  var pixel = this.wallBottom;
-
-  for (let i = 0; i < pixies; i++) {
-    var directDistFloor = (this.screenDist * this.playerHeight) / pixel;
-    var realDistance = directDistFloor / Math.cos(this.angle);
-
-    var floorPointx = this.player.x + Math.cos(this.angle) * realDistance;
-    var floorPointy = this.player.y - Math.sin(this.angle) * realDistance;
-
-    var textX = Math.floor(floorPointx) - Math.floor(floorPointx / 64) * 64;
-    var textY = Math.floor(floorPointy) - Math.floor(floorPointy / 64) * 64;
-
-    this.ctx.save()
-    this.ctx.fillStyle = "red"
-    this.ctx.fillRect(floorPointx, floorPointy,1,1)
-
-    // if (this.index === 0 || this.index === 1199 || this.index === 599) this.ctx.fillRect(floorPointx/2, floorPointy/2,1,1)
-    //this.ctx.drawImage(wallsSprite, textX, textY, 1, 1, this.index, pixel, (1 / this.distHit) * this.screenDist, (1/ this.distHit) * this.screenDist);
-    this.ctx.restore()
-    pixel+= 64;
-  }
-}
-}
-
-*/

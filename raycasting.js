@@ -18,11 +18,10 @@ Player.prototype.rays = rayCaster.rays;
 function animate() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-
   rayCaster.draw();
 
-  map.draw();
   player.draw();
+
   requestAnimationFrame(animate);
 }
 
