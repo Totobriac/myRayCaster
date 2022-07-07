@@ -24,12 +24,7 @@ class RayCaster {
     for (let i = 0; i < this.rays.length; i++) {
       this.rays[i].cast();
     }
-
-    this.map.draw();
-      
-    for (let i = 0; i < this.rays.length; i++) {
-      this.rays[i].floorRendering();
-    }
+    this.map.draw();    
   }  
 }
 export { RayCaster };

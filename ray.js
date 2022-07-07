@@ -52,8 +52,6 @@ export class Ray {
     this.yCollision();
     this.checkTile();
     this.wallRendering();
-    this.floorRendering();
-    //this.draw();
   }
   yCollision() {
 
@@ -202,22 +200,21 @@ export class Ray {
       1,
       screenSpriteHeight
     );
-  }
-  floorRendering() {
-
+ 
     if (this.wallBottom < 400) {
 
-      var pixies = 400 - this.wallBottom;
-      var pixel = 200 - (400 - this.wallBottom);
+      var pixelsToBottom = 400 - this.wallBottom;
+      var pixelHeight = 200 - (400 - this.wallBottom);
 
-      for (let i = 0; i < pixies; i++) {
+      for (let i = 0; i < pixelsToBottom; i++) {
 
-        var directDistFloor = (this.screenDist * this.playerHeight) / pixel;
-        var realDistance = directDistFloor / Math.cos(this.angle);
+        var directDistFloor = (this.screenDist * this.playerHeight) / pixelHeight;
+
+        var realDistance = directDistFloor / Math.cos(this.angleR);
 
         this.floorPointx = this.player.x + Math.cos(this.angle) * realDistance;
         this.floorPointy = this.player.y - Math.sin(this.angle) * realDistance;
-
+     
         var textX = Math.floor(this.floorPointx) - Math.floor(this.floorPointx / 64) * 64;
         var textY = Math.floor(this.floorPointy) - Math.floor(this.floorPointy / 64) * 64;
 
@@ -225,9 +222,9 @@ export class Ray {
         var pixDist = distance(this.player.x, this.player.y, this.floorPointx, this.floorPointy);
         var pixHeight = (realPixHeight / pixDist) * this.screenDist;
 
-        this.ctx.drawImage(wallsSprite, textX, textY, 1, 1, this.index, pixel + 200, pixHeight, pixHeight);
+        this.ctx.drawImage(wallsSprite, textX, textY, 1, 1, this.index, pixelHeight + 200, pixHeight, pixHeight);
 
-        pixel += 1;
+        pixelHeight += 1;
       }
     }
   }
