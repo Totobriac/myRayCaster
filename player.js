@@ -1,5 +1,4 @@
 import { normalizeAngle } from "./functions.js";
-import { Ray } from "./ray.js";
 
 export class Player {
   constructor(x, y, map, ctx) {

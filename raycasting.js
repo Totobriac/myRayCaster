@@ -9,7 +9,7 @@ canvas.height = 400;
 canvas.width = 800;
 
 var map = new Map(ctx);
-var player = new Player(200, 200, map, ctx);
+var player = new Player(128, 65, map, ctx);
 var controls = new Controls(player);
 var rayCaster = new RayCaster(player, map, ctx);
 
@@ -17,7 +17,6 @@ Player.prototype.rays = rayCaster.rays;
 
 function animate() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-
   rayCaster.draw();
 
   player.draw();
