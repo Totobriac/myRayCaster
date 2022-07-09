@@ -4,7 +4,7 @@ var wallsSprite = new Image();
 wallsSprite.src = "./walls_2.png";
 
 export class Ray {
-  constructor(player, map, ctx, angleR, i) {
+  constructor(player, map, ctx, angleR, screenDist, i) {
     this.x;
     this.y;
     this.player = player;
@@ -36,7 +36,7 @@ export class Ray {
     this.screenDist;
     this.floorPointx;
     this.floorPointy;
-    this.screenDist = Math.floor((canvas.width / 2) / Math.tan((30 * Math.PI)/180));
+    this.screenDist = screenDist;
   }
   update() {
     this.angle = this.player.angle + this.angleR;
@@ -212,7 +212,7 @@ export class Ray {
       var pixelRowHeight = 200 - pixelsToBottom;      
      
       // then we loop through every pixels until we reach the border of the canvas  
-      for (let i = pixelRowHeight; i < 200; i+=1) {
+      for (let i = pixelRowHeight; i < 200; i+=2) {
       
         // we calculate the straight distance between the player and the pixel
         var directDistFloor = (this.screenDist * 200) / (Math.floor(i));
@@ -232,7 +232,7 @@ export class Ray {
         // if (pixWidthHeight < 1) pixWidthHeight = 1;
 
         // we draw it on the canvas
-        this.ctx.drawImage(wallsSprite, textX, textY + 128, 1, 1, this.index, i + 200, 1, 1);
+        this.ctx.drawImage(wallsSprite, textX, textY + 128, 1, 1, this.index, i + 200, 1, 2);
 
         // this.ctx.drawImage(wallsSprite, textX, textY + 64, 1, 1, this.index, i + 200, pixWidthHeight, pixWidthHeight);
       }

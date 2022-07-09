@@ -11,11 +11,12 @@ class RayCaster {
     this.incAngle = toRadians(this.player.FOV / this.rayNb);
     this.startAngle = toRadians(this.player.angle - this.player.FOV / 2);
     this.rayAngle = this.startAngle;
+    this.screenDist = Math.floor((canvas.width / 2) / Math.tan((30 * Math.PI)/180));
     this.init();
   }
   init() {
     for (let i = 0; i < this.rayNb; i++) {
-      this.rays[i] = new Ray(this.player, this.map, this.ctx, this.rayAngle, i);
+      this.rays[i] = new Ray(this.player, this.map, this.ctx, this.rayAngle, this.screenDist, i);
       this.rayAngle += this.incAngle;
     }
   }
@@ -24,7 +25,7 @@ class RayCaster {
     for (let i = 0; i < this.rays.length; i++) {
       this.rays[i].cast();
     }
-    this.map.draw();    
+    //this.map.draw();    
   }  
 }
 export { RayCaster };
