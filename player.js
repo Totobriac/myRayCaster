@@ -59,7 +59,7 @@ export class Player {
   }
   draw() {
     this.update();
-    this.ctx.fillStyle = this.color;
-    this.ctx.fillRect(this.x/ 10 + 10, this.y/10 + 10, this.width, this.height);
+    // this.ctx.fillStyle = this.color;
+    // this.ctx.fillRect(this.x/ 10 + 10, this.y/10 + 10, this.width, this.height);
   }
 }

@@ -3,10 +3,27 @@ import { Controls } from "./controls.js";
 import { Map } from "./map.js";
 import { RayCaster } from "./rayCaster.js";
 
+var myData;
+
+var wallsSprite = new Image();
+
+wallsSprite.onload = function () {
+  tempCtx.drawImage(wallsSprite, 0, 128, 64, 64, 0, 0, 64, 64);
+  myData = tempCtx.getImageData(0, 0, 64, 64);
+}
+
+wallsSprite.src = "./walls_2.png";
+
 var canvas = document.getElementById('canvas');
 var ctx = canvas.getContext('2d');
 canvas.height = 400;
 canvas.width = 600;
+
+var tempCanvas = document.createElement('canvas');
+var tempCtx = tempCanvas.getContext('2d');
+
+tempCanvas.width = 64;
+tempCanvas.height = 64;
 
 var map = new Map(ctx);
 var player = new Player(128, 65, map, ctx);
@@ -19,9 +36,11 @@ function animate() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   rayCaster.draw();
 
-  player.draw();
+  player.draw();  
 
   requestAnimationFrame(animate);
 }
 
 animate();
+
+export { myData };

@@ -1,5 +1,7 @@
 import { distance, normalizeAngle } from "./functions.js";
 
+import { myData } from "./raycasting.js";
+
 var wallsSprite = new Image();
 wallsSprite.src = "./walls_2.png";
 
@@ -47,12 +49,12 @@ export class Ray {
     this.x = this.player.x;
     this.y = this.player.y;
   }
-  cast() {
+  cast(floorSprite) {
     this.update();
     this.xCollision();
     this.yCollision();
     this.checkTile();
-    this.wallRendering();
+    this.wallRendering(floorSprite);
   }
   yCollision() {
 
@@ -175,9 +177,9 @@ export class Ray {
     this.ctx.lineTo(this.wallHitX, this.wallHitY);
     this.ctx.stroke();
   }
-  wallRendering() {
+  wallRendering(floorSprite) {
     var realWallHeight = 64;
-    
+
     var wallHeight = (realWallHeight / this.distHit) * this.screenDist;
 
     var y0 = canvas.height / 2 - Math.floor(wallHeight / 2);
@@ -204,16 +206,16 @@ export class Ray {
 
     //we check if the wall reaches the bottom of the canvas
     // this.wallToBorder = (400 - wallHeight) / 2;
-    if (this.wallToBorder > 0) {      
+    if (this.wallToBorder > 0) {
       // we calculate how many pixels we have from bottom of wall to border of canvas
       var pixelsToBottom = Math.floor(this.wallToBorder);
 
       //we calculate the distance between the first pixel at the bottom of the wall and the player eyes (canvas.height / 2) 
-      var pixelRowHeight = 200 - pixelsToBottom;      
-     
+      var pixelRowHeight = 200 - pixelsToBottom;
+
       // then we loop through every pixels until we reach the border of the canvas  
-      for (let i = pixelRowHeight; i < 200; i+=2) {
-      
+      for (let i = pixelRowHeight; i < 200; i += 1) {        
+
         // we calculate the straight distance between the player and the pixel
         var directDistFloor = (this.screenDist * 200) / (Math.floor(i));
 
@@ -221,8 +223,8 @@ export class Ray {
         var realDistance = (directDistFloor / Math.cos(this.angleR));
 
         // we calculate it's real world coordinates with the player angle
-        this.floorPointx = this.player.x + Math.cos(this.angle) * realDistance / (this.screenDist/ 100);
-        this.floorPointy = this.player.y + Math.sin(this.angle) * realDistance / (this.screenDist/100);
+        this.floorPointx = this.player.x + Math.cos(this.angle) * realDistance / (this.screenDist / 100);
+        this.floorPointy = this.player.y + Math.sin(this.angle) * realDistance / (this.screenDist / 100);
 
         // we map the texture
         var textY = Math.floor(this.floorPointx % 64);
@@ -232,7 +234,8 @@ export class Ray {
         // if (pixWidthHeight < 1) pixWidthHeight = 1;
 
         // we draw it on the canvas
-        this.ctx.drawImage(wallsSprite, textX, textY + 128, 1, 1, this.index, i + 200, 1, 2);
+
+        //this.ctx.drawImage(wallsSprite, textX, textY + 128, 1, 1, this.index, i + 200, 1, 2);
 
         // this.ctx.drawImage(wallsSprite, textX, textY + 64, 1, 1, this.index, i + 200, pixWidthHeight, pixWidthHeight);
       }
