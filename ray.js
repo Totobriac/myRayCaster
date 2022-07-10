@@ -212,7 +212,7 @@ export class Ray {
     if (this.wallToBorder > 0) {
 
       // we calculate how many pixels we have from bottom of wall to border of canvas
-      var pixelsToBottom = Math.floor(this.wallToBorder);
+      var pixelsToBottom = this.wallToBorder;
 
       //we calculate the distance between the first pixel at the bottom of the wall and the player eyes (canvas.height / 2)
       var pixelRowHeight = 200 - pixelsToBottom;
@@ -222,7 +222,7 @@ export class Ray {
       for (let i = pixelRowHeight; i < 200; i += 1) {
 
         // we calculate the straight distance between the player and the pixel
-        var directDistFloor = (this.screenDist * 200) / (Math.floor(i));
+        var directDistFloor = (this.screenDist * 200) / i;
 
         // we calculate it's real world distance with the angle relative to the player
         var realDistance = (directDistFloor / Math.cos(this.angleR));
@@ -237,17 +237,18 @@ export class Ray {
 
         if (floorData && ceilData) {
 
-          var shade = -(-i+170)
-          var index = (textY * 4 * 64 + textX * 4)
-          floorSprite.data[(this.index * 4) + (i + 200) * 2400] = floorData.data[(index)] + shade
-          floorSprite.data[(this.index * 4) + (i + 200) * 2400 + 1] = floorData.data[(index + 1)] + shade
-          floorSprite.data[(this.index * 4) + (i + 200) * 2400 + 2] = floorData.data[(index + 2)] + shade
-          floorSprite.data[(this.index * 4) + (i + 200) * 2400 + 3] = 255;
+        var shade = i - 170;
+        var index = textY * 256 + textX * 4;
 
-          floorSprite.data[(this.index * 4) + (200 - i) * 2400] = ceilData.data[(index)] + shade
-          floorSprite.data[(this.index * 4) + (200 - i) * 2400 + 1] = ceilData.data[(index + 1)] + shade
-          floorSprite.data[(this.index * 4) + (200 - i) * 2400 + 2] = ceilData.data[(index + 2)] + shade
-          floorSprite.data[(this.index * 4) + (200 - i) * 2400 + 3] = 255;
+        floorSprite.data[(this.index * 4) + (i + 200) * 2400] = floorData.data[index] + shade
+        floorSprite.data[(this.index * 4) + (i + 200) * 2400 + 1] = floorData.data[index + 1] + shade
+        floorSprite.data[(this.index * 4) + (i + 200) * 2400 + 2] = floorData.data[index + 2] + shade
+        floorSprite.data[(this.index * 4) + (i + 200) * 2400 + 3] = 255;
+
+        floorSprite.data[(this.index * 4) + (200 - i) * 2400] = ceilData.data[index] + shade
+        floorSprite.data[(this.index * 4) + (200 - i) * 2400 + 1] = ceilData.data[index + 1] + shade
+        floorSprite.data[(this.index * 4) + (200 - i) * 2400 + 2] = ceilData.data[index + 2] + shade
+        floorSprite.data[(this.index * 4) + (200 - i) * 2400 + 3] = 255;
         }
 
       }
