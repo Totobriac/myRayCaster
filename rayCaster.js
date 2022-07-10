@@ -19,7 +19,7 @@ class RayCaster {
 
   }
   init() {
-    floorSprite = this.ctx.createImageData(600, 400);
+    floorSprite = this.ctx.createImageData(800, 400);
 
     for (let i = 0; i < this.rayNb; i++) {
       this.rays[i] = new Ray(this.player, this.map, this.ctx, this.rayAngle, this.screenDist, i);

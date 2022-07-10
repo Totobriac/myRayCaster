@@ -238,15 +238,15 @@ export class Ray {
         
         if (floorData && ceilData) {
 
-          floorSprite.data[(this.index * 4) + (i + 200) * 4 * 600] = floorData.data[textY * 4 * 64 + textX * 4]
-          floorSprite.data[(this.index * 4) + (i + 200) * 4 * 600 + 1] = floorData.data[textY * 4 * 64 + textX * 4 + 1]
-          floorSprite.data[(this.index * 4) + (i + 200) * 4 * 600 + 2] = floorData.data[textY * 4 * 64 + textX * 4 + 2]
-          floorSprite.data[(this.index * 4) + (i + 200) * 4 * 600 + 3] = 255;
+          floorSprite.data[(this.index * 4) + (i + 200) * 4 * 800] = floorData.data[textY * 4 * 64 + textX * 4]
+          floorSprite.data[(this.index * 4) + (i + 200) * 4 * 800 + 1] = floorData.data[textY * 4 * 64 + textX * 4 + 1]
+          floorSprite.data[(this.index * 4) + (i + 200) * 4 * 800 + 2] = floorData.data[textY * 4 * 64 + textX * 4 + 2]
+          floorSprite.data[(this.index * 4) + (i + 200) * 4 * 800 + 3] = 255;
 
-          floorSprite.data[(this.index * 4) + (200 - i) * 4 * 600] = ceilData.data[textY * 4 * 64 + textX * 4]
-          floorSprite.data[(this.index * 4) + (200 - i) * 4 * 600 + 1] = ceilData.data[textY * 4 * 64 + textX * 4 + 1]
-          floorSprite.data[(this.index * 4) + (200 - i) * 4 * 600 + 2] = ceilData.data[textY * 4 * 64 + textX * 4 + 2]
-          floorSprite.data[(this.index * 4) + (200 - i) * 4 * 600 + 3] = 255;
+          floorSprite.data[(this.index * 4) + (200 - i) * 4 * 800] = ceilData.data[textY * 4 * 64 + textX * 4]
+          floorSprite.data[(this.index * 4) + (200 - i) * 4 * 800 + 1] = ceilData.data[textY * 4 * 64 + textX * 4 + 1]
+          floorSprite.data[(this.index * 4) + (200 - i) * 4 * 800 + 2] = ceilData.data[textY * 4 * 64 + textX * 4 + 2]
+          floorSprite.data[(this.index * 4) + (200 - i) * 4 * 800 + 3] = 255;
         }
 
       }
