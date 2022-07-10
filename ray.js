@@ -1,6 +1,6 @@
 import { distance, normalizeAngle } from "./functions.js";
 
-import { myData } from "./raycasting.js";
+import { floorData, ceilData } from "./raycasting.js";
 
 var wallsSprite = new Image();
 wallsSprite.src = "./walls_2.png";
@@ -39,6 +39,9 @@ export class Ray {
     this.floorPointx;
     this.floorPointy;
     this.screenDist = screenDist;
+
+    this.floorCeilRendered = false;
+
   }
   update() {
     this.angle = this.player.angle + this.angleR;
@@ -206,7 +209,7 @@ export class Ray {
 
     //we check if the wall reaches the bottom of the canvas
     // this.wallToBorder = (400 - wallHeight) / 2;
-
+    
     if (this.wallToBorder > 0) {
 
       // we calculate how many pixels we have from bottom of wall to border of canvas
@@ -214,17 +217,10 @@ export class Ray {
 
       //we calculate the distance between the first pixel at the bottom of the wall and the player eyes (canvas.height / 2) 
       var pixelRowHeight = 200 - pixelsToBottom;
-
+     
       // then we loop through every pixels until we reach the border of the canvas  
-      var ran = Math.floor(Math.random() * 124)
 
       for (let i = pixelRowHeight; i < 200; i += 1) {
-
-        floorSprite.data[(this.index * 4) + (i) * 4 * 600] = ran
-        floorSprite.data[(this.index * 4) + (i) * 4 * 600 + 1] = ran + 100
-        floorSprite.data[(this.index * 4) + (i) * 4 * 600 + 2] = ran + 50
-        floorSprite.data[(this.index * 4) + (i) * 4 * 600 + 3] = 255
-
 
         // we calculate the straight distance between the player and the pixel
         var directDistFloor = (this.screenDist * 200) / (Math.floor(i));
@@ -239,16 +235,20 @@ export class Ray {
         // we map the texture
         var textY = Math.floor(this.floorPointx % 64);
         var textX = Math.floor(this.floorPointy % 64);
+        
+        if (floorData && ceilData) {
 
+          floorSprite.data[(this.index * 4) + (i + 200) * 4 * 600] = floorData.data[textY * 4 * 64 + textX * 4]
+          floorSprite.data[(this.index * 4) + (i + 200) * 4 * 600 + 1] = floorData.data[textY * 4 * 64 + textX * 4 + 1]
+          floorSprite.data[(this.index * 4) + (i + 200) * 4 * 600 + 2] = floorData.data[textY * 4 * 64 + textX * 4 + 2]
+          floorSprite.data[(this.index * 4) + (i + 200) * 4 * 600 + 3] = 255;
 
-        // var pixWidthHeight = (1 / realDistance) * this.screenDist;
-        // if (pixWidthHeight < 1) pixWidthHeight = 1;
+          floorSprite.data[(this.index * 4) + (200 - i) * 4 * 600] = ceilData.data[textY * 4 * 64 + textX * 4]
+          floorSprite.data[(this.index * 4) + (200 - i) * 4 * 600 + 1] = ceilData.data[textY * 4 * 64 + textX * 4 + 1]
+          floorSprite.data[(this.index * 4) + (200 - i) * 4 * 600 + 2] = ceilData.data[textY * 4 * 64 + textX * 4 + 2]
+          floorSprite.data[(this.index * 4) + (200 - i) * 4 * 600 + 3] = 255;
+        }
 
-        // we draw it on the canvas
-
-        //this.ctx.drawImage(wallsSprite, textX, textY + 128, 1, 1, this.index, i + 200, 1, 2);
-
-        // this.ctx.drawImage(wallsSprite, textX, textY + 64, 1, 1, this.index, i + 200, pixWidthHeight, pixWidthHeight);
       }
     }
   }
