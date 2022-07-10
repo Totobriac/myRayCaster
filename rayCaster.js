@@ -19,7 +19,7 @@ class RayCaster {
 
   }
   init() {
-    floorSprite = this.ctx.createImageData(800, 200);
+    floorSprite = this.ctx.createImageData(600, 200);
 
     for (let i = 0; i < this.rayNb; i++) {
       this.rays[i] = new Ray(this.player, this.map, this.ctx, this.rayAngle, this.screenDist, i);
@@ -27,21 +27,14 @@ class RayCaster {
     }
   }
   draw() {
+    //console.log(floorSprite);
 
     this.ctx.putImageData(floorSprite, 0, 200);
 
     for (let i = 0; i < this.rays.length; i++) {
       this.rays[i].cast(floorSprite);
     }
-
-    // for (let i = 0; i < floorSprite.data.length; i += 4) {
-    //   floorSprite.data[i] = 255 
-    //   floorSprite.data[i+1] = 55 
-    //   floorSprite.data[i+2] = 155 
-    //   floorSprite.data[i+3] = 255
-    //   ;
-    // }
-
+        
     //this.map.draw();    
   }
 }

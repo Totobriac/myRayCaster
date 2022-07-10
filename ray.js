@@ -206,7 +206,9 @@ export class Ray {
 
     //we check if the wall reaches the bottom of the canvas
     // this.wallToBorder = (400 - wallHeight) / 2;
+
     if (this.wallToBorder > 0) {
+
       // we calculate how many pixels we have from bottom of wall to border of canvas
       var pixelsToBottom = Math.floor(this.wallToBorder);
 
@@ -214,7 +216,15 @@ export class Ray {
       var pixelRowHeight = 200 - pixelsToBottom;
 
       // then we loop through every pixels until we reach the border of the canvas  
-      for (let i = pixelRowHeight; i < 200; i += 1) {        
+      var ran = Math.floor(Math.random() * 124)
+
+      for (let i = pixelRowHeight; i < 200; i += 1) {
+
+        floorSprite.data[(this.index * 4) + (i) * 4 * 600] = ran
+        floorSprite.data[(this.index * 4) + (i) * 4 * 600 + 1] = ran + 100
+        floorSprite.data[(this.index * 4) + (i) * 4 * 600 + 2] = ran + 50
+        floorSprite.data[(this.index * 4) + (i) * 4 * 600 + 3] = 255
+
 
         // we calculate the straight distance between the player and the pixel
         var directDistFloor = (this.screenDist * 200) / (Math.floor(i));
@@ -229,6 +239,7 @@ export class Ray {
         // we map the texture
         var textY = Math.floor(this.floorPointx % 64);
         var textX = Math.floor(this.floorPointy % 64);
+
 
         // var pixWidthHeight = (1 / realDistance) * this.screenDist;
         // if (pixWidthHeight < 1) pixWidthHeight = 1;
