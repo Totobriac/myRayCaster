@@ -3,13 +3,17 @@ import { Controls } from "./controls.js";
 import { Map } from "./map.js";
 import { RayCaster } from "./rayCaster.js";
 
-var myData;
+var floorData;
+var ceilData;
 
 var wallsSprite = new Image();
 
 wallsSprite.onload = function () {
   tempCtx.drawImage(wallsSprite, 0, 128, 64, 64, 0, 0, 64, 64);
-  myData = tempCtx.getImageData(0, 0, 64, 64);
+  floorData = tempCtx.getImageData(0, 0, 64, 64);
+
+  tempCtx.drawImage(wallsSprite, 0, 192, 64, 64, 0, 0, 64, 64);
+  ceilData = tempCtx.getImageData(0, 0, 64, 64);
 }
 
 wallsSprite.src = "./walls_2.png";
@@ -43,4 +47,4 @@ function animate() {
 
 animate();
 
-export { myData };
+export { floorData, ceilData };

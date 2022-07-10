@@ -19,7 +19,7 @@ class RayCaster {
 
   }
   init() {
-    floorSprite = this.ctx.createImageData(600, 200);
+    floorSprite = this.ctx.createImageData(600, 400);
 
     for (let i = 0; i < this.rayNb; i++) {
       this.rays[i] = new Ray(this.player, this.map, this.ctx, this.rayAngle, this.screenDist, i);
@@ -29,12 +29,12 @@ class RayCaster {
   draw() {
     //console.log(floorSprite);
 
-    this.ctx.putImageData(floorSprite, 0, 200);
+    this.ctx.putImageData(floorSprite, 0, 0);
 
     for (let i = 0; i < this.rays.length; i++) {
       this.rays[i].cast(floorSprite);
     }
-        
+
     //this.map.draw();    
   }
 }
