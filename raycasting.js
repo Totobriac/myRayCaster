@@ -21,7 +21,7 @@ wallsSprite.src = "./walls_2.png";
 var canvas = document.getElementById('canvas');
 var ctx = canvas.getContext('2d');
 canvas.height = 400;
-canvas.width = 800;
+canvas.width = 600;
 
 var tempCanvas = document.createElement('canvas');
 var tempCtx = tempCanvas.getContext('2d');
@@ -40,7 +40,7 @@ function animate() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   rayCaster.draw();
 
-  player.draw();  
+  player.draw();
 
   requestAnimationFrame(animate);
 }

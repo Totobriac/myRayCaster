@@ -1,5 +1,4 @@
 import { distance, normalizeAngle } from "./functions.js";
-
 import { floorData, ceilData } from "./raycasting.js";
 
 var wallsSprite = new Image();
@@ -209,16 +208,16 @@ export class Ray {
 
     //we check if the wall reaches the bottom of the canvas
     // this.wallToBorder = (400 - wallHeight) / 2;
-    
+
     if (this.wallToBorder > 0) {
 
       // we calculate how many pixels we have from bottom of wall to border of canvas
       var pixelsToBottom = Math.floor(this.wallToBorder);
 
-      //we calculate the distance between the first pixel at the bottom of the wall and the player eyes (canvas.height / 2) 
+      //we calculate the distance between the first pixel at the bottom of the wall and the player eyes (canvas.height / 2)
       var pixelRowHeight = 200 - pixelsToBottom;
-     
-      // then we loop through every pixels until we reach the border of the canvas  
+
+      // then we loop through every pixels until we reach the border of the canvas
 
       for (let i = pixelRowHeight; i < 200; i += 1) {
 
@@ -235,18 +234,20 @@ export class Ray {
         // we map the texture
         var textY = Math.floor(this.floorPointx % 64);
         var textX = Math.floor(this.floorPointy % 64);
-        
+
         if (floorData && ceilData) {
 
-          floorSprite.data[(this.index * 4) + (i + 200) * 4 * 800] = floorData.data[textY * 4 * 64 + textX * 4]
-          floorSprite.data[(this.index * 4) + (i + 200) * 4 * 800 + 1] = floorData.data[textY * 4 * 64 + textX * 4 + 1]
-          floorSprite.data[(this.index * 4) + (i + 200) * 4 * 800 + 2] = floorData.data[textY * 4 * 64 + textX * 4 + 2]
-          floorSprite.data[(this.index * 4) + (i + 200) * 4 * 800 + 3] = 255;
+          var shade = -(-i+170)
+          var index = (textY * 4 * 64 + textX * 4)
+          floorSprite.data[(this.index * 4) + (i + 200) * 2400] = floorData.data[(index)] + shade
+          floorSprite.data[(this.index * 4) + (i + 200) * 2400 + 1] = floorData.data[(index + 1)] + shade
+          floorSprite.data[(this.index * 4) + (i + 200) * 2400 + 2] = floorData.data[(index + 2)] + shade
+          floorSprite.data[(this.index * 4) + (i + 200) * 2400 + 3] = 255;
 
-          floorSprite.data[(this.index * 4) + (200 - i) * 4 * 800] = ceilData.data[textY * 4 * 64 + textX * 4]
-          floorSprite.data[(this.index * 4) + (200 - i) * 4 * 800 + 1] = ceilData.data[textY * 4 * 64 + textX * 4 + 1]
-          floorSprite.data[(this.index * 4) + (200 - i) * 4 * 800 + 2] = ceilData.data[textY * 4 * 64 + textX * 4 + 2]
-          floorSprite.data[(this.index * 4) + (200 - i) * 4 * 800 + 3] = 255;
+          floorSprite.data[(this.index * 4) + (200 - i) * 2400] = ceilData.data[(index)] + shade
+          floorSprite.data[(this.index * 4) + (200 - i) * 2400 + 1] = ceilData.data[(index + 1)] + shade
+          floorSprite.data[(this.index * 4) + (200 - i) * 2400 + 2] = ceilData.data[(index + 2)] + shade
+          floorSprite.data[(this.index * 4) + (200 - i) * 2400 + 3] = 255;
         }
 
       }
