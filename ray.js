@@ -2,7 +2,7 @@ import { distance, normalizeAngle } from "./functions.js";
 import { floorData, ceilData } from "./raycasting.js";
 
 var wallsSprite = new Image();
-wallsSprite.src = "./walls_2.png";
+wallsSprite.src = "./walls.png";
 
 export class Ray {
   constructor(player, map, ctx, angleR, screenDist, i) {
