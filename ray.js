@@ -158,7 +158,10 @@ export class Ray {
       this.texturePix = Math.floor(this.wallHitY) - (square * this.map.mapS);
 
       this.texture = this.map.getTile(this.wallHitX, this.wallHitY, "wall");
+
+      if (this.texture.length === 2) this.texture = this.texture[1];
       this.texture --;
+
     } else {
       this.wallHitX = this.wallHitHX;
       this.wallHitY = this.wallHitHY;
@@ -169,7 +172,10 @@ export class Ray {
       this.texturePix = Math.floor(this.wallHitX) - square;
 
       this.texture = this.map.getTile(this.wallHitX, this.wallHitY, "wall");
+
+      if (this.texture.length === 2) this.texture = this.texture[0];
       this.texture --;
+
     }
 
     this.distHit = this.distHit * Math.cos(this.player.angle - this.angle);
