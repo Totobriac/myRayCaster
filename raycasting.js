@@ -25,22 +25,20 @@ canvas.width = 600;
 
 var tempCanvas = document.createElement('canvas');
 var tempCtx = tempCanvas.getContext('2d');
-
 tempCanvas.width = 64;
 tempCanvas.height = 64;
 
 var map = new Map(ctx);
-var player = new Player(128, 65, map, ctx);
+var player = new Player(192, 130, map, ctx);
 var controls = new Controls(player);
 var rayCaster = new RayCaster(player, map, ctx);
 
-Player.prototype.rays = rayCaster.rays;
 
 function animate() {
+
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   rayCaster.draw();
-
-  player.draw();
+  player.update();
 
   requestAnimationFrame(animate);
 }

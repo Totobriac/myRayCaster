@@ -27,15 +27,13 @@ class RayCaster {
     }
   }
   draw() {
-    //console.log(floorSprite);
 
     this.ctx.putImageData(floorSprite, 0, 0);
 
-    for (let i = 0; i < this.rays.length; i++) {
+    for (let i = 0; i < 600; i++) {
       this.rays[i].cast(floorSprite);
     }
 
-    //this.map.draw();
   }
 }
 export { RayCaster };

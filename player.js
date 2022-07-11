@@ -45,7 +45,6 @@ export class Player {
     return collision;
   }
   update() {
-
     var newX = this.x + this.moveForward * Math.cos(this.angle) * this.speed;
     var newY = this.y + this.moveForward * Math.sin(this.angle) * this.speed;
 

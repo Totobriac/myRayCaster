@@ -33,13 +33,11 @@ export class Ray {
     this.texturePix;
     this.texture;
     this.wallBottom;
-    this.playerHeight = canvas.height / 2;
+    this.playerHeight = 200;
     this.screenDist;
     this.floorPointx;
     this.floorPointy;
     this.screenDist = screenDist;
-
-    this.floorCeilRendered = false;
 
   }
   update() {
@@ -158,7 +156,7 @@ export class Ray {
       square = Math.floor(this.wallHitY / this.map.mapS);
       this.texturePix = this.wallHitY - (square * this.map.mapS);
 
-      this.texture = this.map.getTile(this.wallHitX, this.wallHitY);
+      this.texture = this.map.getTile(this.wallHitX, this.wallHitY, "wall");
     } else {
       this.wallHitX = this.wallHitHX;
       this.wallHitY = this.wallHitHY;
@@ -167,7 +165,7 @@ export class Ray {
       square = Math.floor(this.wallHitX / this.map.mapS) * this.map.mapS;
       this.texturePix = this.wallHitX - square;
 
-      this.texture = this.map.getTile(this.wallHitX, this.wallHitY);
+      this.texture = this.map.getTile(this.wallHitX, this.wallHitY, "wall");
     }
 
     this.distHit = this.distHit * Math.cos(this.player.angle - this.angle);
@@ -206,6 +204,7 @@ export class Ray {
       screenSpriteHeight
     );
 
+
     //we check if the wall reaches the bottom of the canvas
     // this.wallToBorder = (400 - wallHeight) / 2;
 
@@ -230,6 +229,7 @@ export class Ray {
         // we calculate it's real world coordinates with the player angle
         this.floorPointx = this.player.x + Math.cos(this.angle) * realDistance / (this.screenDist / 100);
         this.floorPointy = this.player.y + Math.sin(this.angle) * realDistance / (this.screenDist / 100);
+
 
         // we map the texture
         var textY = Math.floor(this.floorPointx % 64);
