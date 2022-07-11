@@ -154,7 +154,8 @@ export class Ray {
       this.distHit = horizDst;
 
       square = Math.floor(this.wallHitY / this.map.mapS);
-      this.texturePix = this.wallHitY - (square * this.map.mapS);
+
+      this.texturePix = Math.floor(this.wallHitY) - (square * this.map.mapS);
 
       this.texture = this.map.getTile(this.wallHitX, this.wallHitY, "wall");
     } else {
@@ -163,7 +164,8 @@ export class Ray {
       this.distHit = vertiDst;
 
       square = Math.floor(this.wallHitX / this.map.mapS) * this.map.mapS;
-      this.texturePix = this.wallHitX - square;
+
+      this.texturePix = Math.floor(this.wallHitX) - square;
 
       this.texture = this.map.getTile(this.wallHitX, this.wallHitY, "wall");
     }
