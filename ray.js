@@ -102,8 +102,8 @@ export class Ray {
     this.isHittingX = false;
 
     this.xIntercept = Math.floor(this.x / this.map.mapS) * this.map.mapS;
-
     if (this.lookRight) this.xIntercept += this.map.mapS;
+
     var yOffset = (this.xIntercept - this.x) * Math.tan(this.angle);
 
     this.yIntercept = this.y + yOffset;
@@ -144,9 +144,18 @@ export class Ray {
 
     if (this.isHittingY) {
       vertiDst = distance(this.x, this.y, this.wallHitHX, this.wallHitHY);
+
+      var tex = this.map.getTile(this.wallHitHX, this.wallHitHY, "wall");
+
+      if (tex && tex[0] === 8) vertiDst = distance(this.x, this.y, this.wallHitHX , this.wallHitHY + 32 );
     }
     if (this.isHittingX) {
       horizDst = distance(this.x, this.y, this.wallHitVX, this.wallHitVY);
+
+      var tex = this.map.getTile(this.wallHitVX, this.wallHitVY, "wall");
+
+      if (tex[0] === 8) horizDst = distance(this.x, this.y, this.wallHitVX + 32 , this.wallHitVY);
+
     }
     if (horizDst < vertiDst) {
       this.wallHitX = this.wallHitVX;
@@ -177,15 +186,8 @@ export class Ray {
       this.texture --;
 
     }
+    this.distHit = (this.distHit * Math.cos(this.player.angle - this.angle));
 
-    this.distHit = this.distHit * Math.cos(this.player.angle - this.angle);
-  }
-  draw() {
-    this.ctx.beginPath();
-    this.ctx.strokeStyle = "blue";
-    this.ctx.moveTo(this.x, this.y);
-    this.ctx.lineTo(this.wallHitX, this.wallHitY);
-    this.ctx.stroke();
   }
   wallRendering(floorSprite) {
     var realWallHeight = 64;
@@ -196,14 +198,14 @@ export class Ray {
     var y1 = y0 + wallHeight;
 
     this.wallToBorder = Math.floor((400 - wallHeight) / 2);
-   
+
     var screenSpriteHeight = y0 - y1;
 
     var yOffset = Math.floor(this.texture / 9);
     var xOffset = this.texture - (yOffset * 9);
     this.ctx.imageSmoothingEnabled = false;
 
-    this.ctx.drawImage(      
+    this.ctx.drawImage(
       wallsSprite,
       xOffset * 64 + this.texturePix,
       yOffset * 64,
@@ -248,18 +250,19 @@ export class Ray {
 
         if (floorData && ceilData) {
 
-        var shade = i - 170;
-        var index = textY * 256 + textX * 4;
+          var shade = i - 170;
+          var index = textY * 256 + textX * 4;
 
-        floorSprite.data[(this.index * 4) + (i + 200) * 2400] = floorData.data[index] + shade
-        floorSprite.data[(this.index * 4) + (i + 200) * 2400 + 1] = floorData.data[index + 1] + shade
-        floorSprite.data[(this.index * 4) + (i + 200) * 2400 + 2] = floorData.data[index + 2] + shade
-        floorSprite.data[(this.index * 4) + (i + 200) * 2400 + 3] = 255;
+          floorSprite.data[(this.index * 4) + (i + 200) * 2400] = floorData.data[index] + shade
+          floorSprite.data[(this.index * 4) + (i + 200) * 2400 + 1] = floorData.data[index + 1] + shade
+          floorSprite.data[(this.index * 4) + (i + 200) * 2400 + 2] = floorData.data[index + 2] + shade
+          floorSprite.data[(this.index * 4) + (i + 200) * 2400 + 3] = 255;
 
-        floorSprite.data[(this.index * 4) + (200 - i) * 2400] = ceilData.data[index] + shade
-        floorSprite.data[(this.index * 4) + (200 - i) * 2400 + 1] = ceilData.data[index + 1] + shade
-        floorSprite.data[(this.index * 4) + (200 - i) * 2400 + 2] = ceilData.data[index + 2] + shade
-        floorSprite.data[(this.index * 4) + (200 - i) * 2400 + 3] = 255;
+          floorSprite.data[(this.index * 4) + (200 - i) * 2400] = ceilData.data[index] + shade
+          floorSprite.data[(this.index * 4) + (200 - i) * 2400 + 1] = ceilData.data[index + 1] + shade
+          floorSprite.data[(this.index * 4) + (200 - i) * 2400 + 2] = ceilData.data[index + 2] + shade
+          floorSprite.data[(this.index * 4) + (200 - i) * 2400 + 3] = 255;
+
         }
 
       }
