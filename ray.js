@@ -60,17 +60,17 @@ export class Ray {
 
     this.isHittingY = false;
 
-    this.yIntercept = Math.floor(this.y / this.map.mapS) * this.map.mapS;
+    this.yIntercept = Math.floor(this.y / 64) * 64;
 
-    if (!this.lookUp) this.yIntercept += this.map.mapS;
+    if (!this.lookUp) this.yIntercept += 64;
 
     var xOffset = (this.yIntercept - this.y) / Math.tan(this.angle);
 
     this.xIntercept = this.x + xOffset;
 
-    this.xStep = this.map.mapS / Math.tan(this.angle);
+    this.xStep = 64 / Math.tan(this.angle);
 
-    this.yStep = this.map.mapS;
+    this.yStep = 64;
 
     if (this.lookUp) this.yStep *= -1;
 
@@ -85,8 +85,8 @@ export class Ray {
       nextHorizY--;
     }
     while (!this.isHittingY) {
-      var xTile = Math.floor(nextHorizX / this.map.mapS);
-      var yTile = Math.floor(nextHorizY / this.map.mapS);
+      var xTile = Math.floor(nextHorizX / 64);
+      var yTile = Math.floor(nextHorizY / 64);
       if (this.map.checkCollision(yTile, xTile)) {
         this.isHittingY = true;
         this.wallHitHX = nextHorizX;
@@ -101,14 +101,14 @@ export class Ray {
   xCollision() {
     this.isHittingX = false;
 
-    this.xIntercept = Math.floor(this.x / this.map.mapS) * this.map.mapS;
-    if (this.lookRight) this.xIntercept += this.map.mapS;
+    this.xIntercept = Math.floor(this.x / 64) * 64;
+    if (this.lookRight) this.xIntercept += 64;
 
     var yOffset = (this.xIntercept - this.x) * Math.tan(this.angle);
 
     this.yIntercept = this.y + yOffset;
-    this.xStep = this.map.mapS;
-    this.yStep = this.map.mapS * Math.tan(this.angle);
+    this.xStep = 64;
+    this.yStep = 64 * Math.tan(this.angle);
 
     if (!this.lookRight) this.xStep *= -1;
 
@@ -121,11 +121,11 @@ export class Ray {
     if (!this.lookRight) {
       nextHorizX--;
     }
-    var mapWidth = this.map.mapX * this.map.mapS;
-    var mapHeight = this.map.mapY * this.map.mapS;
+    var mapWidth = this.map.mapX * 64;
+    var mapHeight = this.map.mapY * 64;
     while (!this.isHittingX && (nextHorizX > 1 && nextHorizY > 1 && nextHorizX < mapWidth - 1 && nextHorizY < mapHeight - 1)) {
-      var xTile = Math.floor(nextHorizX / this.map.mapS);
-      var yTile = Math.floor(nextHorizY / this.map.mapS);
+      var xTile = Math.floor(nextHorizX / 64);
+      var yTile = Math.floor(nextHorizY / 64);
       if (this.map.checkCollision(yTile, xTile)) {
         this.isHittingX = true;
         this.wallHitVX = nextHorizX;
@@ -144,28 +144,30 @@ export class Ray {
 
     if (this.isHittingY) {
       vertiDst = distance(this.x, this.y, this.wallHitHX, this.wallHitHY);
-
       var tex = this.map.getTile(this.wallHitHX, this.wallHitHY, "wall");
-
-      if (tex && tex[0] === 8) vertiDst = distance(this.x, this.y, this.wallHitHX , this.wallHitHY + 32 );
+      if (tex && tex[0] === 8) {
+        this.wallHitHX += 32 / Math.tan(this.angle);
+        this.wallHitHY += 32 ;
+        vertiDst = distance(this.x, this.y, this.wallHitHX , this.wallHitHY );
+      }
     }
     if (this.isHittingX) {
       horizDst = distance(this.x, this.y, this.wallHitVX, this.wallHitVY);
-
       var tex = this.map.getTile(this.wallHitVX, this.wallHitVY, "wall");
-
-      if (tex[0] === 8) horizDst = distance(this.x, this.y, this.wallHitVX + 32 , this.wallHitVY);
-
+      if (tex[0] === 8) {
+        this.wallHitVX += 32;
+        this.wallHitVY += 32 * Math.tan(this.angle);
+        horizDst = distance(this.x, this.y, this.wallHitVX, this.wallHitVY);
+      }
     }
     if (horizDst < vertiDst) {
       this.wallHitX = this.wallHitVX;
       this.wallHitY = this.wallHitVY;
       this.distHit = horizDst;
 
-      square = Math.floor(this.wallHitY / this.map.mapS);
+      square = Math.floor(this.wallHitY / 64);
 
-      this.texturePix = Math.floor(this.wallHitY) - (square * this.map.mapS);
-
+      this.texturePix = Math.floor(this.wallHitY) - (square * 64);
       this.texture = this.map.getTile(this.wallHitX, this.wallHitY, "wall");
 
       if (this.texture.length === 2) this.texture = this.texture[1];
@@ -176,7 +178,7 @@ export class Ray {
       this.wallHitY = this.wallHitHY;
       this.distHit = vertiDst;
 
-      square = Math.floor(this.wallHitX / this.map.mapS) * this.map.mapS;
+      square = Math.floor(this.wallHitX / 64) * 64;
 
       this.texturePix = Math.floor(this.wallHitX) - square;
 
@@ -194,7 +196,7 @@ export class Ray {
 
     var wallHeight = (realWallHeight / this.distHit) * this.screenDist;
 
-    var y0 = canvas.height / 2 - Math.floor(wallHeight / 2);
+    var y0 = 200 - Math.floor(wallHeight / 2);
     var y1 = y0 + wallHeight;
 
     this.wallToBorder = Math.floor((400 - wallHeight) / 2);
