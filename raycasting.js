@@ -5,6 +5,7 @@ import { RayCaster } from "./rayCaster.js";
 
 var floorData;
 var ceilData;
+var backData;
 
 var wallsSprite = new Image();
 
@@ -18,6 +19,15 @@ wallsSprite.onload = function () {
 
 wallsSprite.src = "./walls_2.png";
 
+var backSprite = new Image();
+
+backSprite.onload = function () {
+  tempCtx2.drawImage(backSprite, 0, 0);
+  backData = tempCtx2.getImageData(0, 0, 64, 64);
+}
+
+backSprite.src = "./back.png";
+
 var canvas = document.getElementById('canvas');
 var ctx = canvas.getContext('2d');
 canvas.height = 400;
@@ -27,6 +37,11 @@ var tempCanvas = document.createElement('canvas');
 var tempCtx = tempCanvas.getContext('2d');
 tempCanvas.width = 64;
 tempCanvas.height = 64;
+
+var tempCanvas2 = document.createElement('canvas');
+var tempCtx2 = tempCanvas2.getContext('2d');
+tempCanvas2.width = 600;
+tempCanvas2.height = 400;
 
 var map = new Map(ctx);
 var player = new Player(130, 130, map, ctx);
@@ -51,4 +66,4 @@ function animate() {
 
 animate();
 
-export { floorData, ceilData };
+export { floorData, ceilData, backData };

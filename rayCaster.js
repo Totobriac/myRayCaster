@@ -1,8 +1,8 @@
 import { Ray } from "./ray.js";
 import { toRadians } from "./functions.js";
+import { backData } from "./raycasting.js";
 
 var floorSprite;
-
 
 class RayCaster {
   constructor(player, map, ctx) {
@@ -19,7 +19,14 @@ class RayCaster {
 
   }
   init() {
-    floorSprite = this.ctx.createImageData(600, 400);
+    floorSprite = this.ctx.createImageData(600,400);
+
+    for (let i = 0; i < floorSprite.data.length; i += 4) {
+      floorSprite.data[i + 0] = 65;
+      floorSprite.data[i + 1] = 65;
+      floorSprite.data[i + 2] = 65;
+      floorSprite.data[i + 3] = 255;
+    }
 
     for (let i = 0; i < this.rayNb; i++) {
       this.rays[i] = new Ray(this.player, this.map, this.ctx, this.rayAngle, this.screenDist, i);

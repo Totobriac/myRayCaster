@@ -38,6 +38,7 @@ export class Ray {
     this.floorPointx;
     this.floorPointy;
     this.screenDist = screenDist;
+    this.wallToBorder;
 
   }
   update() {
@@ -208,12 +209,10 @@ export class Ray {
     //we check if the wall reaches the bottom of the canvas
     // this.wallToBorder = (400 - wallHeight) / 2;
 
-    if (this.wallToBorder > 0) {
-
       // we calculate how many pixels we have from bottom of wall to border of canvas
       var pixelsToBottom = this.wallToBorder;
 
-      //we calculate the distance between the first pixel at the bottom of the wall and the player eyes (canvas.height / 2)
+      // we calculate the distance between the first pixel at the bottom of the wall and the player eyes (canvas.height / 2)
       var pixelRowHeight = 200 - pixelsToBottom;
 
       // then we loop through every pixels until we reach the border of the canvas
@@ -253,6 +252,6 @@ export class Ray {
         }
 
       }
-    }
+
   }
 }
