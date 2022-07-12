@@ -57,30 +57,19 @@ export class Ray {
     this.wallRendering(floorSprite);
   }
   yCollision() {
-
     this.isHittingY = false;
-
     this.yIntercept = Math.floor(this.y / 64) * 64;
-
     if (!this.lookUp) this.yIntercept += 64;
-
     var xOffset = (this.yIntercept - this.y) / Math.tan(this.angle);
-
     this.xIntercept = this.x + xOffset;
-
     this.xStep = 64 / Math.tan(this.angle);
-
     this.yStep = 64;
-
     if (this.lookUp) this.yStep *= -1;
-
     if ((!this.lookRight && this.xStep > 0) || (this.lookRight && this.xStep < 0)) {
       this.xStep *= -1;
     }
-
     var nextHorizX = this.xIntercept;
     var nextHorizY = this.yIntercept;
-
     if (this.lookUp) {
       nextHorizY--;
     }
@@ -100,22 +89,16 @@ export class Ray {
   }
   xCollision() {
     this.isHittingX = false;
-
     this.xIntercept = Math.floor(this.x / 64) * 64;
     if (this.lookRight) this.xIntercept += 64;
-
     var yOffset = (this.xIntercept - this.x) * Math.tan(this.angle);
-
     this.yIntercept = this.y + yOffset;
     this.xStep = 64;
     this.yStep = 64 * Math.tan(this.angle);
-
     if (!this.lookRight) this.xStep *= -1;
-
     if ((this.lookUp && this.yStep > 0) || (!this.lookUp && this.yStep < 0)) {
       this.yStep *= -1;
     }
-
     var nextHorizX = this.xIntercept;
     var nextHorizY = this.yIntercept;
     if (!this.lookRight) {
@@ -141,11 +124,10 @@ export class Ray {
     var horizDst = 999999;
     var vertiDst = 999999;
     var square;
-
     if (this.isHittingY) {
       vertiDst = distance(this.x, this.y, this.wallHitHX, this.wallHitHY);
       var tex = this.map.getTile(this.wallHitHX, this.wallHitHY, "wall");
-      if (tex && tex[0] === 8) {
+      if (tex && tex[0] === 88) {
         this.wallHitHX += 32 / Math.tan(this.angle);
         this.wallHitHY += 32 ;
         vertiDst = distance(this.x, this.y, this.wallHitHX , this.wallHitHY );
@@ -154,7 +136,7 @@ export class Ray {
     if (this.isHittingX) {
       horizDst = distance(this.x, this.y, this.wallHitVX, this.wallHitVY);
       var tex = this.map.getTile(this.wallHitVX, this.wallHitVY, "wall");
-      if (tex[0] === 8) {
+      if (tex[0] === 8 ) {
         this.wallHitVX += 32;
         this.wallHitVY += 32 * Math.tan(this.angle);
         horizDst = distance(this.x, this.y, this.wallHitVX, this.wallHitVY);
@@ -164,34 +146,29 @@ export class Ray {
       this.wallHitX = this.wallHitVX;
       this.wallHitY = this.wallHitVY;
       this.distHit = horizDst;
-
       square = Math.floor(this.wallHitY / 64);
-
       this.texturePix = Math.floor(this.wallHitY) - (square * 64);
       this.texture = this.map.getTile(this.wallHitX, this.wallHitY, "wall");
 
       if (this.texture.length === 2) this.texture = this.texture[1];
-      this.texture --;
 
     } else {
       this.wallHitX = this.wallHitHX;
       this.wallHitY = this.wallHitHY;
       this.distHit = vertiDst;
-
       square = Math.floor(this.wallHitX / 64) * 64;
-
       this.texturePix = Math.floor(this.wallHitX) - square;
-
       this.texture = this.map.getTile(this.wallHitX, this.wallHitY, "wall");
 
       if (this.texture.length === 2) this.texture = this.texture[0];
-      this.texture --;
 
     }
     this.distHit = (this.distHit * Math.cos(this.player.angle - this.angle));
-
   }
   wallRendering(floorSprite) {
+
+    this.texture --;
+    if (this.texture === 87) this.texture = 7;
     var realWallHeight = 64;
 
     var wallHeight = (realWallHeight / this.distHit) * this.screenDist;
@@ -218,7 +195,6 @@ export class Ray {
       1,
       screenSpriteHeight
     );
-
 
     //we check if the wall reaches the bottom of the canvas
     // this.wallToBorder = (400 - wallHeight) / 2;

@@ -40,6 +40,12 @@ function animate() {
   rayCaster.draw();
   player.update();
 
+  ctx.strokeStyle = "red";
+  ctx.beginPath();
+  ctx.moveTo(300,0);
+  ctx.lineTo(300,400);
+  ctx.stroke();
+
   requestAnimationFrame(animate);
 }
 
