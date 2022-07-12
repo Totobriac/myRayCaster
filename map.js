@@ -1,3 +1,5 @@
+import { distance } from "./functions.js";
+
 export class Map {
   constructor(ctx) {
     this.ctx = ctx;
@@ -7,7 +9,7 @@ export class Map {
     this.wall = [
       [[  1],     [1],     [2],     [1],  [8888],     [1],     [1],     [1],     [1],     [1],     [1],     [1],     [1],     [1],     [1],     [1],     [1],     [1],     [1],     [1],     [1],     [1],     [1],     [1],     [1], [1]],
       [[  1], [    0], [    0], [    0],  [   0], [    0], [    0], [ 9, 2], [    0], [    0], [    3], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [1]],
-      [[888], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [ 1, 4], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [1]],
+      [[888], [    0], [    0], [    0], [    0], [    0], [    0], [    8], [    0], [    0], [ 1, 4], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [1]],
       [[  1], [    0], [    0], [    0], [    0], [    0], [    0], [ 9, 2], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [1]],
       [[  1], [    1], [    2], [ 2, 9], [   88], [ 2, 9], [    2], [    1], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [1]],
       [[  1], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    1], [    1], [    1], [    1], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [1]],
@@ -72,39 +74,63 @@ export class Map {
     ]
   }
   draw() {
-    for (let y = 0; y < this.mapY; y++) {
-      for (let x = 0; x < this.mapX; x++) {
-        var color;
-        this.grid[y][x] != 0 ? color = "black" : color = "white";
-        var Xo = x * this.mapS / 10;
-        var Yo = y * this.mapS / 10;
-        this.ctx.fillStyle = color;
-        this.ctx.fillRect(Xo + 10, Yo + 10, this.mapS / 10, this.mapS / 10)
-      }
+  for (let y = 0; y < this.mapY; y++) {
+    for (let x = 0; x < this.mapX; x++) {
+      var color;
+      this.grid[y][x] != 0 ? color = "black" : color = "white";
+      var Xo = x * this.mapS / 10;
+      var Yo = y * this.mapS / 10;
+      this.ctx.fillStyle = color;
+      this.ctx.fillRect(Xo + 10, Yo + 10, this.mapS / 10, this.mapS / 10)
     }
   }
-  checkCollision(y, x) {
-    var collision = false;
-    if (this.wall[y][x] != 0) {
-      collision = true;
-    }
-    return collision;
+}
+checkPlayerCollision(y, x) {
+  var collision = false;
+  if (this.wall[y][x] != 0) {
+    collision = true;
   }
-  getTile(x, y, grid) {
-    var X = Math.floor(x / this.mapS);
-    var Y = Math.floor(y / this.mapS);
-    var tile
-    switch (grid) {
-      case "wall":
-        return this.wall[Y][X]
-        break;
-      case "ceiling":
-        return this.ceiling[Y][X]
-        break;
-      case "floor":
-        return this.floor[Y][X]
-        break;
-      default:
-    }
+  return collision;
+}
+checkCollision(y, x, wallX, wallY, angle) {
+  var collision = false;
+  var tile = this.wall[y][x];
+  if (tile == 8) {
+    wallX += 32;
+    wallY += 32 * Math.tan(angle);
+
+    var square = Math.floor(wallY / 64);
+    var texturePix = Math.floor(wallY) - (square * 64);
+
+    texturePix > 32 ? collision = true : collision = false;
+  } else if (tile == 88) {
+    wallX += 32 / Math.tan(angle);
+    wallY += 32;
+
+    var square = Math.floor(wallX / 64) * 64;
+    var texturePix = Math.floor(wallX) - square;
+
+    texturePix > 32 ? collision = true : collision = false;
+  } else if (tile != 0) {
+    collision = true;
   }
+  return collision;
+}
+getTile(x, y, grid) {
+  var X = Math.floor(x / this.mapS);
+  var Y = Math.floor(y / this.mapS);
+  var tile
+  switch (grid) {
+    case "wall":
+      return this.wall[Y][X]
+      break;
+    case "ceiling":
+      return this.ceiling[Y][X]
+      break;
+    case "floor":
+      return this.floor[Y][X]
+      break;
+    default:
+  }
+}
 }

@@ -39,7 +39,6 @@ export class Ray {
     this.floorPointy;
     this.screenDist = screenDist;
     this.wallToBorder;
-
   }
   update() {
     this.angle = this.player.angle + this.angleR;
@@ -52,12 +51,14 @@ export class Ray {
   }
   cast(floorSprite) {
     this.update();
-    this.xCollision();
-    this.yCollision();
+    this.collision();
     this.checkTile();
     this.wallRendering(floorSprite);
   }
-  yCollision() {
+  collision() {
+
+    // yCollision
+
     this.isHittingY = false;
     this.yIntercept = Math.floor(this.y / 64) * 64;
     if (!this.lookUp) this.yIntercept += 64;
@@ -77,18 +78,18 @@ export class Ray {
     while (!this.isHittingY) {
       var xTile = Math.floor(nextHorizX / 64);
       var yTile = Math.floor(nextHorizY / 64);
-      if (this.map.checkCollision(yTile, xTile)) {
+      if (this.map.checkCollision(yTile, xTile,nextHorizX, nextHorizY, this.angle)) {
         this.isHittingY = true;
         this.wallHitHX = nextHorizX;
         this.wallHitHY = nextHorizY;
-      }
-      else {
+      } else {
         nextHorizX += this.xStep;
         nextHorizY += this.yStep;
       }
     }
-  }
-  xCollision() {
+
+    // xCollision
+
     this.isHittingX = false;
     this.xIntercept = Math.floor(this.x / 64) * 64;
     if (this.lookRight) this.xIntercept += 64;
@@ -110,12 +111,11 @@ export class Ray {
     while (!this.isHittingX && (nextHorizX > 1 && nextHorizY > 1 && nextHorizX < mapWidth - 1 && nextHorizY < mapHeight - 1)) {
       var xTile = Math.floor(nextHorizX / 64);
       var yTile = Math.floor(nextHorizY / 64);
-      if (this.map.checkCollision(yTile, xTile)) {
+      if (this.map.checkCollision(yTile, xTile, nextHorizX, nextHorizY, this.angle)) {
         this.isHittingX = true;
         this.wallHitVX = nextHorizX;
         this.wallHitVY = nextHorizY;
-      }
-      else {
+      } else {
         nextHorizX += this.xStep;
         nextHorizY += this.yStep;
       }
@@ -130,22 +130,22 @@ export class Ray {
       var tex = this.map.getTile(this.wallHitHX, this.wallHitHY, "wall");
       if (tex && tex[0] === 88) {
         this.wallHitHX += 32 / Math.tan(this.angle);
-        this.wallHitHY += 32 ;
-        vertiDst = distance(this.x, this.y, this.wallHitHX , this.wallHitHY );
+        this.wallHitHY += 32;
+        vertiDst = distance(this.x, this.y, this.wallHitHX, this.wallHitHY);
       } else if (tex && tex[0] === 8888) {
         this.wallHitHX -= 32 / Math.tan(this.angle);
-        this.wallHitHY -= 32 ;
-        vertiDst = distance(this.x, this.y, this.wallHitHX , this.wallHitHY );
+        this.wallHitHY -= 32;
+        vertiDst = distance(this.x, this.y, this.wallHitHX, this.wallHitHY);
       }
     }
     if (this.isHittingX) {
       horizDst = distance(this.x, this.y, this.wallHitVX, this.wallHitVY);
       var tex = this.map.getTile(this.wallHitVX, this.wallHitVY, "wall");
-      if (tex[0] === 8 ) {
+      if (tex[0] === 8) {
         this.wallHitVX += 32;
         this.wallHitVY += 32 * Math.tan(this.angle);
         horizDst = distance(this.x, this.y, this.wallHitVX, this.wallHitVY);
-      } else if (tex[0] === 888 ) {
+      } else if (tex[0] === 888) {
         this.wallHitVX -= 32;
         this.wallHitVY -= 32 * Math.tan(this.angle);
         horizDst = distance(this.x, this.y, this.wallHitVX, this.wallHitVY);
@@ -176,7 +176,7 @@ export class Ray {
   }
   wallRendering(floorSprite) {
 
-    this.texture --;
+    this.texture--;
 
     if (this.texture > 80) this.texture = 7;
     var realWallHeight = 64;
@@ -209,49 +209,47 @@ export class Ray {
     //we check if the wall reaches the bottom of the canvas
     // this.wallToBorder = (400 - wallHeight) / 2;
 
-      // we calculate how many pixels we have from bottom of wall to border of canvas
-      var pixelsToBottom = this.wallToBorder;
+    // we calculate how many pixels we have from bottom of wall to border of canvas
+    var pixelsToBottom = this.wallToBorder;
 
-      // we calculate the distance between the first pixel at the bottom of the wall and the player eyes (canvas.height / 2)
-      var pixelRowHeight = 200 - pixelsToBottom;
+    // we calculate the distance between the first pixel at the bottom of the wall and the player eyes (canvas.height / 2)
+    var pixelRowHeight = 200 - pixelsToBottom;
 
-      // then we loop through every pixels until we reach the border of the canvas
+    // then we loop through every pixels until we reach the border of the canvas
 
-      for (let i = pixelRowHeight; i < 200; i += 1) {
+    for (let i = pixelRowHeight; i < 200; i += 1) {
 
-        // we calculate the straight distance between the player and the pixel
-        var directDistFloor = (this.screenDist * 200) / i;
+      // we calculate the straight distance between the player and the pixel
+      var directDistFloor = (this.screenDist * 200) / i;
 
-        // we calculate it's real world distance with the angle relative to the player
-        var realDistance = (directDistFloor / Math.cos(this.angleR));
+      // we calculate it's real world distance with the angle relative to the player
+      var realDistance = (directDistFloor / Math.cos(this.angleR));
 
-        // we calculate it's real world coordinates with the player angle
-        this.floorPointx = this.player.x + Math.cos(this.angle) * realDistance / (this.screenDist / 100);
-        this.floorPointy = this.player.y + Math.sin(this.angle) * realDistance / (this.screenDist / 100);
+      // we calculate it's real world coordinates with the player angle
+      this.floorPointx = this.player.x + Math.cos(this.angle) * realDistance / (this.screenDist / 100);
+      this.floorPointy = this.player.y + Math.sin(this.angle) * realDistance / (this.screenDist / 100);
 
 
-        // we map the texture
-        var textY = Math.floor(this.floorPointx % 64);
-        var textX = Math.floor(this.floorPointy % 64);
+      // we map the texture
+      var textY = Math.floor(this.floorPointx % 64);
+      var textX = Math.floor(this.floorPointy % 64);
 
-        if (floorData && ceilData) {
+      if (floorData && ceilData) {
 
-          var shade = i - 170;
-          var index = textY * 256 + textX * 4;
+        var shade = i - 170;
+        var index = textY * 256 + textX * 4;
 
-          floorSprite.data[(this.index * 4) + (i + 200) * 2400] = floorData.data[index] + shade
-          floorSprite.data[(this.index * 4) + (i + 200) * 2400 + 1] = floorData.data[index + 1] + shade
-          floorSprite.data[(this.index * 4) + (i + 200) * 2400 + 2] = floorData.data[index + 2] + shade
-          floorSprite.data[(this.index * 4) + (i + 200) * 2400 + 3] = 255;
+        floorSprite.data[(this.index * 4) + (i + 200) * 2400] = floorData.data[index] + shade
+        floorSprite.data[(this.index * 4) + (i + 200) * 2400 + 1] = floorData.data[index + 1] + shade
+        floorSprite.data[(this.index * 4) + (i + 200) * 2400 + 2] = floorData.data[index + 2] + shade
+        floorSprite.data[(this.index * 4) + (i + 200) * 2400 + 3] = 255;
 
-          floorSprite.data[(this.index * 4) + (200 - i) * 2400] = ceilData.data[index] + shade
-          floorSprite.data[(this.index * 4) + (200 - i) * 2400 + 1] = ceilData.data[index + 1] + shade
-          floorSprite.data[(this.index * 4) + (200 - i) * 2400 + 2] = ceilData.data[index + 2] + shade
-          floorSprite.data[(this.index * 4) + (200 - i) * 2400 + 3] = 255;
-
-        }
+        floorSprite.data[(this.index * 4) + (200 - i) * 2400] = ceilData.data[index] + shade
+        floorSprite.data[(this.index * 4) + (200 - i) * 2400 + 1] = ceilData.data[index + 1] + shade
+        floorSprite.data[(this.index * 4) + (200 - i) * 2400 + 2] = ceilData.data[index + 2] + shade
+        floorSprite.data[(this.index * 4) + (200 - i) * 2400 + 3] = 255;
 
       }
-
+    }
   }
 }

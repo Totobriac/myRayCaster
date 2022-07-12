@@ -39,7 +39,7 @@ export class Player {
     var collision = false;
     var xGridNb = Math.floor(x / this.map.mapS);
     var yGridNb = Math.floor(y / this.map.mapS);
-    if (this.map.checkCollision(yGridNb, xGridNb)) {
+    if (this.map.checkPlayerCollision(yGridNb, xGridNb)) {
       collision = true;
     };
     return collision;
