@@ -131,6 +131,10 @@ export class Ray {
         this.wallHitHX += 32 / Math.tan(this.angle);
         this.wallHitHY += 32 ;
         vertiDst = distance(this.x, this.y, this.wallHitHX , this.wallHitHY );
+      } else if (tex && tex[0] === 8888) {
+        this.wallHitHX -= 32 / Math.tan(this.angle);
+        this.wallHitHY -= 32 ;
+        vertiDst = distance(this.x, this.y, this.wallHitHX , this.wallHitHY );
       }
     }
     if (this.isHittingX) {
@@ -139,6 +143,10 @@ export class Ray {
       if (tex[0] === 8 ) {
         this.wallHitVX += 32;
         this.wallHitVY += 32 * Math.tan(this.angle);
+        horizDst = distance(this.x, this.y, this.wallHitVX, this.wallHitVY);
+      } else if (tex[0] === 888 ) {
+        this.wallHitVX -= 32;
+        this.wallHitVY -= 32 * Math.tan(this.angle);
         horizDst = distance(this.x, this.y, this.wallHitVX, this.wallHitVY);
       }
     }
@@ -168,7 +176,8 @@ export class Ray {
   wallRendering(floorSprite) {
 
     this.texture --;
-    if (this.texture === 87) this.texture = 7;
+
+    if (this.texture > 80) this.texture = 7;
     var realWallHeight = 64;
 
     var wallHeight = (realWallHeight / this.distHit) * this.screenDist;
