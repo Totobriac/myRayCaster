@@ -52,6 +52,7 @@ var rayCaster = new RayCaster(player, map, ctx);
 function animate() {
 
   ctx.clearRect(0, 0, canvas.width, canvas.height);
+  map.update();
   rayCaster.draw();
   player.update();
 
