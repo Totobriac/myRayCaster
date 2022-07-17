@@ -44,7 +44,7 @@ tempCanvas2.width = 600;
 tempCanvas2.height = 400;
 
 var map = new Map(ctx);
-var player = new Player(130, 130, map, ctx);
+var player = new Player(800, 800, map, ctx);
 var controls = new Controls(player);
 var rayCaster = new RayCaster(player, map, ctx);
 
@@ -55,12 +55,6 @@ function animate() {
   map.update();
   rayCaster.draw();
   player.update();
-
-  // ctx.strokeStyle = "red";
-  // ctx.beginPath();
-  // ctx.moveTo(300,0);
-  // ctx.lineTo(300,400);
-  // ctx.stroke();
 
   requestAnimationFrame(animate);
 }
