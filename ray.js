@@ -78,7 +78,7 @@ export class Ray {
     while (!this.isHittingY) {
       var xTile = Math.floor(nextHorizX / 64);
       var yTile = Math.floor(nextHorizY / 64);
-      if (this.map.checkCollision(yTile, xTile,nextHorizX, nextHorizY, this.angle)) {
+      if (this.map.checkCollision(yTile, xTile,nextHorizX, nextHorizY, this.angle, "yCollision", this.lookUp)) {
         this.isHittingY = true;
         this.wallHitHX = nextHorizX;
         this.wallHitHY = nextHorizY;
@@ -111,7 +111,7 @@ export class Ray {
     while (!this.isHittingX && (nextHorizX > 1 && nextHorizY > 1 && nextHorizX < mapWidth - 1 && nextHorizY < mapHeight - 1)) {
       var xTile = Math.floor(nextHorizX / 64);
       var yTile = Math.floor(nextHorizY / 64);
-      if (this.map.checkCollision(yTile, xTile, nextHorizX, nextHorizY, this.angle)) {
+      if (this.map.checkCollision(yTile, xTile, nextHorizX, nextHorizY, this.angle, "xCollision", this.lookRight)) {
         this.isHittingX = true;
         this.wallHitVX = nextHorizX;
         this.wallHitVY = nextHorizY;

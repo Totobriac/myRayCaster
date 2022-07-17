@@ -19,14 +19,6 @@ wallsSprite.onload = function () {
 
 wallsSprite.src = "./walls_2.png";
 
-var backSprite = new Image();
-
-backSprite.onload = function () {
-  tempCtx2.drawImage(backSprite, 0, 0);
-  backData = tempCtx2.getImageData(0, 0, 64, 64);
-}
-
-backSprite.src = "./back.png";
 
 var canvas = document.getElementById('canvas');
 var ctx = canvas.getContext('2d');
