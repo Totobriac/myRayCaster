@@ -208,6 +208,9 @@ export class Map {
       case 0:
         doorStatus[0] = 2;
         break;
+      case 1:
+        doorStatus[0] = 2;
+        break;
       case 2:
         doorStatus[0] = 1;
         break;

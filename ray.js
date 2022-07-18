@@ -194,25 +194,10 @@ export class Ray {
     this.ctx.imageSmoothingEnabled = false;
 
     if (this.texture != 7) {
-      this.ctx.drawImage(
-        wallsSprite,
-        xOffset * 64 + this.texturePix,
-        yOffset * 64,
-        1,
-        63,
-        this.index,
-        y1,
-        1,
-        screenSpriteHeight
-      );
-    } else {
-
-        var doorStatus = this.map.getTile(this.wallHitX, this.wallHitY, "sprite");
-
         this.ctx.drawImage(
           wallsSprite,
-          448 + this.texturePix - doorStatus[1] ,
-          0,
+          xOffset * 64 + this.texturePix,
+          yOffset * 64,
           1,
           63,
           this.index,
@@ -220,6 +205,21 @@ export class Ray {
           1,
           screenSpriteHeight
         );
+      } else {
+
+      var doorStatus = this.map.getTile(this.wallHitX, this.wallHitY, "sprite");
+
+      this.ctx.drawImage(
+        wallsSprite,
+        448 + this.texturePix - doorStatus[1],
+        0,
+        1,
+        63,
+        this.index,
+        y1,
+        1,
+        screenSpriteHeight
+      );
     }
 
 
