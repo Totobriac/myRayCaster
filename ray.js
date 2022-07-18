@@ -178,7 +178,6 @@ export class Ray {
 
     this.texture--;
 
-    if (this.texture > 80) this.texture = 7;
     var realWallHeight = 64;
 
     var wallHeight = (realWallHeight / this.distHit) * this.screenDist;
@@ -194,17 +193,35 @@ export class Ray {
     var xOffset = this.texture - (yOffset * 9);
     this.ctx.imageSmoothingEnabled = false;
 
-    this.ctx.drawImage(
-      wallsSprite,
-      xOffset * 64 + this.texturePix,
-      yOffset * 64,
-      1,
-      63,
-      this.index,
-      y1,
-      1,
-      screenSpriteHeight
-    );
+    if (this.texture != 7) {
+      this.ctx.drawImage(
+        wallsSprite,
+        xOffset * 64 + this.texturePix,
+        yOffset * 64,
+        1,
+        63,
+        this.index,
+        y1,
+        1,
+        screenSpriteHeight
+      );
+    } else {
+
+        var doorStatus = this.map.getTile(this.wallHitX, this.wallHitY, "sprite");
+
+        this.ctx.drawImage(
+          wallsSprite,
+          448 + this.texturePix - doorStatus[1] ,
+          0,
+          1,
+          63,
+          this.index,
+          y1,
+          1,
+          screenSpriteHeight
+        );
+    }
+
 
     //we check if the wall reaches the bottom of the canvas
     // this.wallToBorder = (400 - wallHeight) / 2;

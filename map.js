@@ -182,6 +182,9 @@ export class Map {
       case "floor":
         return this.floor[Y][X]
         break;
+      case "sprite":
+        return this.sprites[Y][X]
+        break;
       default:
     }
   }
