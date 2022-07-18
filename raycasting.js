@@ -37,9 +37,10 @@ tempCanvas2.height = 400;
 
 var map = new Map(ctx);
 var player = new Player(800, 800, map, ctx);
-var controls = new Controls(player);
+var controls = new Controls(player, map);
 var rayCaster = new RayCaster(player, map, ctx);
 
+Map.prototype.player = player;
 
 function animate() {
 

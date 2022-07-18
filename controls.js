@@ -1,5 +1,5 @@
 export class Controls {
-  constructor(player) {
+  constructor(player, map) {
     document.addEventListener('keydown', function(e) {
       switch (e.keyCode) {
         case 38:
@@ -13,6 +13,9 @@ export class Controls {
           break;
         case 37:
           player.left();
+          break;
+        case 32:
+          map.detectDoor();
           break;
       }
     });
