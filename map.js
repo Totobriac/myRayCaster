@@ -115,7 +115,12 @@ export class Map {
         if (this.sprites[j][i][0] == 1 && this.sprites[j][i][1] < 64) {
           this.sprites[j][i][1] += 0.5;
         } else if (this.sprites[j][i][0] == 1 && this.sprites[j][i][1] === 64) {
-          this.wall[j][i] = 0;
+          //this.wall[j][i] = 0;
+          this.sprites[j][i][0] = 0;
+        }
+        if (this.sprites[j][i][0] == 2 && this.sprites[j][i][1] > 0) {
+          this.sprites[j][i][1] -= 0.5;
+          //this.wall[j][i] = 1;
         }
       }
     }
@@ -193,6 +198,13 @@ export class Map {
   }
   doorInteraction(Y,X) {
     var doorStatus = this.sprites[Y][X];
-    doorStatus[0] = 1;
+    switch (doorStatus[0]) {
+      case 0:
+        doorStatus[0] = 2;
+        break;
+      case 2:
+        doorStatus[0] = 1;
+        break;
+    }
   }
 }
