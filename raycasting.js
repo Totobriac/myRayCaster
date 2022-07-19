@@ -10,15 +10,14 @@ var backData;
 var wallsSprite = new Image();
 
 wallsSprite.onload = function () {
-  tempCtx.drawImage(wallsSprite, 0, 128, 64, 64, 0, 0, 64, 64);
+  tempCtx.drawImage(wallsSprite, 0, 64, 64, 64, 0, 0, 64, 64);
   floorData = tempCtx.getImageData(0, 0, 64, 64);
 
-  tempCtx.drawImage(wallsSprite, 0, 192, 64, 64, 0, 0, 64, 64);
+  tempCtx.drawImage(wallsSprite, 192, 64, 64, 64, 0, 0, 64, 64);
   ceilData = tempCtx.getImageData(0, 0, 64, 64);
 }
 
-wallsSprite.src = "./walls_2.png";
-
+wallsSprite.src = "./walls.png";
 
 var canvas = document.getElementById('canvas');
 var ctx = canvas.getContext('2d');
@@ -54,4 +53,4 @@ function animate() {
 
 animate();
 
-export { floorData, ceilData, backData };
+export { floorData, ceilData, backData, player, ctx };
