@@ -4,6 +4,8 @@ import { floorData, ceilData } from "./raycasting.js";
 var wallsSprite = new Image();
 wallsSprite.src = "./walls.png";
 
+var zBuffer = [];
+
 export class Ray {
   constructor(player, map, ctx, angleR, screenDist, i) {
     this.x;
@@ -173,6 +175,8 @@ export class Ray {
 
     }
     this.distHit = (this.distHit * Math.cos(this.player.angle - this.angle));
+
+    zBuffer[this.index] = this.distHit;
   }
   wallRendering(floorSprite) {
 
@@ -207,19 +211,19 @@ export class Ray {
         );
       } else {
 
-      var doorStatus = this.map.getTile(this.wallHitX, this.wallHitY, "sprite");
+          var doorStatus = this.map.getTile(this.wallHitX, this.wallHitY, "sprite");
 
-      this.ctx.drawImage(
-        wallsSprite,
-        448 + this.texturePix - doorStatus[1],
-        0,
-        1,
-        63,
-        this.index,
-        y1,
-        1,
-        screenSpriteHeight
-      );
+          this.ctx.drawImage(
+            wallsSprite,
+            448 + this.texturePix - doorStatus[1],
+            0,
+            1,
+            63,
+            this.index,
+            y1,
+            1,
+            screenSpriteHeight
+          );
     }
 
 
@@ -270,3 +274,5 @@ export class Ray {
     }
   }
 }
+
+export { zBuffer };

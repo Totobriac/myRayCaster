@@ -2,6 +2,7 @@ import { Player } from "./player.js";
 import { Controls } from "./controls.js";
 import { Map } from "./map.js";
 import { RayCaster } from "./rayCaster.js";
+import { createSprites, drawSprites } from "./sprite.js";
 
 var floorData;
 var ceilData;
@@ -41,11 +42,14 @@ var rayCaster = new RayCaster(player, map, ctx);
 
 Map.prototype.player = player;
 
+createSprites(map.spritesList);
+
 function animate() {
 
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   map.update();
   rayCaster.draw();
+  drawSprites();
   player.update();
 
   requestAnimationFrame(animate);
