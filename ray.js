@@ -186,12 +186,9 @@ export class Ray {
 
     var wallHeight = (realWallHeight / this.distHit) * this.screenDist;
 
-    var y0 = 200 - Math.floor(wallHeight / 2);
-    var y1 = y0 + wallHeight;
+    var y = 200 - Math.floor(wallHeight / 2);
 
     this.wallToBorder = Math.floor((400 - wallHeight) / 2);
-
-    var screenSpriteHeight = y0 - y1;
 
     var yOffset = Math.floor(this.texture / 9);
     var xOffset = this.texture - (yOffset * 9);
@@ -205,9 +202,9 @@ export class Ray {
           1,
           63,
           this.index,
-          y1,
+          y,
           1,
-          screenSpriteHeight
+          wallHeight
         );
       } else {
 
@@ -220,9 +217,9 @@ export class Ray {
             1,
             63,
             this.index,
-            y1,
+            y,
             1,
-            screenSpriteHeight
+            wallHeight
           );
     }
 

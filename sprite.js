@@ -35,7 +35,7 @@ class Sprite {
     this.visible = false;
     this.ctx = ctx;
     this.halfSprite = 0;
-    this.screenDist = Math.floor((canvas.width / 2) / Math.tan((30 * Math.PI) / 180));
+    this.screenDist = Math.floor(600 / Math.tan((30 * Math.PI) / 180));
 
     this.getImageXY();
   }
@@ -53,57 +53,30 @@ class Sprite {
     if (angleDif < - Math.PI) {
       angleDif += 2 * Math.PI
     } else if (angleDif > Math.PI) {
-        angleDif -= 2 * Math.PI
+      angleDif -= 2 * Math.PI
     };
 
     angleDif = Math.abs(angleDif);
 
     angleDif < half_FOV ? this.visible = true : this.visible = false;
 
+    this.angle = angleDif;
   }
   calculateDistance() {
     this.distance = distance(this.player.x, this.player.y, this.x, this.y);
   }
-  update() {
+  draw() {
     this.calculateAngle();
     this.calculateDistance();
-  }
-  draw() {
-    this.update();
 
     if (this.visible) {
 
-      var spriteHeight = (64 / this.distance) * this.screenDist;
+      var realSpriteHeight = 64;
 
-      var y0 = parseInt(canvasHeight / 2) - parseInt(spriteHeight / 2);
-      var y1 = y0 + spriteHeight;
+      var spriteHeight = (realSpriteHeight / this.distance) * this.screenDist;
 
-      var heightTileTexture = 64;
-      var widthTileTexture = 64;
+      var y = 200 - Math.floor(spriteHeight / 2);
 
-      var dx = this.x - this.player.x;
-      var dy = this.y - this.player.y;
-      var spriteAngle = Math.atan2(dy, dx) - this.player.angle;
-
-      var spriteAngle = normalizeAngle(spriteAngle);
-
-      var x0 = Math.tan(spriteAngle) * 64;
-      var x = (canvasWidth / 2 + x0 - spriteHeight / 2);
-
-      this.ctx.imageSmoothingEnabled = false;
-      var columnWidth = spriteHeight / heightTileTexture;
-
-      for (let i = 0; i < widthTileTexture; i++) {
-        for (let j = 0; j < columnWidth; j++) {
-          if (i === 32) {
-            this.halfSprite = x1 + 300;
-          }
-          var x1 = parseInt(x + ((i - 1) * columnWidth) + j);
-          if (zBuffer[x1] > this.distance) {
-            this.ctx.drawImage(this.image, i + this.imageX, this.imageY, 1, heightTileTexture - 1, x1 + 300, y1, 1, spriteHeight);
-          }
-        }
-      }
     }
   }
 }
