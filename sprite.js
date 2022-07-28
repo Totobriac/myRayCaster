@@ -77,6 +77,27 @@ class Sprite {
 
       var y = 200 - Math.floor(spriteHeight / 2);
 
+      var columnWidth = spriteHeight / 64;
+
+      var dx = this.x - this.player.x;
+			var dy = this.y - this.player.y;
+
+			var spriteAngle = Math.atan2(dy, dx) - player.angle;
+
+      var x0 = Math.tan(spriteAngle) * 300;
+			var x = (600/2 + x0 - 64/2);
+
+      for(let i=0; i< 64; i++){
+
+				for(let j=0; j<columnWidth; j++){
+
+					var x1 = Math.floor(x+((i-1)*columnWidth)+j);
+
+					ctx.drawImage(items,i + 64,0,1,63,x1,y,1,spriteHeight);
+
+				}
+			}
+
     }
   }
 }
