@@ -185,7 +185,7 @@ export class Ray {
     var realWallHeight = 64;
 
     var wallHeight = (realWallHeight / this.distHit) * this.screenDist;
-
+    
     var y = 200 - Math.floor(wallHeight / 2);
 
     this.wallToBorder = Math.floor((400 - wallHeight) / 2);

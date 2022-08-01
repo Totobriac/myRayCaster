@@ -44,60 +44,28 @@ class Sprite {
     this.imageY = line * 64;
     this.imageX = (this.frame - (line * 4)) * 64;
   }
-  calculateAngle() {
-    var vectX = this.x - this.player.x;
-    var vectY = this.y - this.player.y;
-    var objectPlayerAngle = Math.atan2(vectY, vectX);
-    var angleDif = this.player.angle - objectPlayerAngle;
-
-    if (angleDif < - Math.PI) {
-      angleDif += 2 * Math.PI
-    } else if (angleDif > Math.PI) {
-      angleDif -= 2 * Math.PI
-    };
-
-    angleDif = Math.abs(angleDif);
-
-    angleDif < half_FOV ? this.visible = true : this.visible = false;
-
-    this.angle = angleDif;
-  }
-  calculateDistance() {
-    this.distance = distance(this.player.x, this.player.y, this.x, this.y);
-  }
   draw() {
-    this.calculateAngle();
-    this.calculateDistance();
+    this.distance = distance(this.x, this.y, this.player.x, this.player.y);
 
-    if (this.visible) {
+    var X = this.x - this.player.x;
+    var Y = this.y - this.player.y;
 
-      var realSpriteHeight = 64;
+    var p = Math.atan2(-Y , X);
+    if (p > 2 * Math.PI) p -= 2 * Math.PI;
+    if (p < 0) p += 2 * Math.PI;
 
-      var spriteHeight = (realSpriteHeight / this.distance) * this.screenDist;
+    var q = this.player.angle + half_FOV - p
 
-      var y = 200 - Math.floor(spriteHeight / 2);
+    q = normalizeAngle(q);
 
-      var columnWidth = spriteHeight / 64;
+    var screenX = q * (600 / 60);
 
-      var dx = this.x - this.player.x;
-			var dy = this.y - this.player.y;
+    var spriteHeight = (this.screenDist * 64) / this.distance;
 
-			var spriteAngle = Math.atan2(dy, dx) - player.angle;
+    var screenY = 200 - spriteHeight/2;
 
-      var x0 = Math.tan(spriteAngle) * 300;
-			var x = (600/2 + x0 - 64/2);
-
-      for(let i=0; i< 64; i++){
-
-				for(let j=0; j<columnWidth; j++){
-
-					var x1 = Math.floor(x+((i-1)*columnWidth)+j);
-
-					ctx.drawImage(items,i + 64,0,1,63,x1,y,1,spriteHeight);
-
-				}
-			}
-
+    for (let i = 0; i < 64; i++) {
+      this.ctx.drawImage(items, i, 0, 1, 63, screenX + i, screenY, 1, spriteHeight);
     }
   }
 }
