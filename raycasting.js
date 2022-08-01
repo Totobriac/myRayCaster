@@ -36,7 +36,7 @@ tempCanvas2.width = 600;
 tempCanvas2.height = 400;
 
 var map = new Map(ctx);
-var player = new Player(800, 800, map, ctx);
+var player = new Player(400, 800, map, ctx);
 var controls = new Controls(player, map);
 var rayCaster = new RayCaster(player, map, ctx);
 

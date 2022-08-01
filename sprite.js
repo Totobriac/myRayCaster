@@ -27,8 +27,6 @@ class Sprite {
     this.y = y;
     this.image = image;
     this.frame = frame;
-    this.imageX;
-    this.imageY;
     this.player = player;
     this.distance = 0;
     this.angle = 0;
@@ -51,17 +49,16 @@ class Sprite {
     var Y = this.y - this.player.y;
 
     var p = Math.atan2(Y, X) * 180/ Math.PI;
-    
-    if (p < 0) p += 360; 
 
-    var playerAngle = this.player.angle * 180/ Math.PI;
-    
+    if (p < 0) p += 360;
+
+    var playerAngle = 360 - (this.player.angle * 180 / Math.PI);
+
     var XTemp = playerAngle + 30 - p;
-    
-    if (p > 270 && playerAngle < 90) XTemp = playerAngle + 30 - p + 360;
-    if (playerAngle > 270 && p < 90) XTemp = playerAngle + 30 - p - 360;
-	 
-	// Compute the screen x coordinate
+
+    if (p > 270 && playerAngle < 90) XTemp += 360;
+    if (playerAngle > 270 && p < 90) XTemp -= 360;
+
 	  var screenX = XTemp * 600 / 60;
 
     var spriteHeight = (this.screenDist * 64) / this.distance;
@@ -71,7 +68,7 @@ class Sprite {
     var screenY = 200 - spriteHeight/2;
 
     for (let i = 0; i < 64; i++) {
-      this.ctx.drawImage(items, i, 0, 1, 63, screenX  + (columnWidth * i), screenY, columnWidth, spriteHeight);
+      this.ctx.drawImage(items, i, 0, 1, 63, screenX + (columnWidth * i), screenY, columnWidth, spriteHeight);
     }
   }
 }
