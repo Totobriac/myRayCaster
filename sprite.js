@@ -45,21 +45,24 @@ class Sprite {
     this.imageX = (this.frame - (line * 4)) * 64;
   }
   draw() {
-    this.distance = distance(this.x, this.y, this.player.x, this.player.y);
+    this.distance = distance(this.player.x, this.player.y, this.x, this.y);
 
     var X = this.x - this.player.x;
     var Y = this.y - this.player.y;
 
-    var p = Math.atan2(Y, X);
+    var p = Math.atan2(Y, X) * 180/ Math.PI;
+    
+    if (p < 0) p += 360; 
 
-    if (p > 2 * Math.PI) p -= 2 * Math.PI;
-    if (p < 0) p += 2 * Math.PI;
-
-    var q = this.player.angle + half_FOV - p;
-
-    q = normalizeAngle(q);
-
-    var screenX = q * (180 / Math.PI) * (600/60);
+    var playerAngle = this.player.angle * 180/ Math.PI;
+    
+    var XTemp = playerAngle + 30 - p;
+    
+    if (p > 270 && playerAngle < 90) XTemp = playerAngle + 30 - p + 360;
+    if (playerAngle > 270 && p < 90) XTemp = playerAngle + 30 - p - 360;
+	 
+	// Compute the screen x coordinate
+	  var screenX = XTemp * 600 / 60;
 
     var spriteHeight = (this.screenDist * 64) / this.distance;
 
