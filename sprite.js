@@ -33,7 +33,7 @@ class Sprite {
     this.visible = false;
     this.ctx = ctx;
     this.halfSprite = 0;
-    this.screenDist = Math.floor(600 / Math.tan((30 * Math.PI) / 180));
+    this.screenDist = Math.floor(300 / Math.tan((30 * Math.PI) / 180));
 
     this.getImageXY();
   }
@@ -70,7 +70,7 @@ class Sprite {
     var screenY = 200 - spriteHeight/2;
 
     for (let i = 0; i < 64; i++) {
-      this.ctx.drawImage(items, i, 0, 1, 63, screenX + (columnWidth * i), screenY, columnWidth, spriteHeight);
+      this.ctx.drawImage(items, i, 0, 1, 63, screenX + (columnWidth * i) - (32 * columnWidth) , screenY, columnWidth, spriteHeight);
     }
   }
 }
