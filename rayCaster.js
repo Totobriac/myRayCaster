@@ -19,7 +19,7 @@ class RayCaster {
 
   }
   init() {
-    floorSprite = this.ctx.createImageData(600,400);
+    floorSprite = this.ctx.createImageData(600, 400);
 
     for (let i = 0; i < floorSprite.data.length; i += 4) {
       floorSprite.data[i + 0] = 65;
@@ -35,7 +35,7 @@ class RayCaster {
   }
   draw() {
 
-    this.ctx.putImageData(floorSprite, 0, 0);
+    this.ctx.putImageData(floorSprite, 0, 0, 0, 0, 600, 399);
 
     for (let i = 0; i < 600; i++) {
       this.rays[i].cast(floorSprite);
