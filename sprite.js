@@ -48,9 +48,11 @@ class Sprite {
     var X = this.x - this.player.x;
     var Y = this.y - this.player.y;
 
-    var p = Math.atan2(Y, X) * 180/ Math.PI;
+    var p = 360 - ( Math.atan2(Y, X) * 180/ Math.PI);
 
     if (p < 0) p += 360;
+    if (p > 360) p -= 360;
+
 
     var playerAngle = 360 - (this.player.angle * 180 / Math.PI);
 
