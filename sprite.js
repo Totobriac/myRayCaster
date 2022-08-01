@@ -50,22 +50,25 @@ class Sprite {
     var X = this.x - this.player.x;
     var Y = this.y - this.player.y;
 
-    var p = Math.atan2(-Y , X);
+    var p = Math.atan2(Y, X);
+
     if (p > 2 * Math.PI) p -= 2 * Math.PI;
     if (p < 0) p += 2 * Math.PI;
 
-    var q = this.player.angle + half_FOV - p
+    var q = this.player.angle + half_FOV - p;
 
     q = normalizeAngle(q);
 
-    var screenX = q * (600 / 60);
+    var screenX = q * (180 / Math.PI) * (600/60);
 
     var spriteHeight = (this.screenDist * 64) / this.distance;
+
+    var columnWidth = spriteHeight / 64;
 
     var screenY = 200 - spriteHeight/2;
 
     for (let i = 0; i < 64; i++) {
-      this.ctx.drawImage(items, i, 0, 1, 63, screenX + i, screenY, 1, spriteHeight);
+      this.ctx.drawImage(items, i, 0, 1, 63, screenX  + (columnWidth * i), screenY, columnWidth, spriteHeight);
     }
   }
 }
