@@ -13,11 +13,7 @@ items.src = "./items.png";
 // var dog = new Image();
 // dog.src = "./assets/9_dinoStein/dog/die_4.png";
 
-var FOV = 60;
-var half_FOV = toRadians(FOV / 2);
-
-var canvasWidth = 600;
-var canvasHeight = 400;
+var half_FOV = toRadians(30);
 
 var sprites = [];
 
