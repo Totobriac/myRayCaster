@@ -3,6 +3,7 @@ import { Controls } from "./controls.js";
 import { Map } from "./map.js";
 import { RayCaster } from "./rayCaster.js";
 import { createSprites, drawSprites } from "./sprite.js";
+import { drawEnemies } from "./enemy.js";
 
 var floorData;
 var ceilData;
@@ -50,6 +51,7 @@ function animate() {
   map.update();
   rayCaster.draw();
   drawSprites();
+  drawEnemies();
   player.update();
 
   requestAnimationFrame(animate);
@@ -57,4 +59,4 @@ function animate() {
 
 animate();
 
-export { floorData, ceilData, backData, player, ctx };
+export { floorData, ceilData, backData, player, ctx, map};

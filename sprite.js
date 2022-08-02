@@ -49,7 +49,6 @@ class Sprite {
     if (p < 0) p += 360;
     if (p > 360) p -= 360;
 
-
     var playerAngle = 360 - (this.player.angle * 180 / Math.PI);
 
     var XTemp = playerAngle + 30 - p;
@@ -68,7 +67,7 @@ class Sprite {
     for (let i = 0; i < 64; i++) {
       var x = Math.floor(screenX + (columnWidth * i) - (32 * columnWidth));
       if (zBuffer[x] > this.distance && x > 0 && x < 600) {
-        this.ctx.drawImage(items, i, 0, 1, 63, screenX + (columnWidth * i) - (32 * columnWidth), screenY, columnWidth, spriteHeight);
+        this.ctx.drawImage(this.image, i + this.imageX, this.imageY, 1, 63, screenX + (columnWidth * i) - (32 * columnWidth), screenY, columnWidth, spriteHeight);
       }
     }
   }
@@ -93,4 +92,4 @@ function drawSprites() {
   }
 }
 
-export { createSprites, drawSprites, removeSprites }
+export { createSprites, drawSprites, removeSprites, Sprite }
