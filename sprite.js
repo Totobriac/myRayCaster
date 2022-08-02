@@ -70,7 +70,10 @@ class Sprite {
     var screenY = 200 - spriteHeight/2;
 
     for (let i = 0; i < 64; i++) {
-      this.ctx.drawImage(items, i, 0, 1, 63, screenX + (columnWidth * i) - (32 * columnWidth) , screenY, columnWidth, spriteHeight);
+      var x = Math.floor(screenX + (columnWidth * i) - (32 * columnWidth));
+      if (zBuffer[x] > this.distance && x > 0 && x < 600) {
+        this.ctx.drawImage(items, i, 0, 1, 63, screenX + (columnWidth * i) - (32 * columnWidth), screenY, columnWidth, spriteHeight);
+      }
     }
   }
 }
