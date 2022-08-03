@@ -2,16 +2,8 @@ import { toRadians, distance, normalizeAngle } from "./functions.js";
 import { zBuffer } from "./ray.js";
 import { player, ctx } from "./raycasting.js";
 
-
 var items = new Image();
 items.src = "./items.png";
-
-// var soldier_1 = new Image();
-// soldier_1.src = "./assets/9_dinoStein/soldier_1/die_4.png";
-// var boss = new Image();
-// boss.src = "./assets/9_dinoStein/boss/die_4.png";
-// var dog = new Image();
-// dog.src = "./assets/9_dinoStein/dog/die_4.png";
 
 var half_FOV = toRadians(30);
 

@@ -98,8 +98,8 @@ export class Map {
       [1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
       [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
     ];
-    this.spritesList = [[800,800,8,"items"], [1200,800,8,"items"]];
-    this.enemiesList = [[64,320,"boss"]];
+    this.spritesList = [[1200,800,8,"items"]];
+    this.enemiesList = [[800,800,"guard"]];
   }
   draw() {
     for (let y = 0; y < this.mapY; y++) {
