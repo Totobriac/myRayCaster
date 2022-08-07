@@ -12,13 +12,13 @@ class Enemy extends Sprite {
     super(x, y, image, frame, player, ctx);
     this.level = map;
     this.speed = 1;
-    this.angle = 180;
+    this.angle = 0;
     this.tickCount = 0;
     this.maxTickCount = 12;
     this.isInRange = false;
     this.isShot = false;
     this.life = 5;
-    this.speed = 0.2;
+    this.speed = 4;
     this.yFrame = 1;
   }
   draw() {
@@ -27,8 +27,10 @@ class Enemy extends Sprite {
   }
   checkForCollision(x, y) {
     var collision = false;
-    var xGridNb = Math.floor(x / this.level.mapS);
-    var yGridNb = Math.floor(y / this.level.mapS);
+    var offset;
+    this.angle < 180 ? offset = 22 : offset = -22;
+    var xGridNb = Math.floor((x + offset)/ this.level.mapS);
+    var yGridNb = Math.floor((y + offset)/ this.level.mapS);
     if (this.level.checkPlayerCollision(yGridNb, xGridNb)) {
       collision = true;
     };
@@ -42,6 +44,11 @@ class Enemy extends Sprite {
     if (!this.checkForCollision(newX, newY)) {
       this.x = newX;
       this.y = newY;
+    } else {
+      this.angle += 25;
+      console.log(this.angle);
+      if (this.angle < 0) this.angle += 360;
+      if (this.angle > 360) this.angle -= 360;
     }
 
     var X = this.x - this.player.x;
@@ -52,7 +59,7 @@ class Enemy extends Sprite {
     if (p < 0) p += 360;
     if (p > 360) p -= 360;
 
-    var diff = (this.player.angle * 180 / Math.PI)  + this.angle;
+    var diff = (this.player.angle * 180 / Math.PI)  - this.angle;
 
     if (diff < 0) diff += 360;
     if (diff > 360) diff -= 360;

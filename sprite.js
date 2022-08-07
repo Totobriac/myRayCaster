@@ -22,7 +22,7 @@ class Sprite {
     this.ctx = ctx;
     this.halfSprite = 0;
     this.screenDist = Math.floor(300 / Math.tan((30 * Math.PI) / 180));
-
+    this.closeToWall = false;
     this.getImageXY();
   }
   getImageXY() {
@@ -58,7 +58,7 @@ class Sprite {
 
     for (let i = 0; i < 64; i++) {
       var x = Math.floor(screenX + (columnWidth * i) - (32 * columnWidth));
-      if (zBuffer[x] > this.distance && x > 0 && x < 600) {
+      if ((zBuffer[x] > this.distance && x > 0 && x < 600) || this.closeToWall) {
         this.ctx.drawImage(this.image, i + this.imageX, this.imageY, 1, 63, screenX + (columnWidth * i) - (32 * columnWidth), screenY, columnWidth, spriteHeight);
       }
     }
