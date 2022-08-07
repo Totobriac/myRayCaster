@@ -12,7 +12,7 @@ class Enemy extends Sprite {
     super(x, y, image, frame, player, ctx);
     this.level = map;
     this.speed = 1;
-    this.angle = 250;
+    this.angle = 180;
     this.tickCount = 0;
     this.maxTickCount = 12;
     this.isInRange = false;
@@ -52,16 +52,16 @@ class Enemy extends Sprite {
     if (p < 0) p += 360;
     if (p > 360) p -= 360;
 
-    var diff = (this.player.angle * 180 / Math.PI)  - this.angle;
+    var diff = (this.player.angle * 180 / Math.PI)  + this.angle;
 
     if (diff < 0) diff += 360;
     if (diff > 360) diff -= 360;
 
     switch (true) {
-      case diff < 22.5:
+      case diff < 18:
         this.frame = 4
         break;
-      case diff > 22.5 && diff < 67.5:
+      case diff > 18 && diff < 67.5:
         this.frame = 3
         break;
       case diff > 67.5 && diff < 112.5:
@@ -82,10 +82,10 @@ class Enemy extends Sprite {
       case diff > 292.5 && diff < 337.5:
         this.frame = 5
         break;
-      case diff > 337.5:
+      case diff > 342:
         this.frame = 4
         break;
-      }
+    }
 
     this.imageX = this.frame * 64;
 
