@@ -21,8 +21,7 @@ class Sprite {
     this.visible = false;
     this.ctx = ctx;
     this.halfSprite = 0;
-    this.screenDist = Math.floor(300 / Math.tan((30 * Math.PI) / 180));
-    this.closeToWall = false;
+    this.screenDist = Math.floor(300 / Math.tan((30 * Math.PI) / 180));    
     this.getImageXY();
   }
   getImageXY() {

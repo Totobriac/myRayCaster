@@ -11,24 +11,28 @@ class Enemy extends Sprite {
   constructor(x, y, image, frame, player, ctx, map) {
     super(x, y, image, frame, player, ctx);
     this.level = map;
-    this.speed = 1;
     this.angle = 0;
     this.tickCount = 0;
     this.maxTickCount = 12;
     this.isInRange = false;
     this.isShot = false;
     this.life = 5;
-    this.speed = 4;
+    this.speed = 2;
     this.yFrame = 1;
+    this.path = 0;
+    this.setMaxPath();
   }
   draw() {
     this.update();
     super.draw();
   }
+  setMaxPath() {
+    this.maxPath = Math.floor(Math.random() * 4) * 64;
+  }
   checkForCollision(x, y) {
     var collision = false;
     var offset;
-    this.angle < 180 ? offset = 22 : offset = -22;
+    this.angle < 180 ? offset = 32 : offset = -32;
     var xGridNb = Math.floor((x + offset)/ this.level.mapS);
     var yGridNb = Math.floor((y + offset)/ this.level.mapS);
     if (this.level.checkPlayerCollision(yGridNb, xGridNb)) {
@@ -41,14 +45,16 @@ class Enemy extends Sprite {
     var newX = this.x + Math.cos(this.angle * Math.PI /180) * this.speed;
     var newY = this.y + Math.sin(this.angle * Math.PI /180) * this.speed;
 
-    if (!this.checkForCollision(newX, newY)) {
+    if (!this.checkForCollision(newX, newY) && this.path < this.maxPath) {
       this.x = newX;
       this.y = newY;
+      this.path ++;
     } else {
-      this.angle += 25;
-      console.log(this.angle);
+      this.angle += 90;
       if (this.angle < 0) this.angle += 360;
       if (this.angle > 360) this.angle -= 360;
+      this.path = 0;
+      this.setMaxPath();
     }
 
     var X = this.x - this.player.x;
