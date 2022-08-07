@@ -8,7 +8,7 @@ items.src = "./items.png";
 var half_FOV = toRadians(30);
 
 class Sprite {
-  constructor(x, y, image, frame, player, ctx) {
+  constructor(x, y, image, frame, player, still, ctx) {
     this.x = x;
     this.y = y;
     this.image = image;
@@ -20,6 +20,7 @@ class Sprite {
     this.ctx = ctx;
     this.halfSprite = 0;
     this.screenDist = Math.floor(300 / Math.tan((30 * Math.PI) / 180));
+    this.still = still;
     this.getImageXY();
   }
   getImageXY() {
@@ -64,7 +65,7 @@ class Sprite {
 
 function createSprites(sprites, spriteList) {
   for (let i = 0; i < spriteList.length; i++) {
-    sprites[i] = new Sprite(spriteList[i][0], spriteList[i][1], eval(spriteList[i][3]), spriteList[i][2], player, ctx);
+    sprites[i] = new Sprite(spriteList[i][0], spriteList[i][1], eval(spriteList[i][3]), spriteList[i][2], player, spriteList[i][3], ctx);
   }
 }
 

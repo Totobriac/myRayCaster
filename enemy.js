@@ -6,8 +6,8 @@ var guard = new Image();
 guard.src = "./guard.png";
 
 class Enemy extends Sprite {
-  constructor(x, y, image, frame, player, ctx, map) {
-    super(x, y, image, frame, player, ctx);
+  constructor(x, y, image, frame, player, still, ctx, map) {
+    super(x, y, image, frame, player, still, ctx);
     this.level = map;
     this.angle = 0;
     this.tickCount = 0;
@@ -18,7 +18,6 @@ class Enemy extends Sprite {
     this.speed = 2;
     this.yFrame = 1;
     this.path = 0;
-    this.isPatrolling = false;
     this.setMaxPath();
   }
   draw() {
@@ -41,7 +40,7 @@ class Enemy extends Sprite {
   }
   update() {
 
-    if (this.isPatrolling) {
+    if (!this.still) {
       var newX = this.x + Math.cos(this.angle * Math.PI /180) * this.speed;
       var newY = this.y + Math.sin(this.angle * Math.PI /180) * this.speed;
 
@@ -57,7 +56,6 @@ class Enemy extends Sprite {
         this.setMaxPath();
       }
     }
-
 
     var X = this.x - this.player.x;
     var Y = this.y - this.player.y;
@@ -111,26 +109,15 @@ class Enemy extends Sprite {
       this.tickCount ++;
     }
 
-    this.isPatrolling ? this.imageY = this.yFrame * 64 : this.imageY = 0;
+    !this.still ? this.imageY = this.yFrame * 64 : this.imageY = 0;
   }
 }
 
 function createEnemies(sprites, enemyList) {
   let spLength = sprites.length;
   for (let i = 0; i < enemyList.length; i++) {
-    sprites[i + spLength] = new Enemy(enemyList[i][0], enemyList[i][1], eval(enemyList[i][3]), enemyList[i][2], player, ctx, map,  );
+    sprites[i + spLength] = new Enemy(enemyList[i][0], enemyList[i][1], eval(enemyList[i][3]), enemyList[i][2], player, enemyList[i][4], ctx, map );
   }
 }
-
-// function drawEnemies() {
-//
-//   enemies.sort(function (obj1, obj2) {
-//     return obj2.distance - obj1.distance;
-//   });
-//
-//   for (let a = 0; a < enemies.length; a++) {
-//     enemies[a].draw();
-//   }
-// }
 
 export { createEnemies };
