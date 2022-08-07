@@ -15,7 +15,7 @@ class Enemy extends Sprite {
     this.isInRange = false;
     this.isShot = false;
     this.life = 5;
-    this.speed = 2;
+    this.speed = 3;
     this.yFrame = 1;
     this.path = 0;
     this.setMaxPath();
@@ -29,10 +29,12 @@ class Enemy extends Sprite {
   }
   checkForCollision(x, y) {
     var collision = false;
-    var offset;
-    this.angle < 180 ? offset = 32 : offset = -32;
-    var xGridNb = Math.floor((x + offset)/ this.level.mapS);
-    var yGridNb = Math.floor((y + offset)/ this.level.mapS);
+    var Xoffset;
+    var Yoffset;
+    this.angle < 90 || this.angle > 270 ? Xoffset = 32 : Xoffset = -32;
+    this.angle < 180 ? Yoffset = 32 : Yoffset = -32;
+    var xGridNb = Math.floor((x + Xoffset)/ this.level.mapS);
+    var yGridNb = Math.floor((y + Yoffset)/ this.level.mapS);
     if (this.level.checkPlayerCollision(yGridNb, xGridNb)) {
       collision = true;
     };
