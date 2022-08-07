@@ -20,6 +20,7 @@ class Enemy extends Sprite {
     this.speed = 2;
     this.yFrame = 1;
     this.path = 0;
+    this.isPatrolling = false;
     this.setMaxPath();
   }
   draw() {
@@ -42,20 +43,23 @@ class Enemy extends Sprite {
   }
   update() {
 
-    var newX = this.x + Math.cos(this.angle * Math.PI /180) * this.speed;
-    var newY = this.y + Math.sin(this.angle * Math.PI /180) * this.speed;
+    if (this.isPatrolling) {
+      var newX = this.x + Math.cos(this.angle * Math.PI /180) * this.speed;
+      var newY = this.y + Math.sin(this.angle * Math.PI /180) * this.speed;
 
-    if (!this.checkForCollision(newX, newY) && this.path < this.maxPath) {
-      this.x = newX;
-      this.y = newY;
-      this.path ++;
-    } else {
-      this.angle += 90;
-      if (this.angle < 0) this.angle += 360;
-      if (this.angle > 360) this.angle -= 360;
-      this.path = 0;
-      this.setMaxPath();
+      if (!this.checkForCollision(newX, newY) && this.path < this.maxPath) {
+        this.x = newX;
+        this.y = newY;
+        this.path ++;
+      } else {
+        this.angle += 90;
+        if (this.angle < 0) this.angle += 360;
+        if (this.angle > 360) this.angle -= 360;
+        this.path = 0;
+        this.setMaxPath();
+      }
     }
+
 
     var X = this.x - this.player.x;
     var Y = this.y - this.player.y;
@@ -109,7 +113,7 @@ class Enemy extends Sprite {
       this.tickCount ++;
     }
 
-    this.imageY = this.yFrame * 64;
+    this.isPatrolling ? this.imageY = this.yFrame * 64 : this.imageY = 0;
   }
 }
 
