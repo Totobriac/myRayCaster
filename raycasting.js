@@ -3,11 +3,13 @@ import { Controls } from "./controls.js";
 import { Map } from "./map.js";
 import { RayCaster } from "./rayCaster.js";
 import { createSprites, drawSprites } from "./sprite.js";
-import { drawEnemies } from "./enemy.js";
+import { createEnemies } from "./enemy.js";
 
 var floorData;
 var ceilData;
 var backData;
+
+var sprites = [];
 
 var wallsSprite = new Image();
 
@@ -43,15 +45,15 @@ var rayCaster = new RayCaster(player, map, ctx);
 
 Map.prototype.player = player;
 
-createSprites(map.spritesList);
+createSprites(sprites, map.spritesList);
+createEnemies(sprites, map.enemiesList);
 
 function animate() {
 
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   map.update();
   rayCaster.draw();
-  drawSprites();
-  drawEnemies();
+  drawSprites(sprites);
   player.update();
 
   requestAnimationFrame(animate);

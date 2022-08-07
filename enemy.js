@@ -2,8 +2,6 @@ import { Sprite } from "./sprite.js";
 import { player, ctx, map } from "./raycasting.js";
 import { normalizeAngle } from "./functions.js";
 
-var enemies = [];
-
 var guard = new Image();
 guard.src = "./guard.png";
 
@@ -117,27 +115,22 @@ class Enemy extends Sprite {
   }
 }
 
-function createEnemies(enemyList) {
+function createEnemies(sprites, enemyList) {
+  let spLength = sprites.length;
   for (let i = 0; i < enemyList.length; i++) {
-    enemies[i] = new Enemy(enemyList[i][0], enemyList[i][1], eval(enemyList[i][3]), enemyList[i][2], player, ctx, map,  );
+    sprites[i + spLength] = new Enemy(enemyList[i][0], enemyList[i][1], eval(enemyList[i][3]), enemyList[i][2], player, ctx, map,  );
   }
 }
 
-function removeEnemies() {
-  enemies = [];
-}
+// function drawEnemies() {
+//
+//   enemies.sort(function (obj1, obj2) {
+//     return obj2.distance - obj1.distance;
+//   });
+//
+//   for (let a = 0; a < enemies.length; a++) {
+//     enemies[a].draw();
+//   }
+// }
 
-function drawEnemies() {
-
-  if (!enemies.length) createEnemies(map.enemiesList);
-
-  enemies.sort(function (obj1, obj2) {
-    return obj2.distance - obj1.distance;
-  });
-
-  for (let a = 0; a < enemies.length; a++) {
-    enemies[a].draw();
-  }
-}
-
-export { drawEnemies, removeEnemies };
+export { createEnemies };

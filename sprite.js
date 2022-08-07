@@ -7,8 +7,6 @@ items.src = "./items.png";
 
 var half_FOV = toRadians(30);
 
-var sprites = [];
-
 class Sprite {
   constructor(x, y, image, frame, player, ctx) {
     this.x = x;
@@ -64,17 +62,13 @@ class Sprite {
   }
 }
 
-function createSprites(spriteList) {
+function createSprites(sprites, spriteList) {
   for (let i = 0; i < spriteList.length; i++) {
     sprites[i] = new Sprite(spriteList[i][0], spriteList[i][1], eval(spriteList[i][3]), spriteList[i][2], player, ctx);
   }
 }
 
-function removeSprites() {
-  sprites = [];
-}
-
-function drawSprites() {
+function drawSprites(sprites) {
   sprites.sort(function (obj1, obj2) {
     return obj2.distance - obj1.distance;
   });
@@ -83,4 +77,4 @@ function drawSprites() {
   }
 }
 
-export { createSprites, drawSprites, removeSprites, Sprite }
+export { createSprites, drawSprites, Sprite }
