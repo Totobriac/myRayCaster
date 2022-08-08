@@ -14,8 +14,11 @@ class Hud {
     this.ctx.fillRect(1196, 0, 4, 400);
     this.ctx.fillRect(900, 0, 300, 4);
     this.ctx.fillRect(900, 396, 300, 4);
+
+    this.ctx.font = "48px wolf";
+    this.ctx.fillStyle = "rgb(242, 242, 242)";
+    this.ctx.fillText('level 1', 10, 44);
   }
 }
-export {
-  Hud
-};
+
+export { Hud };
