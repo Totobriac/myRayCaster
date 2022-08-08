@@ -104,32 +104,40 @@ export class Map {
   draw() {
     this.ctx.save();
     this.ctx.translate(150,200);
-    this.ctx.rotate( 3* Math.PI / 2 - this.player.angle);
+    this.ctx.rotate( 3 * Math.PI / 2 - this.player.angle);
     for (let y = 0; y < this.mapY; y++) {
       for (let x = 0; x < this.mapX; x++) {
-
         var color;
         if (this.wall[y][x] == 8) {
-          this.sprites[y][x][0] === 2 ? color = "yellow" : color = "rgb(0,0,164)";
+          this.sprites[y][x][0] === 2 ? color = "yellow" : color = "rgb(0, 57, 230)";
         } else if (this.wall[y][x].length > 1 || this.wall[y][x] != 0 ) {
           color = "white";
         } else {
-          color = "rgb(0,0,164,0)";
+          color = "grey";
         }
         this.ctx.fillStyle = color;
-        var Xo = x * 10;
-        var Yo = y * 10;
-
-        var playerX = Math.floor(this.player.x / 64 * 10);
-        var playerY = Math.floor(this.player.y / 64 * 10);
-
-        this.ctx.fillRect(Xo - playerX, Yo - playerY, 10, 10);
+        var Xo = x * 8;
+        var Yo = y * 8;
+        var playerX = Math.floor(this.player.x / 64 * 8);
+        var playerY = Math.floor(this.player.y / 64 * 8);
+        this.ctx.fillRect(Xo - playerX, Yo - playerY, 8, 8);
       }
     }
     this.ctx.restore();
+    this.ctx.fillStyle = "rgb(0,0,164)";
+    this.ctx.fillRect(0, 0, 8, 400);
+    this.ctx.fillRect(292, 0, 8, 400);
+    this.ctx.fillRect(0, 0, 300, 8);
+    this.ctx.fillRect(0, 392, 300, 8);
+
+    this.ctx.fillStyle = "black";
+    this.ctx.fillRect(0, 0, 4, 400);
+    this.ctx.fillRect(296, 0, 4, 400);
+    this.ctx.fillRect(0, 0, 300, 4);
+    this.ctx.fillRect(0, 396, 300, 4);
 
     this.ctx.fillStyle = "red";
-    this.ctx.fillRect(150, 200, 10, 10);
+    this.ctx.fillRect(147, 197, 6, 6);
   }
   update() {
     for (let j = 0; j < this.sprites.length; j++) {

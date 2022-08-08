@@ -4,6 +4,7 @@ import { Map } from "./map.js";
 import { RayCaster } from "./rayCaster.js";
 import { createSprites, drawSprites } from "./sprite.js";
 import { createEnemies } from "./enemy.js";
+import { Hud } from "./hud.js";
 
 var floorData;
 var ceilData;
@@ -42,6 +43,7 @@ var map = new Map(ctx);
 var player = new Player(400, 800, map, ctx);
 var controls = new Controls(player, map);
 var rayCaster = new RayCaster(player, map, ctx);
+var hud = new Hud(ctx);
 
 Map.prototype.player = player;
 
@@ -51,9 +53,10 @@ createEnemies(sprites, map.enemiesList);
 function animate() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  ctx.fillStyle = "rgb(0,0,164)";
+  ctx.fillStyle = "rgb(0, 57, 230)";
   ctx.fillRect(0,0,canvas.width, canvas.height);
   map.draw();
+  hud.draw();
   map.update();
   rayCaster.draw();
   drawSprites(sprites);
