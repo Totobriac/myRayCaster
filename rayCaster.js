@@ -9,12 +9,12 @@ class RayCaster {
     this.player = player;
     this.map = map;
     this.ctx = ctx;
-    this.rayNb = canvas.width;
+    this.rayNb = canvas.width / 2;
     this.rays = [];
     this.incAngle = toRadians(this.player.FOV / this.rayNb);
     this.startAngle = toRadians(this.player.angle - this.player.FOV / 2);
     this.rayAngle = this.startAngle;
-    this.screenDist = Math.floor((canvas.width / 2) / Math.tan((30 * Math.PI) / 180));
+    this.screenDist = Math.floor((canvas.width / 4) / Math.tan((30 * Math.PI) / 180));
     this.init();
 
   }
@@ -35,7 +35,7 @@ class RayCaster {
   }
   draw() {
 
-    this.ctx.putImageData(floorSprite, 0, 0, 0, 0, 600, 399);
+    this.ctx.putImageData(floorSprite, 300, 0, 0, 0, 600, 399);
 
     for (let i = 0; i < 600; i++) {
       this.rays[i].cast(floorSprite);
