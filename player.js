@@ -5,8 +5,6 @@ export class Player {
     this.color = "yellow";
     this.x = x;
     this.y = y;
-    this.width = 4;
-    this.height = 4;
     this.map = map;
     this.ctx = ctx;
     this.angle = 0;
@@ -58,7 +56,5 @@ export class Player {
   }
   draw() {
     this.update();
-    // this.ctx.fillStyle = this.color;
-    // this.ctx.fillRect(this.x/ 10 + 10, this.y/10 + 10, this.width, this.height);
   }
 }

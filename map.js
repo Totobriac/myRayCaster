@@ -35,7 +35,7 @@ export class Map {
     this.sprites = [
       [[  0],     [0],     [0],     [0],     [0],     [0],     [0],     [0],     [0],     [0],     [0],     [0],     [0],     [0],     [0],     [0],     [0],     [0],     [0],     [0],     [0],     [0],     [0],     [0],     [0], [0]],
       [[  0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [0]],
-      [[888], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [0]],
+      [[  0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [0]],
       [[  0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [0]],
       [[  0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [0]],
       [[  0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [ 2, 0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [    0], [0]],
@@ -102,16 +102,34 @@ export class Map {
     this.enemiesList = [[800,800,0,"guard", true], [1100,800,0,"guard", false]];
   }
   draw() {
+    this.ctx.save();
+    this.ctx.translate(150,200);
+    this.ctx.rotate( 3* Math.PI / 2 - this.player.angle);
     for (let y = 0; y < this.mapY; y++) {
       for (let x = 0; x < this.mapX; x++) {
+
         var color;
-        this.grid[y][x] != 0 ? color = "black" : color = "white";
-        var Xo = x * this.mapS / 10;
-        var Yo = y * this.mapS / 10;
+        if (this.wall[y][x] == 8) {
+          this.sprites[y][x][0] === 2 ? color = "yellow" : color = "rgb(0,0,164)";
+        } else if (this.wall[y][x].length > 1 || this.wall[y][x] != 0 ) {
+          color = "white";
+        } else {
+          color = "rgb(0,0,164,0)";
+        }
         this.ctx.fillStyle = color;
-        this.ctx.fillRect(Xo + 10, Yo + 10, this.mapS / 10, this.mapS / 10)
+        var Xo = x * 10;
+        var Yo = y * 10;
+
+        var playerX = Math.floor(this.player.x / 64 * 10);
+        var playerY = Math.floor(this.player.y / 64 * 10);
+
+        this.ctx.fillRect(Xo - playerX, Yo - playerY, 10, 10);
       }
     }
+    this.ctx.restore();
+
+    this.ctx.fillStyle = "red";
+    this.ctx.fillRect(150, 200, 10, 10);
   }
   update() {
     for (let j = 0; j < this.sprites.length; j++) {

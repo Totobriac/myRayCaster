@@ -9,3 +9,8 @@ body {
   justify-content:center;
   padding-top: 50px;
 }
+
+@font-face {
+  font-family: "Wolf";
+  src: url("./fonts/wolfenstein.ttf");
+}
