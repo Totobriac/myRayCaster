@@ -102,6 +102,8 @@ class Enemy extends Sprite {
         break;
     }
 
+    if (this.distance < 256 && diff > 140 && diff < 220) this.alert();
+
     this.imageX = this.frame * 64;
 
     if (this.tickCount > this.maxTickCount) {
@@ -110,8 +112,10 @@ class Enemy extends Sprite {
     } else {
       this.tickCount ++;
     }
-
     !this.still ? this.imageY = this.yFrame * 64 : this.imageY = 0;
+  }
+  alert() {
+    this.still = false;
   }
 }
 
