@@ -5,6 +5,7 @@ import { RayCaster } from "./rayCaster.js";
 import { createSprites, drawSprites } from "./sprite.js";
 import { createEnemies } from "./enemy.js";
 import { Hud } from "./hud.js";
+import { drawPath } from "./pathFinder.js";
 
 var floorData;
 var ceilData;
@@ -13,6 +14,8 @@ var backData;
 var sprites = [];
 
 var wallsSprite = new Image();
+
+var path;
 
 wallsSprite.onload = function () {
   tempCtx.drawImage(wallsSprite, 0, 64, 64, 64, 0, 0, 64, 64);
@@ -61,6 +64,8 @@ function animate() {
   rayCaster.draw();
   drawSprites(sprites);
   player.update();
+
+  drawPath(ctx, player, map );
 
   requestAnimationFrame(animate);
 }
