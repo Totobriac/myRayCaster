@@ -1,19 +1,20 @@
 let cols = 26; //columns in the grid
 let rows = 20; //rows in the grid
 
-let grid = new Array(cols); //array of all the grid points
+let grid;
 
-let openSet = []; //array containing unevaluated grid points
-let closedSet = []; //array containing completely evaluated grid points
+let openSet = [];
+let closedSet = [];
 
-let start; //starting grid point
-let end; // ending grid point (goal)
+let start;
+let end;
 let path = [];
+
+var hasStarted = false;
 
 var pathToDraw = [];
 
-//heuristic we will be using - Manhattan distance
-//for other heuristics visit - https://theory.stanford.edu/~amitp/GameProgramming/Heuristics.html
+
 function heuristic(position0, position1) {
   let d1 = Math.abs(position1.x - position0.x);
   let d2 = Math.abs(position1.y - position0.y);
@@ -21,7 +22,7 @@ function heuristic(position0, position1) {
   return d1 + d2;
 }
 
-//constructor function to create all the grid points as objects containind the data for the points
+
 function GridPoint(x, y) {
 
   this.x = x; //x location of the grid point
@@ -32,7 +33,7 @@ function GridPoint(x, y) {
   this.neighbors = []; // neighbors of the current grid point
   this.parent = undefined; // immediate source of the current grid point
 
-  // update neighbors array for a given grid point
+
   this.updateNeighbors = function(grid) {
     let i = this.x;
     let j = this.y;
@@ -56,8 +57,23 @@ function init(map, player) {
   openSet = []; //array containing unevaluated grid points
   closedSet = []; //array containing completely evaluated grid points
   path = [];
-  grid = [];
-  //making a 2D array
+
+  var startX = Math.floor(player.x / 64);
+  var startY = Math.floor(player.y / 64);
+
+  var endX = Math.floor(map.enemiesList[1][0] / 64);
+  var endY = Math.floor(map.enemiesList[1][1] / 64);
+
+  end = grid[startX][startY];
+  start = grid[endX][endY];
+
+  openSet.push(start);
+}
+
+function populateGrid(map) {
+  hasStarted = true
+  grid = new Array(cols);
+
   for (let i = 0; i < cols; i++) {
     grid[i] = new Array(rows);
   }
@@ -68,24 +84,16 @@ function init(map, player) {
     }
   }
 
-
   for (let i = 0; i < cols; i++) {
     for (let j = 0; j < rows; j++) {
       grid[i][j].updateNeighbors(grid);
     }
   }
-
-  var startX = Math.floor(player.x / 64);
-  var startY = Math.floor(player.y / 64);
-  end = grid[startX][startY];
-  start = grid[10][12];
-
-  openSet.push(start);
 }
 
-//A star search implementation
 
 function search(map, player) {
+  if (!hasStarted ) populateGrid(map)
   init(map, player);
   while (openSet.length > 0) {
     //assumption lowest index is the first one to begin with
@@ -104,7 +112,6 @@ function search(map, player) {
         path.push(temp.parent);
         temp = temp.parent;
       }
-
       return path.reverse();
     }
 
@@ -139,6 +146,8 @@ function search(map, player) {
   return [];
 }
 
+
+
 function drawPath(ctx, player, map) {
 
   var playerX = Math.floor(player.x / 64 * 6);
@@ -149,7 +158,6 @@ function drawPath(ctx, player, map) {
   ctx.rotate(3 * Math.PI / 2 - player.angle);
 
   setInterval(update, 2000, map, player);
-
 
   pathToDraw.forEach((node, i) => {
     ctx.fillStyle = "green";

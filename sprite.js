@@ -5,6 +5,8 @@ import { player, ctx } from "./raycasting.js";
 var items = new Image();
 items.src = "./items.png";
 
+var spritesList;
+
 var half_FOV = toRadians(30);
 
 class Sprite {
@@ -67,9 +69,13 @@ function createSprites(sprites, spriteList) {
   for (let i = 0; i < spriteList.length; i++) {
     sprites[i] = new Sprite(spriteList[i][0], spriteList[i][1], eval(spriteList[i][3]), spriteList[i][2], player, spriteList[i][3], ctx);
   }
+
+
 }
 
 function drawSprites(sprites) {
+  spritesList = [...sprites];
+  console.log(sprites, spritesList);
   sprites.sort(function (obj1, obj2) {
     return obj2.distance - obj1.distance;
   });
