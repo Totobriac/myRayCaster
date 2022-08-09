@@ -5,7 +5,7 @@ import { RayCaster } from "./rayCaster.js";
 import { createSprites, drawSprites } from "./sprite.js";
 import { createEnemies } from "./enemy.js";
 import { Hud } from "./hud.js";
-import { drawPath } from "./pathFinder.js";
+
 
 var floorData;
 var ceilData;
@@ -63,9 +63,7 @@ function animate() {
   map.update();
   rayCaster.draw();
   drawSprites(sprites);
-  player.update();
-
-  drawPath(ctx, player, map );
+  player.update();  
 
   requestAnimationFrame(animate);
 }

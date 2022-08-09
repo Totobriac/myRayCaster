@@ -74,8 +74,6 @@ function createSprites(sprites, spriteList) {
 }
 
 function drawSprites(sprites) {
-  spritesList = [...sprites];
-  console.log(sprites, spritesList);
   sprites.sort(function (obj1, obj2) {
     return obj2.distance - obj1.distance;
   });

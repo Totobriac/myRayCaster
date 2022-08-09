@@ -1,6 +1,6 @@
 import { Sprite } from "./sprite.js";
 import { player, ctx, map } from "./raycasting.js";
-import { normalizeAngle } from "./functions.js";
+import { getPath } from "./pathFinder.js";
 
 var guard = new Image();
 guard.src = "./guard.png";
@@ -11,6 +11,7 @@ class Enemy extends Sprite {
     this.level = map;
     this.angle = 0;
     this.tickCount = 0;
+    this.pathTickount = 0;
     this.maxTickCount = 12;
     this.isInRange = false;
     this.isShot = false;
@@ -18,6 +19,7 @@ class Enemy extends Sprite {
     this.speed = 3;
     this.yFrame = 1;
     this.path = 0;
+    this.alerted = false;
     this.setMaxPath();
   }
   draw() {
@@ -33,8 +35,8 @@ class Enemy extends Sprite {
     var Yoffset;
     this.angle < 90 || this.angle > 270 ? Xoffset = 32 : Xoffset = -32;
     this.angle < 180 ? Yoffset = 32 : Yoffset = -32;
-    var xGridNb = Math.floor((x + Xoffset)/ this.level.mapS);
-    var yGridNb = Math.floor((y + Yoffset)/ this.level.mapS);
+    var xGridNb = Math.floor((x + Xoffset) / this.level.mapS);
+    var yGridNb = Math.floor((y + Yoffset) / this.level.mapS);
     if (this.level.checkPlayerCollision(yGridNb, xGridNb)) {
       collision = true;
     };
@@ -43,13 +45,13 @@ class Enemy extends Sprite {
   update() {
 
     if (!this.still) {
-      var newX = this.x + Math.cos(this.angle * Math.PI /180) * this.speed;
-      var newY = this.y + Math.sin(this.angle * Math.PI /180) * this.speed;
+      var newX = this.x + Math.cos(this.angle * Math.PI / 180) * this.speed;
+      var newY = this.y + Math.sin(this.angle * Math.PI / 180) * this.speed;
 
       if (!this.checkForCollision(newX, newY) && this.path < this.maxPath) {
         this.x = newX;
         this.y = newY;
-        this.path ++;
+        this.path++;
       } else {
         this.angle += 90;
         if (this.angle < 0) this.angle += 360;
@@ -59,15 +61,17 @@ class Enemy extends Sprite {
       }
     }
 
+    if (this.alerted) this.findPath();
+
     var X = this.x - this.player.x;
     var Y = this.y - this.player.y;
 
-    var p = 360 - ( Math.atan2(Y, X) * 180/ Math.PI);
+    var p = 360 - (Math.atan2(Y, X) * 180 / Math.PI);
 
     if (p < 0) p += 360;
     if (p > 360) p -= 360;
 
-    var diff = (this.player.angle * 180 / Math.PI)  - this.angle;
+    var diff = (this.player.angle * 180 / Math.PI) - this.angle;
 
     if (diff < 0) diff += 360;
     if (diff > 360) diff -= 360;
@@ -102,27 +106,36 @@ class Enemy extends Sprite {
         break;
     }
 
-    if (this.distance < 256 && diff > 140 && diff < 220) this.alert();
+    if (this.distance < 256 && diff > 140 && diff < 220 && !this.alerted) this.alert();
 
     this.imageX = this.frame * 64;
 
     if (this.tickCount > this.maxTickCount) {
-      this.yFrame < 4 ? this.yFrame ++ : this.yFrame = 1;
+      this.yFrame < 4 ? this.yFrame++ : this.yFrame = 1;
       this.tickCount = 0;
     } else {
-      this.tickCount ++;
+      this.tickCount++;
     }
     !this.still ? this.imageY = this.yFrame * 64 : this.imageY = 0;
   }
   alert() {
     this.still = false;
+    this.alerted = true;    
+  }
+  findPath() {    
+    if (this.pathTickount > this.maxTickCount * 10) {
+      this.pathTickount = 0;
+      getPath(this.ctx, this.player, this.level, this.x, this.y);
+    } else {
+      this.pathTickount ++;
+    }    
   }
 }
 
 function createEnemies(sprites, enemyList) {
   let spLength = sprites.length;
   for (let i = 0; i < enemyList.length; i++) {
-    sprites[i + spLength] = new Enemy(enemyList[i][0], enemyList[i][1], eval(enemyList[i][3]), enemyList[i][2], player, enemyList[i][4], ctx, map );
+    sprites[i + spLength] = new Enemy(enemyList[i][0], enemyList[i][1], eval(enemyList[i][3]), enemyList[i][2], player, enemyList[i][4], ctx, map);
   }
 }
 
