@@ -80,7 +80,7 @@ function init(map, player, nmeX, nmeY) {
 
 function search(map, player, nmeX, nmeY) {
 
-  if (!hasStarted) populateGrid(map)
+  populateGrid(map)
 
   init(map, player, nmeX, nmeY);
 
