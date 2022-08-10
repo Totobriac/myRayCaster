@@ -5,6 +5,8 @@ import { getPath } from "./pathFinder.js";
 var guard = new Image();
 guard.src = "./guard.png";
 
+var path = [];
+
 class Enemy extends Sprite {
   constructor(x, y, image, frame, player, still, ctx, map) {
     super(x, y, image, frame, player, still, ctx);
@@ -16,7 +18,7 @@ class Enemy extends Sprite {
     this.isInRange = false;
     this.isShot = false;
     this.life = 5;
-    this.speed = 3;
+    this.speed = 1;
     this.yFrame = 1;
     this.path = 0;
     this.alerted = false;
@@ -44,6 +46,9 @@ class Enemy extends Sprite {
   }
   update() {
 
+    this.playXGrid = Math.floor(this.player.x / 64);
+    this.playYGrid = Math.floor(this.player.y / 64);
+
     if (!this.still) {
       var newX = this.x + Math.cos(this.angle * Math.PI / 180) * this.speed;
       var newY = this.y + Math.sin(this.angle * Math.PI / 180) * this.speed;
@@ -61,7 +66,16 @@ class Enemy extends Sprite {
       }
     }
 
-    if (this.alerted) this.findPath();
+    if (this.alerted) {
+      this.findPath();
+      var newX = this.x + Math.cos(this.angle * Math.PI / 180) * this.speed;
+      var newY = this.y + Math.sin(this.angle * Math.PI / 180) * this.speed;
+
+      if (!this.checkForCollision(newX, newY)) {
+        this.x = newX;
+        this.y = newY;
+      }
+    }
 
     var X = this.x - this.player.x;
     var Y = this.y - this.player.y;
@@ -119,15 +133,34 @@ class Enemy extends Sprite {
     !this.still ? this.imageY = this.yFrame * 64 : this.imageY = 0;
   }
   alert() {
-    this.still = false;
-    this.alerted = true;
+    this.alerted = true;    
   }
   findPath() {
     if (this.pathTickount > this.maxTickCount * 1) {
       this.pathTickount = 0;
-      getPath(this.ctx, this.player, this.level, this.x, this.y);
+      path = getPath(this.ctx, this.player, this.level, this.x, this.y);
     } else {
-      this.pathTickount ++;
+      this.pathTickount++;
+    }
+    if (path.length > 0) {
+      var xDif = this.playXGrid - path[0].x;
+      var yDif = this.playYGrid - path[0].y;
+
+      switch (true) {
+        case xDif > 0:
+        this.angle = 0;
+          break;
+        case xDif < 0:
+        this.angle = 180;
+          break;
+        case yDif > 0:
+        this.angle = 90;
+          break;
+        case yDif < 0:
+        this.angle = 270;
+          break;
+      }
+
     }
   }
 }
