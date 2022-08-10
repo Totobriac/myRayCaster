@@ -81,7 +81,7 @@ class Enemy extends Sprite {
         this.frame = 4
         break;
       case diff > 18 && diff < 67.5:
-        this.frame = 3
+        this.frame = 5
         break;
       case diff > 67.5 && diff < 112.5:
         this.frame = 2
@@ -99,7 +99,7 @@ class Enemy extends Sprite {
         this.frame = 6
         break;
       case diff > 292.5 && diff < 337.5:
-        this.frame = 5
+        this.frame = 3
         break;
       case diff > 342:
         this.frame = 4
@@ -120,15 +120,15 @@ class Enemy extends Sprite {
   }
   alert() {
     this.still = false;
-    this.alerted = true;    
+    this.alerted = true;
   }
-  findPath() {    
+  findPath() {
     if (this.pathTickount > this.maxTickCount * 10) {
       this.pathTickount = 0;
       getPath(this.ctx, this.player, this.level, this.x, this.y);
     } else {
       this.pathTickount ++;
-    }    
+    }
   }
 }
 
