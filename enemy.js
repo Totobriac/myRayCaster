@@ -3,7 +3,7 @@ import { player, ctx, map } from "./raycasting.js";
 import { getPath } from "./pathFinder.js";
 
 var guard = new Image();
-guard.src = "./guard.png";
+guard.src = "./assets/guard.png";
 
 
 class Enemy extends Sprite {

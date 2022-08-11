@@ -3,7 +3,7 @@ import { zBuffer } from "./ray.js";
 import { player, ctx } from "./raycasting.js";
 
 var items = new Image();
-items.src = "./items.png";
+items.src = "./assets/items.png";
 
 class Sprite {
   constructor(x, y, image, frame, player, still, ctx) {
@@ -71,8 +71,7 @@ function drawSprites(sprites) {
   sprites.sort(function (obj1, obj2) {
     return obj2.distance - obj1.distance;
   });
-  for (let i = 0; i < sprites.length; i++) {
-    console.log(sprites[1].distance);
+  for (let i = 0; i < sprites.length; i++) {   
     sprites[i].draw();
   }
 }

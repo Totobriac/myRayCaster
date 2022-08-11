@@ -5,7 +5,7 @@ import { RayCaster } from "./rayCaster.js";
 import { createSprites, drawSprites } from "./sprite.js";
 import { createEnemies } from "./enemy.js";
 import { Hud } from "./hud.js";
-
+import { Weapon } from "./weapons.js";
 
 var floorData;
 var ceilData;
@@ -15,8 +15,6 @@ var sprites = [];
 
 var wallsSprite = new Image();
 
-var path;
-
 wallsSprite.onload = function () {
   tempCtx.drawImage(wallsSprite, 0, 64, 64, 64, 0, 0, 64, 64);
   floorData = tempCtx.getImageData(0, 0, 64, 64);
@@ -25,7 +23,7 @@ wallsSprite.onload = function () {
   ceilData = tempCtx.getImageData(0, 0, 64, 64);
 }
 
-wallsSprite.src = "./walls.png";
+wallsSprite.src = "./assets/walls.png";
 
 var canvas = document.getElementById('canvas');
 var ctx = canvas.getContext('2d');
@@ -47,6 +45,7 @@ var player = new Player(400, 800, map, ctx);
 var controls = new Controls(player, map);
 var rayCaster = new RayCaster(player, map, ctx);
 var hud = new Hud(ctx);
+var weapon = new Weapon(ctx, player);
 
 Map.prototype.player = player;
 
@@ -64,6 +63,7 @@ function animate() {
   rayCaster.draw();
   drawSprites(sprites);
   player.update();
+  weapon.draw();
 
   requestAnimationFrame(animate);
 }

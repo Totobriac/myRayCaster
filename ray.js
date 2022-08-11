@@ -2,7 +2,7 @@ import { distance, normalizeAngle } from "./functions.js";
 import { floorData, ceilData } from "./raycasting.js";
 
 var wallsSprite = new Image();
-wallsSprite.src = "./walls.png";
+wallsSprite.src = "./assets/walls.png";
 
 var zBuffer = [];
 

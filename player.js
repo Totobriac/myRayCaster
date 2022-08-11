@@ -14,12 +14,15 @@ export class Player {
     this.rotationSpeed = 3 * (Math.PI / 180);
     this.isColliding = false;
     this.FOV = 60;
+    this.isMoving = false;
   }
   up() {
     this.moveForward = 1;
+    this.isMoving = true;
   }
   down() {
     this.moveForward = -1;
+    this.isMoving = true;
   }
   right() {
     this.rotate = 1;
@@ -29,6 +32,7 @@ export class Player {
   }
   stopMove() {
     this.moveForward = 0;
+    this.isMoving = false;
   }
   stopTurn() {
     this.rotate = 0;

@@ -1,5 +1,3 @@
-import { distance } from "./functions.js";
-
 export class Map {
   constructor(ctx) {
     this.ctx = ctx;
