@@ -6,7 +6,6 @@ var guard = new Image();
 guard.src = "./guard.png";
 
 
-
 class Enemy extends Sprite {
   constructor(x, y, image, frame, player, still, ctx, map) {
     super(x, y, image, frame, player, still, ctx);
@@ -18,16 +17,18 @@ class Enemy extends Sprite {
     this.isInRange = false;
     this.isShot = false;
     this.life = 5;
-    this.speed = 1;
-    this.yFrame = 1;
+    this.speed = Math.floor(Math.random() * 2) + 1;
+    this.yFrame = Math.floor(Math.random() * 4);
+    this.xFrame = 0;
     this.guardPath = 0;
     this.alerted = false;
     this.setMaxPath();
     this.path = [];
+    this.isFiring;    
   }
   draw() {
     this.update();
-
+   
     var playerX = Math.floor(this.player.x / 64 * 6);
     var playerY = Math.floor(this.player.y / 64 * 6);
 
@@ -60,7 +61,7 @@ class Enemy extends Sprite {
     return collision;
   }
   update() {
-
+    
     this.playXGrid = Math.floor(this.player.x / 64);
     this.playYGrid = Math.floor(this.player.y / 64);
 
@@ -80,11 +81,12 @@ class Enemy extends Sprite {
         this.setMaxPath();
       }
     }
-
+    
     if (this.alerted) {
       this.findPath();
 
       if (this.path.length > 2) {
+        this.isFiring = false;
         if (this.path[0].x < this.path[1].x) {
           this.x += this.speed;
           this.angle = 0;
@@ -100,8 +102,9 @@ class Enemy extends Sprite {
           this.y -= this.speed;
           this.angle = 270;
         }
+      } else {
+        this.isFiring = true;        
       }
-
     }
 
     var X = this.x - this.player.x;
@@ -146,9 +149,9 @@ class Enemy extends Sprite {
         this.frame = 4
         break;
     }
-
-    if (this.distance < 256 && diff > 140 && diff < 220 && !this.alerted) this.alert();
-
+    
+    if (this.distance && this.distance < 200 ) this.alert();
+    
     this.imageX = this.frame * 64;
 
     if (this.tickCount > this.maxTickCount) {
@@ -157,9 +160,22 @@ class Enemy extends Sprite {
     } else {
       this.tickCount++;
     }
-    !this.still || this.alerted ? this.imageY = this.yFrame * 64 : this.imageY = 0;
+
+    if ( (!this.still || this.alerted)  && !this.isFiring) {
+      this.imageY = this.yFrame * 64;
+      this.xFrame = 0;
+    } else if (this.isFiring) {
+      this.imageY = 6 * 64;
+      this.imageX = this.xFrame * 64;      
+      if (this.tickCount > this.maxTickCount) {
+        this.xFrame < 2 ? this.xFrame ++ : this.xFrame = 1;
+        this.tickCount = 0;
+      } 
+    } else {
+      this.imageY = 0;
+    }   
   }
-  alert() {
+  alert() {  
     this.alerted = true;
   }
   findPath() {

@@ -45,22 +45,22 @@ class GridPoint {
       this.neighbors.push(grid[i][j - 1]);
     }
 
-    if (i > 0 && j > 0) {
-      this.neighbors.push(grid[i - 1][j - 1]);
-      this.diagonal = true;
-    }
-    if (i < cols - 1 && j > 0) {
-      this.neighbors.push(grid[i + 1][j - 1]);
-      this.diagonal = true;   
-    }    
-    if (i > 0 && j < rows - 1) {
-      this.neighbors.push(grid[i - 1][j + 1]);
-      this.diagonal = true;
-    }
-    if (i < cols - 1 && j < cols - 1) {
-      this.neighbors.push(grid[i + 1][j + 1]);
-      this.diagonal = true;  
-    }
+    // if (i > 0 && j > 0) {
+    //   this.neighbors.push(grid[i - 1][j - 1]);
+    //   this.diagonal = true;
+    // }
+    // if (i < cols - 1 && j > 0) {
+    //   this.neighbors.push(grid[i + 1][j - 1]);
+    //   this.diagonal = true;   
+    // }    
+    // if (i > 0 && j < rows - 1) {
+    //   this.neighbors.push(grid[i - 1][j + 1]);
+    //   this.diagonal = true;
+    // }
+    // if (i < cols - 1 && j < cols - 1) {
+    //   this.neighbors.push(grid[i + 1][j + 1]);
+    //   this.diagonal = true;  
+    // }
 
     return this.neighbors;
   };
@@ -121,9 +121,9 @@ function search(map, player, nmeX, nmeY) {
       let neighbor = neighbors[i];
 
       if (!closedSet.includes(neighbor) && map.wall[neighbor.y][neighbor.x] == 0) {
-        let possibleG;
+        let possibleG ;
         
-        neighbor.diagonal ? possibleG = current.g + 1.4 : possibleG = current.g + 1;
+        neighbor.diagonal ? possibleG = current.g + 1.2 : possibleG = current.g + 1;
         if (!openSet.includes(neighbor)) {
           openSet.push(neighbor);
         } else if (possibleG >= neighbor.g) {

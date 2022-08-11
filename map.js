@@ -122,10 +122,7 @@ export class Map {
       [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
     ];
     this.spritesList = [[900,800,8,"items", false]];
-    this.enemiesList = [[800,800,0,"guard", true], [790,190,0,"guard", true],
-                        [80,80,0,"guard", true], [90,190,0,"guard", true],
-                        [180,80,0,"guard", true], [290,190,0,"guard", true],
-                        [80,800,0,"guard", true], [70,190,0,"guard", true],
+    this.enemiesList = [[800,800,0,"guard", true], [790,190,0,"guard", true],                       
                         [800,80,0,"guard", true], [90,100,0,"guard", true]]
    
   }
