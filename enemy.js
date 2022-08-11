@@ -18,7 +18,7 @@ class Enemy extends Sprite {
     this.isInRange = false;
     this.isShot = false;
     this.life = 5;
-    this.speed = 0;
+    this.speed = 1;
     this.yFrame = 1;
     this.guardPath = 0;
     this.alerted = false;
@@ -86,18 +86,18 @@ class Enemy extends Sprite {
 
       if (this.path.length > 2) {
         if (this.path[0].x < this.path[1].x) {
-          this.x += 3;
+          this.x += this.speed;
           this.angle = 0;
         } else if (this.path[0].x > this.path[1].x) {
-          this.x -= 3;
+          this.x -= this.speed;
           this.angle = 180;
         }
 
         if (this.path[0].y < this.path[1].y) {
-          this.y += 3;
+          this.y += this.speed;
           this.angle = 90;
         } else if (this.path[0].y > this.path[1].y) {
-          this.y -= 3;
+          this.y -= this.speed;
           this.angle = 270;
         }
       }

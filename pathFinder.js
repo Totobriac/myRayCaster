@@ -10,21 +10,9 @@ let end;
 let path = [];
 var pathToDraw = [];
 
-function getPath(ctx, player, map, nmeX, nmeY) {
-
-  // var playerX = Math.floor(player.x / 64 * 6);
-  // var playerY = Math.floor(player.y / 64 * 6);
-  // ctx.save();
-  // ctx.translate(150, 200);
-  // ctx.rotate(3 * Math.PI / 2 - player.angle);
+function getPath(ctx, player, map, nmeX, nmeY) {  
 
   pathToDraw = search(map, player, nmeX, nmeY);
-  
-  // pathToDraw.forEach((node, i) => {
-  //   ctx.fillStyle = "green";
-  //   ctx.fillRect(node.x * 6 - playerX, node.y * 6 - playerY, 6, 6);
-  // });
-  // ctx.restore();
 
   return pathToDraw;
 }
@@ -35,14 +23,15 @@ class GridPoint {
     this.y = y;
     this.f = 0;
     this.g = 0;
-    this.h = 0;
-    //this.neighbors = [];
+    this.h = 0;   
     this.parent = undefined;
+    this.diagonal = false;
   }
   updateNeighbors(grid) {
     let i = this.x;
     let j = this.y;
     this.neighbors = [];
+
     if (i < cols - 1) {
       this.neighbors.push(grid[i + 1][j]);
     }
@@ -55,6 +44,24 @@ class GridPoint {
     if (j > 0) {
       this.neighbors.push(grid[i][j - 1]);
     }
+
+    if (i > 0 && j > 0) {
+      this.neighbors.push(grid[i - 1][j - 1]);
+      this.diagonal = true;
+    }
+    if (i < cols - 1 && j > 0) {
+      this.neighbors.push(grid[i + 1][j - 1]);
+      this.diagonal = true;   
+    }    
+    if (i > 0 && j < rows - 1) {
+      this.neighbors.push(grid[i - 1][j + 1]);
+      this.diagonal = true;
+    }
+    if (i < cols - 1 && j < cols - 1) {
+      this.neighbors.push(grid[i + 1][j + 1]);
+      this.diagonal = true;  
+    }
+
     return this.neighbors;
   };
 }
@@ -109,13 +116,14 @@ function search(map, player, nmeX, nmeY) {
     closedSet.push(current);
     
     let neighbors = current.updateNeighbors(grid);
-
+    
     for (let i = 0; i < neighbors.length; i++) {
       let neighbor = neighbors[i];
 
       if (!closedSet.includes(neighbor) && map.wall[neighbor.y][neighbor.x] == 0) {
-        let possibleG = current.g + 1;
-
+        let possibleG;
+        
+        neighbor.diagonal ? possibleG = current.g + 1.4 : possibleG = current.g + 1;
         if (!openSet.includes(neighbor)) {
           openSet.push(neighbor);
         } else if (possibleG >= neighbor.g) {
