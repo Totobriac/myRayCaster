@@ -12,19 +12,19 @@ var pathToDraw = [];
 
 function getPath(ctx, player, map, nmeX, nmeY) {
 
-  var playerX = Math.floor(player.x / 64 * 6);
-  var playerY = Math.floor(player.y / 64 * 6);
-  ctx.save();
-  ctx.translate(150, 200);
-  ctx.rotate(3 * Math.PI / 2 - player.angle);
+  // var playerX = Math.floor(player.x / 64 * 6);
+  // var playerY = Math.floor(player.y / 64 * 6);
+  // ctx.save();
+  // ctx.translate(150, 200);
+  // ctx.rotate(3 * Math.PI / 2 - player.angle);
 
   pathToDraw = search(map, player, nmeX, nmeY);
   
-  pathToDraw.forEach((node, i) => {
-    ctx.fillStyle = "green";
-    ctx.fillRect(node.x * 6 - playerX, node.y * 6 - playerY, 6, 6);
-  });
-  ctx.restore();
+  // pathToDraw.forEach((node, i) => {
+  //   ctx.fillStyle = "green";
+  //   ctx.fillRect(node.x * 6 - playerX, node.y * 6 - playerY, 6, 6);
+  // });
+  // ctx.restore();
 
   return pathToDraw;
 }

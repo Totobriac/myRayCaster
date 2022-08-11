@@ -5,27 +5,42 @@ import { getPath } from "./pathFinder.js";
 var guard = new Image();
 guard.src = "./guard.png";
 
-var path = [];
+
 
 class Enemy extends Sprite {
   constructor(x, y, image, frame, player, still, ctx, map) {
     super(x, y, image, frame, player, still, ctx);
     this.level = map;
-    this.angle = 0;
+    this.angle = 180;
     this.tickCount = 0;
-    this.pathTickount = 0;
+    this.guardPathTickount = 0;
     this.maxTickCount = 12;
     this.isInRange = false;
     this.isShot = false;
     this.life = 5;
-    this.speed = 1;
+    this.speed = 0;
     this.yFrame = 1;
-    this.path = 0;
+    this.guardPath = 0;
     this.alerted = false;
     this.setMaxPath();
+    this.path = [];
   }
   draw() {
     this.update();
+
+    var playerX = Math.floor(this.player.x / 64 * 6);
+    var playerY = Math.floor(this.player.y / 64 * 6);
+
+    var X = Math.floor(this.x / 64);
+    var Y = Math.floor(this.y / 64);
+
+    ctx.save();
+    ctx.translate(150, 200);
+    ctx.rotate(3 * Math.PI / 2 - this.player.angle);
+
+    ctx.fillStyle = "red";
+    ctx.fillRect( X * 6 - playerX, Y * 6 - playerY, 4, 4);
+    ctx.restore();
     super.draw();
   }
   setMaxPath() {
@@ -53,28 +68,40 @@ class Enemy extends Sprite {
       var newX = this.x + Math.cos(this.angle * Math.PI / 180) * this.speed;
       var newY = this.y + Math.sin(this.angle * Math.PI / 180) * this.speed;
 
-      if (!this.checkForCollision(newX, newY) && this.path < this.maxPath) {
+      if (!this.checkForCollision(newX, newY) && this.guardPath < this.maxPath) {
         this.x = newX;
         this.y = newY;
-        this.path++;
+        this.guardPath++;
       } else {
         this.angle += 90;
         if (this.angle < 0) this.angle += 360;
         if (this.angle > 360) this.angle -= 360;
-        this.path = 0;
+        this.guardPath = 0;
         this.setMaxPath();
       }
     }
 
     if (this.alerted) {
       this.findPath();
-      var newX = this.x + Math.cos(this.angle * Math.PI / 180) * this.speed;
-      var newY = this.y + Math.sin(this.angle * Math.PI / 180) * this.speed;
 
-      if (!this.checkForCollision(newX, newY)) {
-        this.x = newX;
-        this.y = newY;
+      if (this.path.length > 2) {
+        if (this.path[0].x < this.path[1].x) {
+          this.x += 3;
+          this.angle = 0;
+        } else if (this.path[0].x > this.path[1].x) {
+          this.x -= 3;
+          this.angle = 180;
+        }
+
+        if (this.path[0].y < this.path[1].y) {
+          this.y += 3;
+          this.angle = 90;
+        } else if (this.path[0].y > this.path[1].y) {
+          this.y -= 3;
+          this.angle = 270;
+        }
       }
+
     }
 
     var X = this.x - this.player.x;
@@ -130,37 +157,17 @@ class Enemy extends Sprite {
     } else {
       this.tickCount++;
     }
-    !this.still ? this.imageY = this.yFrame * 64 : this.imageY = 0;
+    !this.still || this.alerted ? this.imageY = this.yFrame * 64 : this.imageY = 0;
   }
   alert() {
-    this.alerted = true;    
+    this.alerted = true;
   }
   findPath() {
-    if (this.pathTickount > this.maxTickCount * 1) {
-      this.pathTickount = 0;
-      path = getPath(this.ctx, this.player, this.level, this.x, this.y);
+    if (this.guardPathTickount > this.maxTickCount * 1) {
+      this.guardPathTickount = 0;
+      this.path = getPath(this.ctx, this.player, this.level, this.x, this.y);
     } else {
-      this.pathTickount++;
-    }
-    if (path.length > 0) {
-      var xDif = this.playXGrid - path[0].x;
-      var yDif = this.playYGrid - path[0].y;
-
-      switch (true) {
-        case xDif > 0:
-        this.angle = 0;
-          break;
-        case xDif < 0:
-        this.angle = 180;
-          break;
-        case yDif > 0:
-        this.angle = 90;
-          break;
-        case yDif < 0:
-        this.angle = 270;
-          break;
-      }
-
+      this.guardPathTickount++;
     }
   }
 }
