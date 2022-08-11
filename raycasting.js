@@ -55,7 +55,8 @@ createEnemies(sprites, map.enemiesList);
 function animate() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  ctx.fillStyle = "rgb(0, 57, 230)";
+  //ctx.fillStyle = "rgb(0, 57, 230)";
+  ctx.fillStyle = "rgb(153, 102, 51)";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
   map.draw();
   hud.draw();

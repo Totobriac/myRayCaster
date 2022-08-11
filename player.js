@@ -15,6 +15,7 @@ export class Player {
     this.isColliding = false;
     this.FOV = 60;
     this.isMoving = false;
+    this.isShooting;
   }
   up() {
     this.moveForward = 1;
@@ -60,5 +61,11 @@ export class Player {
   }
   draw() {
     this.update();
+  }
+  shoot() {
+    this.isShooting = true;
+  }
+  stopShoot() {
+    this.isShooting = false;
   }
 }

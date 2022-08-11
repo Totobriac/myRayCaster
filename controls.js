@@ -1,32 +1,35 @@
 export class Controls {
   constructor(player, map) {
-    document.addEventListener('keydown', function(e) {
-      switch (e.keyCode) {
-        case 38:
+    document.addEventListener('keydown', function(e) {     
+      switch (e.key) {
+        case "ArrowUp":
           player.up();
           break;
-        case 40:
+        case "ArrowDown":
           player.down();
           break;
-        case 39:
+        case "ArrowRight":
           player.right();
           break;
-        case 37:
+        case "ArrowLeft":
           player.left();
           break;
-        case 32:
+        case " ":
           map.detectDoor();
+          break;
+        case "f":
+          player.shoot();
           break;
       }
     });
     document.addEventListener('keyup', function(e) {
-      switch (e.keyCode) {
-        case 38:
-        case 40:
+      switch (e.key) {
+        case "ArrowUp":
+        case "ArrowDown":
           player.stopMove();
           break;
-        case 39:
-        case 37:
+        case "ArrowRight":
+        case "ArrowLeft":
           player.stopTurn();
           break;
       }
