@@ -57,17 +57,17 @@ function animate() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   ctx.fillStyle = "rgb(0, 57, 230)";
-  ctx.fillRect(0,0,canvas.width, canvas.height);
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
   map.draw();
   hud.draw();
   map.update();
   rayCaster.draw();
   drawSprites(sprites);
-  player.update();  
+  player.update();
 
   requestAnimationFrame(animate);
 }
 
 animate();
 
-export { floorData, ceilData, backData, player, ctx, map};
+export { floorData, ceilData, backData, player, ctx, map };
