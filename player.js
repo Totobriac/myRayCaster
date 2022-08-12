@@ -18,6 +18,7 @@ export class Player {
     this.isShooting;
     this.speedTick = 0;
     this.maxTickCount = 4;
+    this.weapon = 0;
   }
   up() {
     this.moveForward = 1;
@@ -55,6 +56,9 @@ export class Player {
     this.speed -= 1;
     if (this.speed < 1) this.speed = 1;
   }
+  chooseWeapon(nb) {
+    this.weapon = nb;
+  }
   checkForCollision(x, y) {
     var collision = false;
     var xGridNb = Math.floor(x / this.map.mapS);
@@ -70,7 +74,7 @@ export class Player {
 
     this.angle += this.rotate * this.rotationSpeed;
     this.angle = normalizeAngle(this.angle);
-  
+
     if (!this.checkForCollision(newX, newY)) {
       this.x = newX;
       this.y = newY;
@@ -81,7 +85,8 @@ export class Player {
   draw() {
     this.update();
   }
-  shoot() {
+  shoot(nb) {
+    console.log(nb);
     this.isShooting = true;
   }
   stopShoot() {

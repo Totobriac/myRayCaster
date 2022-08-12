@@ -1,6 +1,6 @@
 export class Controls {
   constructor(player, map) {
-    document.addEventListener('keydown', function(e) {     
+    document.addEventListener('keydown', function(e) {
       switch (e.key) {
         case "ArrowUp":
           player.up();
@@ -19,6 +19,18 @@ export class Controls {
           break;
         case "f":
           player.shoot();
+          break;
+        case "0":
+          player.chooseWeapon(0);
+          break;
+        case "1":
+          player.chooseWeapon(1);
+          break;
+        case "2":
+          player.chooseWeapon(2);
+          break;
+        case "3":
+          player.chooseWeapon(3);
           break;
       }
     });

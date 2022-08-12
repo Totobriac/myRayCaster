@@ -24,7 +24,7 @@ class Weapon {
     if (this.player.isShooting) {
       this.shoot(sprites);
     }
-    this.ctx.drawImage(pistolSprite, 64 * this.xFrame, 0, 64, 64, 440, 84 + this.yMove * 4, 320, 320);
+    this.ctx.drawImage(pistolSprite, 64 * this.xFrame, this.player.weapon * 64, 64, 64, 440, 84 + this.yMove * 4, 320, 320);
   }
   shoot(sprites) {
     this.gunTickCount++;

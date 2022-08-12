@@ -7,6 +7,9 @@ tableTop.src = "./assets/tableTop.png";
 var metalTop = new Image();
 metalTop.src = "./assets/metalTop2.png";
 
+var weaponIcon = new Image();
+weaponIcon.src = "./assets/weaponHud.png";
+
 class Hud {
   constructor(ctx, player, map) {
     this.ctx = ctx;
@@ -101,6 +104,8 @@ class Hud {
     this.ctx.lineTo(0, -46);
     this.ctx.stroke();
     this.ctx.restore();
+
+    this.ctx.drawImage(weaponIcon, this.player.weapon * 48, 0, 48, 24, 978, 290, 144,72)
   }
 }
 
