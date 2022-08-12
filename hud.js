@@ -90,7 +90,7 @@ class Hud {
     this.ctx.fillRect(900, 396, 300, 4);
   }
   drawSoundMeter() {
-    if (this.soundAngle < 410) this.soundAngle += 0.4;
+    this.soundAngle < Math.floor( 310 + this.player.speed * 20 - 20) ? this.soundAngle += 0.5 : this.soundAngle -= 2;
     var angle;
     this.soundAngle > 360 ? angle = this.soundAngle - 360 : angle = this.soundAngle;
     this.ctx.save();
