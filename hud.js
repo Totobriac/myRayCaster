@@ -82,7 +82,8 @@ class Hud {
     this.ctx.fillRect(900, 396, 300, 4);    
   }
   drawSoundMeter() {
-    
+    this.soundAngle += 0.4;
+    this.soundAngle > 360 ? this.soundAngle -= 360 : console.log("ee");
     this.ctx.save();
     this.ctx.translate(1050, 86);
     this.ctx.rotate(this.soundAngle * Math.PI / 180);
