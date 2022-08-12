@@ -10,7 +10,7 @@ let end;
 let path = [];
 var pathToDraw = [];
 
-function getPath(ctx, player, map, nmeX, nmeY) {  
+function getPath(ctx, player, map, nmeX, nmeY) {
 
   pathToDraw = search(map, player, nmeX, nmeY);
 
@@ -23,9 +23,8 @@ class GridPoint {
     this.y = y;
     this.f = 0;
     this.g = 0;
-    this.h = 0;   
+    this.h = 0;
     this.parent = undefined;
-    this.diagonal = false;
   }
   updateNeighbors(grid) {
     let i = this.x;
@@ -92,7 +91,7 @@ function search(map, player, nmeX, nmeY) {
   init(map, player, nmeX, nmeY);
 
   while (openSet.length > 0) {
-    
+
     let lowestIndex = 0;
     for (let i = 0; i < openSet.length; i++) {
       if (openSet[i].f < openSet[lowestIndex].f) {
@@ -114,16 +113,15 @@ function search(map, player, nmeX, nmeY) {
     openSet.splice(lowestIndex, 1);
 
     closedSet.push(current);
-    
+
     let neighbors = current.updateNeighbors(grid);
-    
+
     for (let i = 0; i < neighbors.length; i++) {
       let neighbor = neighbors[i];
 
-      if (!closedSet.includes(neighbor) && map.wall[neighbor.y][neighbor.x] == 0) {
-        let possibleG ;
-        
-        neighbor.diagonal ? possibleG = current.g + 1.2 : possibleG = current.g + 1;
+      if (!closedSet.includes(neighbor) && (map.wall[neighbor.y][neighbor.x] == 0 || (map.wall[neighbor.y][neighbor.x] == 8 && map.sprites[neighbor.y][neighbor.x][0] == 0))) {
+        let possibleG = current.g + 1;
+
         if (!openSet.includes(neighbor)) {
           openSet.push(neighbor);
         } else if (possibleG >= neighbor.g) {
@@ -140,7 +138,7 @@ function search(map, player, nmeX, nmeY) {
   return [];
 }
 
-function populateGrid(map) { 
+function populateGrid(map) {
   grid = new Array(cols);
   for (let i = 0; i < cols; i++) {
     grid[i] = new Array(rows);

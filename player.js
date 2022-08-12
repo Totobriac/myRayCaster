@@ -11,7 +11,7 @@ export class Player {
     this.speed = 4;
     this.moveForward = 0;
     this.rotate = 0;
-    this.rotationSpeed = 3 * (Math.PI / 180);
+    this.rotationSpeed = 2 * (Math.PI / 180);
     this.isColliding = false;
     this.FOV = 60;
     this.isMoving = false;

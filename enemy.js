@@ -24,11 +24,12 @@ class Enemy extends Sprite {
     this.alerted = false;
     this.setMaxPath();
     this.path = [];
-    this.isFiring;    
+    this.isFiring;
+    this.fireTickCount = 0;
   }
   draw() {
     this.update();
-   
+
     var playerX = Math.floor(this.player.x / 64 * 6);
     var playerY = Math.floor(this.player.y / 64 * 6);
 
@@ -40,7 +41,7 @@ class Enemy extends Sprite {
     ctx.rotate(3 * Math.PI / 2 - this.player.angle);
 
     ctx.fillStyle = "red";
-    ctx.fillRect( X * 6 - playerX, Y * 6 - playerY, 4, 4);
+    ctx.fillRect(X * 6 - playerX, Y * 6 - playerY, 4, 4);
     ctx.restore();
     super.draw();
   }
@@ -61,7 +62,7 @@ class Enemy extends Sprite {
     return collision;
   }
   update() {
-    
+
     this.playXGrid = Math.floor(this.player.x / 64);
     this.playYGrid = Math.floor(this.player.y / 64);
 
@@ -81,7 +82,7 @@ class Enemy extends Sprite {
         this.setMaxPath();
       }
     }
-    
+
     if (this.alerted) {
       this.findPath();
 
@@ -103,7 +104,7 @@ class Enemy extends Sprite {
           this.angle = 270;
         }
       } else {
-        this.isFiring = true;        
+        this.isFiring = true;
       }
     }
 
@@ -149,9 +150,9 @@ class Enemy extends Sprite {
         this.frame = 4
         break;
     }
-    
-    if (this.distance && this.distance < 200 ) this.alert();
-    
+
+    if (this.distance && this.distance < 200) this.alert();
+
     this.imageX = this.frame * 64;
 
     if (this.tickCount > this.maxTickCount) {
@@ -161,21 +162,24 @@ class Enemy extends Sprite {
       this.tickCount++;
     }
 
-    if ( (!this.still || this.alerted)  && !this.isFiring) {
+    if ((!this.still || this.alerted) && !this.isFiring) {
       this.imageY = this.yFrame * 64;
       this.xFrame = 0;
+      this.fireTickCount = 0;
     } else if (this.isFiring) {
       this.imageY = 6 * 64;
-      this.imageX = this.xFrame * 64;      
-      if (this.tickCount > this.maxTickCount) {
-        this.xFrame < 2 ? this.xFrame ++ : this.xFrame = 1;
-        this.tickCount = 0;
-      } 
+      this.imageX = this.xFrame * 64;
+      if (this.fireTickCount > this.maxTickCount * 1.5) {
+        this.xFrame < 2 ? this.xFrame++ : this.xFrame = 1;
+        this.fireTickCount = 0;
+      } else {
+        this.fireTickCount ++;
+      }
     } else {
       this.imageY = 0;
-    }   
+    }
   }
-  alert() {  
+  alert() {
     this.alerted = true;
   }
   findPath() {

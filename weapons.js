@@ -23,7 +23,7 @@ class Weapon {
     }
     if (this.player.isShooting) {
       this.gunTickCount++;
-      if (this.gunTickCount % 12 === 0) {
+      if (this.gunTickCount % 6 === 0) {
         if (this.xFrame < 4) {
           this.xFrame++;
         } else {
