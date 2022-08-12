@@ -7,10 +7,10 @@ guard.src = "./assets/guard.png";
 
 
 class Enemy extends Sprite {
-  constructor(x, y, image, frame, player, still, ctx, map) {
-    super(x, y, image, frame, player, still, ctx);
+  constructor(x, y, image, frame, player, still, ctx, type, map) {
+    super(x, y, image, frame, player, still, ctx, type);
     this.level = map;
-    this.angle = 180;
+    this.angle = 0;
     this.tickCount = 0;
     this.guardPathTickount = 0;
     this.maxTickCount = 12;
@@ -26,6 +26,9 @@ class Enemy extends Sprite {
     this.path = [];
     this.isFiring;
     this.fireTickCount = 0;
+    this.hitTickCount = 0;
+    this.isHitten = false;
+    this.life = 3;
   }
   draw() {
     this.update();
@@ -43,6 +46,7 @@ class Enemy extends Sprite {
     ctx.fillStyle = "red";
     ctx.fillRect(X * 6 - playerX, Y * 6 - playerY, 4, 4);
     ctx.restore();
+
     super.draw();
   }
   setMaxPath() {
@@ -83,7 +87,7 @@ class Enemy extends Sprite {
       }
     }
 
-    if (this.alerted) {
+    if (this.alerted && !this.isHitten) {
       this.findPath();
 
       if (this.path.length > 2) {
@@ -121,66 +125,102 @@ class Enemy extends Sprite {
     if (diff < 0) diff += 360;
     if (diff > 360) diff -= 360;
 
-    switch (true) {
-      case diff < 18:
-        this.frame = 4
-        break;
-      case diff > 18 && diff < 67.5:
-        this.frame = 5
-        break;
-      case diff > 67.5 && diff < 112.5:
-        this.frame = 2
-        break;
-      case diff > 112.5 && diff < 157.5:
-        this.frame = 1
-        break;
-      case diff > 157.5 && diff < 202.5:
-        this.frame = 0
-        break;
-      case diff > 202.5 && diff < 247.5:
-        this.frame = 7
-        break;
-      case diff > 247.5 && diff < 292.5:
-        this.frame = 6
-        break;
-      case diff > 292.5 && diff < 337.5:
-        this.frame = 3
-        break;
-      case diff > 342:
-        this.frame = 4
-        break;
+    if (this.life > 0) {
+      switch (true) {
+        case diff < 18:
+          this.frame = 4
+          break;
+        case diff > 18 && diff < 67.5:
+          this.frame = 5
+          break;
+        case diff > 67.5 && diff < 112.5:
+          this.frame = 2
+          break;
+        case diff > 112.5 && diff < 157.5:
+          this.frame = 1
+          break;
+        case diff > 157.5 && diff < 202.5:
+          this.frame = 0
+          break;
+        case diff > 202.5 && diff < 247.5:
+          this.frame = 7
+          break;
+        case diff > 247.5 && diff < 292.5:
+          this.frame = 6
+          break;
+        case diff > 292.5 && diff < 337.5:
+          this.frame = 3
+          break;
+        case diff > 342:
+          this.frame = 4
+          break;
+      }
+      this.imageX = this.frame * 64;
     }
 
-    if (this.distance && this.distance < 200) this.alert();
+    if (this.distance && this.distance < 200 && this.life > 0) this.alert();
 
-    this.imageX = this.frame * 64;
-
-    if (this.tickCount > this.maxTickCount) {
-      this.yFrame < 4 ? this.yFrame++ : this.yFrame = 1;
-      this.tickCount = 0;
-    } else {
-      this.tickCount++;
-    }
-
-    if ((!this.still || this.alerted) && !this.isFiring) {
-      this.imageY = this.yFrame * 64;
-      this.xFrame = 0;
-      this.fireTickCount = 0;
-    } else if (this.isFiring) {
-      this.imageY = 6 * 64;
-      this.imageX = this.xFrame * 64;
-      if (this.fireTickCount > this.maxTickCount * 1.5) {
-        this.xFrame < 2 ? this.xFrame++ : this.xFrame = 1;
+    if (this.life > 0) {
+      if ((!this.still || this.alerted) && !this.isFiring && !this.isHitten) {
+        if (this.tickCount > this.maxTickCount) {
+          this.yFrame < 4 ? this.yFrame++ : this.yFrame = 1;
+          this.tickCount = 0;
+        } else {
+          this.tickCount++;
+        }
+        this.xFrame = 0;
+        this.imageY = this.yFrame * 64;
         this.fireTickCount = 0;
-      } else {
-        this.fireTickCount ++;
+      } else if (this.isFiring) {
+        this.imageY = 6 * 64;
+        this.imageX = this.xFrame * 64;
+        if (this.fireTickCount > this.maxTickCount * 1.5) {
+          this.xFrame < 2 ? this.xFrame++ : this.xFrame = 1;
+          this.fireTickCount = 0;
+        } else {
+          this.fireTickCount++;
+        }
       }
     } else {
-      this.imageY = 0;
+      if (this.hitTickCount < this.maxTickCount / 2) {
+        this.hitTickCount++;
+      } else {
+        if (this.xFrame === 0) this.xFrame = 1;
+        this.hitTickCount = 0;
+        if (this.xFrame  < 4) {
+          this.xFrame++;
+        } else {
+          this.alerted = false;
+        }
+        this.imageY = 5 * 64;
+        this.imageX = this.xFrame * 64;
+      }
     }
+
+
+    if (this.isHitten) {
+      this.alerted = true;
+      if (this.life > 0) {
+        if (this.hitTickCount < this.maxTickCount * 3) {
+          this.hitTickCount++;
+        } else {
+          this.hitTickCount = 0;
+          this.isHitten = false;
+          this.life--;
+        }
+      }
+      this.imageX = 0;
+      this.imageY = 5 * 64;
+    }
+
+
+
   }
   alert() {
     this.alerted = true;
+  }
+  isHit() {
+    if (!this.isHitten) this.isHitten = true;
   }
   findPath() {
     if (this.guardPathTickount > this.maxTickCount * 1) {
@@ -195,7 +235,7 @@ class Enemy extends Sprite {
 function createEnemies(sprites, enemyList) {
   let spLength = sprites.length;
   for (let i = 0; i < enemyList.length; i++) {
-    sprites[i + spLength] = new Enemy(enemyList[i][0], enemyList[i][1], eval(enemyList[i][3]), enemyList[i][2], player, enemyList[i][4], ctx, map);
+    sprites[i + spLength] = new Enemy(enemyList[i][0], enemyList[i][1], eval(enemyList[i][3]), enemyList[i][2], player, enemyList[i][4], ctx, "enemy", map);
   }
 }
 

@@ -6,7 +6,7 @@ var items = new Image();
 items.src = "./assets/items.png";
 
 class Sprite {
-  constructor(x, y, image, frame, player, still, ctx) {
+  constructor(x, y, image, frame, player, still, ctx, type) {
     this.x = x;
     this.y = y;
     this.image = image;
@@ -19,6 +19,7 @@ class Sprite {
     this.halfSprite = 0;
     this.screenDist = Math.floor(300 / Math.tan((30 * Math.PI) / 180));
     this.still = still;
+    this.type = type;
     this.getImageXY();
   }
   getImageXY() {
@@ -44,18 +45,20 @@ class Sprite {
     if (p > 270 && playerAngle < 90) XTemp += 360;
     if (playerAngle > 270 && p < 90) XTemp -= 360;
 
-	  var screenX = XTemp * 600 / 60;
+	  this.screenX = XTemp * 600 / 60;
 
     var spriteHeight = (this.screenDist * 64) / this.distance;
+
+    this.spriteWidth = spriteHeight;
 
     var columnWidth = spriteHeight / 64;
 
     var screenY = 200 - spriteHeight/2;
 
     for (let i = 0; i < 64; i++) {
-      var x = Math.floor(screenX + (columnWidth * i) - (32 * columnWidth));
+      var x = Math.floor(this.screenX + (columnWidth * i) - (32 * columnWidth));
       if (zBuffer[x] + 32 > this.distance && x > 0 && x < 600) {
-        this.ctx.drawImage(this.image, i + this.imageX, this.imageY, 1, 63, screenX + (columnWidth * i) - (32 * columnWidth) + 300, screenY, columnWidth, spriteHeight);
+        this.ctx.drawImage(this.image, i + this.imageX, this.imageY, 1, 63, this.screenX + (columnWidth * i) - (32 * columnWidth) + 300, screenY, columnWidth, spriteHeight);
       }
     }
   }
@@ -63,7 +66,7 @@ class Sprite {
 
 function createSprites(sprites, spriteList) {
   for (let i = 0; i < spriteList.length; i++) {
-    sprites[i] = new Sprite(spriteList[i][0], spriteList[i][1], eval(spriteList[i][3]), spriteList[i][2], player, spriteList[i][3], ctx);
+    sprites[i] = new Sprite(spriteList[i][0], spriteList[i][1], eval(spriteList[i][3]), spriteList[i][2], player, spriteList[i][3], ctx, "object");
   }
 }
 
@@ -71,8 +74,9 @@ function drawSprites(sprites) {
   sprites.sort(function (obj1, obj2) {
     return obj2.distance - obj1.distance;
   });
+  
   for (let i = 0; i < sprites.length; i++) {   
-    sprites[i].draw();
+    sprites[i].draw();    
   }
 }
 
