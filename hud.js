@@ -2,36 +2,33 @@ var mapBack = new Image();
 mapBack.src = "./assets/mapBack.png";
 
 var tableTop = new Image();
-tableTop.src = "./assets/tableTop.png"
+tableTop.src = "./assets/tableTop.png";
+
+var metalTop = new Image();
+metalTop.src = "./assets/metalTop2.png";
 
 class Hud {
   constructor(ctx, player, map) {
     this.ctx = ctx;
     this.player = player;
     this.map = map;
+    this.soundAngle = 310;
   }
-  draw() {
-    this.ctx.fillStyle = "rgb(0,0,164)";
-    this.ctx.fillRect(900, 0, 8, 400);
-    this.ctx.fillRect(1192, 0, 8, 400);
-    this.ctx.fillRect(900, 0, 300, 8);
-    this.ctx.fillRect(900, 392, 300, 8);
-
-    this.ctx.fillStyle = "black";
-    this.ctx.fillRect(900, 0, 4, 400);
-    this.ctx.fillRect(1196, 0, 4, 400);
-    this.ctx.fillRect(900, 0, 300, 4);
-    this.ctx.fillRect(900, 396, 300, 4);
+  draw() {   
+    this.ctx.drawImage(tableTop, 0, 0);
+    this.ctx.drawImage(metalTop, 900, 0);
 
     this.ctx.font = "48px wolf";
     this.ctx.fillStyle = "rgb(242, 242, 242)";
     this.ctx.fillText('level 1', 10, 44);
 
+    this.ctx.fillStyle = "red"
+    this.ctx.fillRect(1048, 86, 4, 4);
+
     this.drawMinimap();
+    this.drawSoundMeter();
   }
   drawMinimap() {
-
-    this.ctx.drawImage(tableTop, 0, 0);
 
     this.ctx.save();
     this.ctx.translate(150, 200);
@@ -72,11 +69,30 @@ class Hud {
     this.ctx.fillRect(0, 0, 300, 4);
     this.ctx.fillRect(0, 396, 300, 4);
 
-    this.ctx.fillStyle = "green";
-    this.ctx.fillRect(147, 197, 6, 6);
+    this.ctx.fillStyle = "rgb(0,0,164)";
+    this.ctx.fillRect(900, 0, 8, 400);
+    this.ctx.fillRect(1192, 0, 8, 400);
+    this.ctx.fillRect(900, 0, 300, 8);
+    this.ctx.fillRect(900, 392, 300, 8);
+
+    this.ctx.fillStyle = "black";
+    this.ctx.fillRect(900, 0, 4, 400);
+    this.ctx.fillRect(1196, 0, 4, 400);
+    this.ctx.fillRect(900, 0, 300, 4);
+    this.ctx.fillRect(900, 396, 300, 4);    
+  }
+  drawSoundMeter() {
+    
+    this.ctx.save();
+    this.ctx.translate(1050, 86);
+    this.ctx.rotate(this.soundAngle * Math.PI / 180);
+    this.ctx.beginPath();
+    this.ctx.moveTo(0,0);
+    this.ctx.lineTo(0, -46);
+    this.ctx.stroke();
+
+    this.ctx.restore();
   }
 }
-
-
 
 export { Hud };
