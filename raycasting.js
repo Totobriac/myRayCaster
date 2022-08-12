@@ -44,7 +44,7 @@ var map = new Map(ctx);
 var player = new Player(400, 800, map, ctx);
 var controls = new Controls(player, map);
 var rayCaster = new RayCaster(player, map, ctx);
-var hud = new Hud(ctx);
+var hud = new Hud(ctx, player, map);
 var weapon = new Weapon(ctx, player);
 
 Map.prototype.player = player;
@@ -55,7 +55,6 @@ createEnemies(sprites, map.enemiesList);
 function animate() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  map.draw();
   hud.draw();
   map.update();
   rayCaster.draw();

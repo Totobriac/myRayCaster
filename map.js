@@ -1,9 +1,3 @@
-var mapBack = new Image();
-mapBack.src = "./assets/mapBack.png";
-
-var tableTop = new Image();
-tableTop.src = "./assets/tableTop.png"
-
 export class Map {
   constructor(ctx) {
     this.ctx = ctx;
@@ -105,53 +99,7 @@ export class Map {
     this.spritesList = [];
     this.enemiesList = [[800, 800, 0, "guard", true], [900, 800, 0, "guard", true]]
 
-  }
-  draw() {
-
-    this.ctx.drawImage(tableTop, 0,0);
-
-    this.ctx.save();
-    this.ctx.translate(150, 200);
-    this.ctx.rotate(3 * Math.PI / 2 - this.player.angle);
-
-    var playerX = Math.floor(this.player.x / 64 * 6);
-    var playerY = Math.floor(this.player.y / 64 * 6);
-
-    this.ctx.drawImage(mapBack, -40 - playerX, -75 - playerY);
-
-    for (let y = 0; y < this.mapY; y++) {
-      for (let x = 0; x < this.mapX; x++) {
-        var color;
-        if (this.wall[y][x] == 8) {
-          this.sprites[y][x][0] === 2 ? color = "yellow" : color = "rgb(235,203,152)";
-        } else if (this.wall[y][x].length > 1 || this.wall[y][x] != 0) {
-          color = "grey";
-        } else {
-          color = "rgb(235,203,152)";
-        }
-        this.ctx.fillStyle = color;
-        var Xo = x * 6;
-        var Yo = y * 6;
-
-        this.ctx.fillRect(Xo - playerX, Yo - playerY, 6, 6);
-      }
-    }
-    this.ctx.restore();
-    this.ctx.fillStyle = "rgb(0,0,164)";
-    this.ctx.fillRect(0, 0, 8, 400);
-    this.ctx.fillRect(292, 0, 8, 400);
-    this.ctx.fillRect(0, 0, 300, 8);
-    this.ctx.fillRect(0, 392, 300, 8);
-
-    this.ctx.fillStyle = "black";
-    this.ctx.fillRect(0, 0, 4, 400);
-    this.ctx.fillRect(296, 0, 4, 400);
-    this.ctx.fillRect(0, 0, 300, 4);
-    this.ctx.fillRect(0, 396, 300, 4);
-
-    this.ctx.fillStyle = "green";
-    this.ctx.fillRect(147, 197, 6, 6);
-  }
+  } 
   update() {
     for (let j = 0; j < this.sprites.length; j++) {
       for (let i = 0; i < this.sprites[j].length; i++) {
@@ -214,7 +162,7 @@ export class Map {
   getTile(x, y, grid) {
     var X = Math.floor(x / this.mapS);
     var Y = Math.floor(y / this.mapS);
-    var tile
+    
     switch (grid) {
       case "wall":
         return this.wall[Y][X]
