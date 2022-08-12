@@ -32,21 +32,6 @@ class Enemy extends Sprite {
   }
   draw() {
     this.update();
-
-    var playerX = Math.floor(this.player.x / 64 * 6);
-    var playerY = Math.floor(this.player.y / 64 * 6);
-
-    var X = Math.floor(this.x / 64);
-    var Y = Math.floor(this.y / 64);
-
-    ctx.save();
-    ctx.translate(150, 200);
-    ctx.rotate(3 * Math.PI / 2 - this.player.angle);
-
-    ctx.fillStyle = "red";
-    ctx.fillRect(X * 6 - playerX, Y * 6 - playerY, 4, 4);
-    ctx.restore();
-
     super.draw();
   }
   setMaxPath() {

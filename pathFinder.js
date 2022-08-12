@@ -44,23 +44,6 @@ class GridPoint {
       this.neighbors.push(grid[i][j - 1]);
     }
 
-    // if (i > 0 && j > 0) {
-    //   this.neighbors.push(grid[i - 1][j - 1]);
-    //   this.diagonal = true;
-    // }
-    // if (i < cols - 1 && j > 0) {
-    //   this.neighbors.push(grid[i + 1][j - 1]);
-    //   this.diagonal = true;   
-    // }    
-    // if (i > 0 && j < rows - 1) {
-    //   this.neighbors.push(grid[i - 1][j + 1]);
-    //   this.diagonal = true;
-    // }
-    // if (i < cols - 1 && j < cols - 1) {
-    //   this.neighbors.push(grid[i + 1][j + 1]);
-    //   this.diagonal = true;  
-    // }
-
     return this.neighbors;
   };
 }

@@ -14,7 +14,7 @@ class Hud {
     this.map = map;
     this.soundAngle = 310;
   }
-  draw() {   
+  draw() {
     this.ctx.drawImage(tableTop, 0, 0);
     this.ctx.drawImage(metalTop, 900, 0);
 
@@ -56,7 +56,15 @@ class Hud {
         this.ctx.fillRect(Xo - playerX, Yo - playerY, 6, 6);
       }
     }
+
+    var X = Math.floor(this.x / 64);
+    var Y = Math.floor(this.y / 64);
+
+    this.ctx.fillStyle = "red";
+    this.ctx.fillRect(X * 6 - playerX, Y * 6 - playerY, 4, 4);
+
     this.ctx.restore();
+
     this.ctx.fillStyle = "rgb(0,0,164)";
     this.ctx.fillRect(0, 0, 8, 400);
     this.ctx.fillRect(292, 0, 8, 400);
@@ -79,19 +87,19 @@ class Hud {
     this.ctx.fillRect(900, 0, 4, 400);
     this.ctx.fillRect(1196, 0, 4, 400);
     this.ctx.fillRect(900, 0, 300, 4);
-    this.ctx.fillRect(900, 396, 300, 4);    
+    this.ctx.fillRect(900, 396, 300, 4);
   }
   drawSoundMeter() {
-    this.soundAngle += 0.4;
-    this.soundAngle > 360 ? this.soundAngle -= 360 : console.log("ee");
+    if (this.soundAngle < 410) this.soundAngle += 0.4;
+    var angle;
+    this.soundAngle > 360 ? angle = this.soundAngle - 360 : angle = this.soundAngle;
     this.ctx.save();
     this.ctx.translate(1050, 86);
-    this.ctx.rotate(this.soundAngle * Math.PI / 180);
+    this.ctx.rotate(angle * Math.PI / 180);
     this.ctx.beginPath();
     this.ctx.moveTo(0,0);
     this.ctx.lineTo(0, -46);
     this.ctx.stroke();
-
     this.ctx.restore();
   }
 }
