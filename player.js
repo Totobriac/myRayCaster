@@ -86,7 +86,6 @@ export class Player {
     this.update();
   }
   shoot(nb) {
-    console.log(nb);
     this.isShooting = true;
   }
   stopShoot() {

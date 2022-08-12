@@ -16,6 +16,8 @@ class Hud {
     this.player = player;
     this.map = map;
     this.soundAngle = 310;
+    this.oldWeapon = 0;
+    this.wOffset = 0;
   }
   draw() {
     this.ctx.drawImage(tableTop, 0, 0);
@@ -30,6 +32,7 @@ class Hud {
 
     this.drawMinimap();
     this.drawSoundMeter();
+    this.drawWeaponIcon();
   }
   drawMinimap() {
 
@@ -104,8 +107,17 @@ class Hud {
     this.ctx.lineTo(0, -46);
     this.ctx.stroke();
     this.ctx.restore();
+  }
+  drawWeaponIcon() {
+    var diff = (this.player.weapon - this.oldWeapon) * 48;
 
-    this.ctx.drawImage(weaponIcon, this.player.weapon * 48, 0, 48, 24, 978, 290, 144,72)
+    if (this.wOffset > diff) {
+      this.wOffset -=2;
+    } else if ( this.wOffset < diff) {
+      this.wOffset +=2;
+    }
+
+    this.ctx.drawImage(weaponIcon, this.wOffset, 0, 48, 24, 978, 290, 144,72);
   }
 }
 
