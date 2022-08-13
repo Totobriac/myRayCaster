@@ -19,7 +19,7 @@ class Hud {
     this.oldWeapon = 0;
     this.wOffset = 0;
   }
-  draw() {
+  draw(sprites) {
     this.ctx.drawImage(tableTop, 0, 0);
     this.ctx.drawImage(metalTop, 900, 0);
 
@@ -30,11 +30,11 @@ class Hud {
     this.ctx.fillStyle = "red"
     this.ctx.fillRect(1048, 86, 4, 4);
 
-    this.drawMinimap();
+    this.drawMinimap(sprites);
     this.drawSoundMeter();
     this.drawWeaponIcon();
   }
-  drawMinimap() {
+  drawMinimap(sprites) {
 
     this.ctx.save();
     this.ctx.translate(150, 200);
@@ -63,11 +63,14 @@ class Hud {
       }
     }
 
-    var X = Math.floor(this.x / 64);
-    var Y = Math.floor(this.y / 64);
-
-    this.ctx.fillStyle = "red";
-    this.ctx.fillRect(X * 6 - playerX, Y * 6 - playerY, 4, 4);
+    for (let i = 0; i < sprites.length; i++) {
+      if (sprites[i].character) {
+        var X = Math.floor(sprites[i].x / 64);
+        var Y = Math.floor(sprites[i].y / 64);
+        this.ctx.fillStyle = "red";
+        this.ctx.fillRect(X * 6 - playerX, Y * 6 - playerY, 4, 4);
+      }
+    }
 
     this.ctx.restore();
 

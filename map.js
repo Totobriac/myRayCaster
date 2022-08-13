@@ -98,7 +98,6 @@ export class Map {
     ];
     this.spritesList = [];
     this.enemiesList = [[800, 800, 0, "officer", true], [900, 800, 0, "guard", true]]
-
   }
   update() {
     for (let j = 0; j < this.sprites.length; j++) {

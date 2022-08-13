@@ -55,7 +55,7 @@ createEnemies(sprites, map.enemiesList);
 function animate() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  hud.draw();
+  hud.draw(sprites);
   map.update();
   rayCaster.draw();
   drawSprites(sprites);

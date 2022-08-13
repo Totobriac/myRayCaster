@@ -42,10 +42,10 @@ class Weapon {
   }
   upDown() {
     if(up) {
-      this.yOffset < 86 ? this.yOffset +=3 : up = false;
+      this.yOffset < 86 ? this.yOffset +=5 : up = false;
     } else {
       if (this.yOffset > 0) {
-        this.yOffset -=3;
+        this.yOffset -=5;
       } else {
         up = true;
         this.oldWeapon = this.player.chosenWeapon;
