@@ -10,6 +10,9 @@ metalTop.src = "./assets/metalTop2.png";
 var weaponIcon = new Image();
 weaponIcon.src = "./assets/weaponHud.png";
 
+var weaponBorder = new Image();
+weaponBorder.src = "./assets/weaponBorder.png";
+
 class Hud {
   constructor(ctx, player, map) {
     this.ctx = ctx;
@@ -119,7 +122,8 @@ class Hud {
       this.wOffset +=2;
     }
 
-    this.ctx.drawImage(weaponIcon, this.wOffset, 0, 48, 24, 978, 290, 144,72);
+    this.ctx.drawImage(weaponIcon, this.wOffset, 0, 48, 24, 978, 290,  144, 72);
+    this.ctx.drawImage(weaponBorder, 966,287)
   }
 }
 
