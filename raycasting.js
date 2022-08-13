@@ -7,8 +7,7 @@ import { createEnemies } from "./enemy.js";
 import { Hud } from "./hud.js";
 import { Weapon } from "./weapons.js";
 
-var floorData;
-var ceilData;
+var floorCeilData;
 
 var canvas = document.getElementById('canvas');
 var ctx = canvas.getContext('2d');
@@ -20,26 +19,17 @@ var sprites = [];
 var wallsSprite = new Image();
 
 wallsSprite.onload = function () {
-  tempCtx.drawImage(wallsSprite, 0, 64, 64, 64, 0, 0, 64, 64);
-  floorData = tempCtx.getImageData(0, 0, 64, 64);
-
-  tempCtx.drawImage(wallsSprite, 192, 64, 64, 64, 0, 0, 64, 64);
-  ceilData = tempCtx.getImageData(0, 0, 64, 64);
+  tempCtx.drawImage(wallsSprite, 0, 0);
+  floorCeilData = tempCtx.getImageData(0, 0, 576, 128);
 }
 
 wallsSprite.src = "./assets/walls.png";
 
-
-
 var tempCanvas = document.createElement('canvas');
 var tempCtx = tempCanvas.getContext('2d');
-tempCanvas.width = 64;
-tempCanvas.height = 64;
+tempCanvas.width = 576;
+tempCanvas.height = 128;
 
-var tempCanvas2 = document.createElement('canvas');
-var tempCtx2 = tempCanvas2.getContext('2d');
-tempCanvas2.width = 600;
-tempCanvas2.height = 400;
 
 var map = new Map(ctx);
 var player = new Player(400, 800, map, ctx);
@@ -68,4 +58,4 @@ function animate() {
 
 animate();
 
-export { floorData, ceilData, player, ctx, map };
+export { floorCeilData, player, ctx, map };

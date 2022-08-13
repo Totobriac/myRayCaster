@@ -1,6 +1,5 @@
 import { Ray } from "./ray.js";
 import { toRadians } from "./functions.js";
-import { backData } from "./raycasting.js";
 
 var floorSprite;
 

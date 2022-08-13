@@ -1,5 +1,5 @@
 import { distance, normalizeAngle } from "./functions.js";
-import { floorData, ceilData } from "./raycasting.js";
+import { floorCeilData } from "./raycasting.js";
 
 var wallsSprite = new Image();
 wallsSprite.src = "./assets/walls.png";
@@ -247,24 +247,23 @@ export class Ray {
       this.floorPointx = this.player.x + Math.cos(this.angle) * realDistance / (this.screenDist / 100);
       this.floorPointy = this.player.y + Math.sin(this.angle) * realDistance / (this.screenDist / 100);
 
-
       // we map the texture
       var textY = Math.floor(this.floorPointx % 64);
       var textX = Math.floor(this.floorPointy % 64);
 
-      if (floorData && ceilData) {
+      if (floorCeilData) {
 
         var shade = i - 170;
         var index = textY * 256 + textX * 4;
 
-        floorSprite.data[(this.index * 4) + (i + 200) * 2400] = floorData.data[index] + shade
-        floorSprite.data[(this.index * 4) + (i + 200) * 2400 + 1] = floorData.data[index + 1] + shade
-        floorSprite.data[(this.index * 4) + (i + 200) * 2400 + 2] = floorData.data[index + 2] + shade
+        floorSprite.data[(this.index * 4) + (i + 200) * 2400] = floorCeilData.data[index] + shade
+        floorSprite.data[(this.index * 4) + (i + 200) * 2400 + 1] = floorCeilData.data[index + 1] + shade
+        floorSprite.data[(this.index * 4) + (i + 200) * 2400 + 2] = floorCeilData.data[index + 2] + shade
         floorSprite.data[(this.index * 4) + (i + 200) * 2400 + 3] = 255;
 
-        floorSprite.data[(this.index * 4) + (200 - i) * 2400] = ceilData.data[index] + shade
-        floorSprite.data[(this.index * 4) + (200 - i) * 2400 + 1] = ceilData.data[index + 1] + shade
-        floorSprite.data[(this.index * 4) + (200 - i) * 2400 + 2] = ceilData.data[index + 2] + shade
+        floorSprite.data[(this.index * 4) + (200 - i) * 2400] = floorCeilData.data[index] + shade
+        floorSprite.data[(this.index * 4) + (200 - i) * 2400 + 1] = floorCeilData.data[index + 1] + shade
+        floorSprite.data[(this.index * 4) + (200 - i) * 2400 + 2] = floorCeilData.data[index + 2] + shade
         floorSprite.data[(this.index * 4) + (200 - i) * 2400 + 3] = 255;
 
       }
