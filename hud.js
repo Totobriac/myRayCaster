@@ -46,7 +46,7 @@ class Hud {
     var playerX = Math.floor(this.player.x / 64 * 6);
     var playerY = Math.floor(this.player.y / 64 * 6);
 
-    this.ctx.drawImage(mapBack, -40 - playerX, -75 - playerY);
+    this.ctx.drawImage(mapBack, -40 - playerX, -32 - playerY);
 
     for (let y = 0; y < this.map.mapY; y++) {
       for (let x = 0; x < this.map.mapX; x++) {
@@ -73,6 +73,9 @@ class Hud {
         this.ctx.fillRect(X * 6 - playerX, Y * 6 - playerY, 4, 4);
       }
     }
+
+    this.ctx.fillStyle = "green";
+    this.ctx.fillRect(-2, -2, 4, 4);
 
     this.ctx.restore();
 

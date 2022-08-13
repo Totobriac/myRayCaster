@@ -1,7 +1,7 @@
 import { heuristic } from "./functions.js";
 
 let cols = 26;
-let rows = 20;
+let rows = 40;
 let grid;
 let openSet = [];
 let closedSet = [];
