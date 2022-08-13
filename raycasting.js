@@ -9,7 +9,11 @@ import { Weapon } from "./weapons.js";
 
 var floorData;
 var ceilData;
-var backData;
+
+var canvas = document.getElementById('canvas');
+var ctx = canvas.getContext('2d');
+canvas.height = 400;
+canvas.width = 1200;
 
 var sprites = [];
 
@@ -25,10 +29,7 @@ wallsSprite.onload = function () {
 
 wallsSprite.src = "./assets/walls.png";
 
-var canvas = document.getElementById('canvas');
-var ctx = canvas.getContext('2d');
-canvas.height = 400;
-canvas.width = 1200;
+
 
 var tempCanvas = document.createElement('canvas');
 var tempCtx = tempCanvas.getContext('2d');
@@ -67,4 +68,4 @@ function animate() {
 
 animate();
 
-export { floorData, ceilData, backData, player, ctx, map };
+export { floorData, ceilData, player, ctx, map };
