@@ -5,6 +5,9 @@ import { getPath } from "./pathFinder.js";
 var guard = new Image();
 guard.src = "./assets/guard.png";
 
+var officer = new Image();
+officer.src = "./assets/officer.png";
+
 
 class Enemy extends Sprite {
   constructor(x, y, image, frame, player, still, ctx, type, map) {
@@ -182,7 +185,6 @@ class Enemy extends Sprite {
       }
     }
 
-
     if (this.isHitten) {
       this.alerted = true;
       if (this.life > 0) {
@@ -197,9 +199,6 @@ class Enemy extends Sprite {
       this.imageX = 0;
       this.imageY = 5 * 64;
     }
-
-
-
   }
   alert() {
     this.alerted = true;

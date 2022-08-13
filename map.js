@@ -7,7 +7,7 @@ export class Map {
     this.tickCount = 0;
     this.maxTickCount = 6;
     this.tileWidth = 64;
-    this.tileHeight = 64;   
+    this.tileHeight = 64;
     this.wall = [
       [[1], [1], [1], [1], [1], [1], [1], [1], [1], [1], [1], [1], [1], [1], [1], [1], [1], [1], [1], [1], [1], [1], [1], [1], [1], [1]],
       [[1], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [1]],
@@ -97,9 +97,9 @@ export class Map {
       [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
     ];
     this.spritesList = [];
-    this.enemiesList = [[800, 800, 0, "guard", true], [900, 800, 0, "guard", true]]
+    this.enemiesList = [[800, 800, 0, "officer", true], [900, 800, 0, "guard", true]]
 
-  } 
+  }
   update() {
     for (let j = 0; j < this.sprites.length; j++) {
       for (let i = 0; i < this.sprites[j].length; i++) {
@@ -162,7 +162,7 @@ export class Map {
   getTile(x, y, grid) {
     var X = Math.floor(x / this.mapS);
     var Y = Math.floor(y / this.mapS);
-    
+
     switch (grid) {
       case "wall":
         return this.wall[Y][X]
