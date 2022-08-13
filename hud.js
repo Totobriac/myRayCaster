@@ -109,7 +109,7 @@ class Hud {
     this.ctx.restore();
   }
   drawWeaponIcon() {
-    var diff = (this.player.weapon - this.oldWeapon) * 48;
+    var diff = this.player.chosenWeapon  * 48;
 
     if (this.wOffset > diff) {
       this.wOffset -=2;

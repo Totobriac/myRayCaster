@@ -18,7 +18,7 @@ export class Player {
     this.isShooting;
     this.speedTick = 0;
     this.maxTickCount = 4;
-    this.weapon = 0;
+    this.chosenWeapon = 0;
   }
   up() {
     this.moveForward = 1;
@@ -57,7 +57,7 @@ export class Player {
     if (this.speed < 1) this.speed = 1;
   }
   chooseWeapon(nb) {
-    this.weapon = nb;
+    this.chosenWeapon = nb;
   }
   checkForCollision(x, y) {
     var collision = false;
