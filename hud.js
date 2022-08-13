@@ -58,7 +58,6 @@ class Hud {
         this.ctx.fillStyle = color;
         var Xo = x * 6;
         var Yo = y * 6;
-
         this.ctx.fillRect(Xo - playerX, Yo - playerY, 6, 6);
       }
     }

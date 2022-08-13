@@ -33,7 +33,6 @@ class Enemy extends Sprite {
     this.isHitten = false;
     this.life = 3;
     this.character = character;
-    console.log(this.character);
   }
   draw() {
     this.update();
