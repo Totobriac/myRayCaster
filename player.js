@@ -19,6 +19,7 @@ export class Player {
     this.speedTick = 0;
     this.maxTickCount = 4;
     this.chosenWeapon = 0;
+    this.life = 100;
   }
   up() {
     this.moveForward = 1;
@@ -71,7 +72,7 @@ export class Player {
   update() {
     var newX = this.x + this.moveForward * Math.cos(this.angle) * this.speed;
     var newY = this.y + this.moveForward * Math.sin(this.angle) * this.speed;
-
+    
     this.angle += this.rotate * this.rotationSpeed;
     this.angle = normalizeAngle(this.angle);
 

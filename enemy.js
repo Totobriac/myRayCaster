@@ -166,6 +166,8 @@ class Enemy extends Sprite {
         if (this.fireTickCount > this.maxTickCount * 1.5) {
           this.xFrame < 2 ? this.xFrame++ : this.xFrame = 1;
           this.fireTickCount = 0;
+          var rand = Math.floor(Math.random() * 10);          
+          if (rand > 7) this.player.life -= 2;
         } else {
           this.fireTickCount++;
         }
