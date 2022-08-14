@@ -195,37 +195,31 @@ export class Ray {
     this.ctx.imageSmoothingEnabled = false;
 
     if (this.texture != 7) {
-        this.ctx.drawImage(
-          wallsSprite,
-          xOffset * 64 + this.texturePix,
-          yOffset * 64,
-          1,
-          63,
-          this.index + 300,
-          y,
-          1,
-          wallHeight
-        );
-      } else {
-
-          var doorStatus = this.map.getTile(this.wallHitX, this.wallHitY, "sprite");
-
-          this.ctx.drawImage(
-            wallsSprite,
-            448 + this.texturePix - doorStatus[1],
-            0,
-            1,
-            63,
-            this.index + 300,
-            y,
-            1,
-            wallHeight
-          );
+      this.ctx.drawImage(
+        wallsSprite,
+        xOffset * 64 + this.texturePix,
+        yOffset * 64,
+        1,
+        63,
+        this.index + 300,
+        y,
+        1,
+        wallHeight
+      );
+    } else {
+      var doorStatus = this.map.getTile(this.wallHitX, this.wallHitY, "sprite");
+      this.ctx.drawImage(
+        wallsSprite,
+        448 + this.texturePix - doorStatus[1],
+        0,
+        1,
+        63,
+        this.index + 300,
+        y,
+        1,
+        wallHeight
+      );
     }
-
-
-    //we check if the wall reaches the bottom of the canvas
-    // this.wallToBorder = (400 - wallHeight) / 2;
 
     // we calculate how many pixels we have from bottom of wall to border of canvas
     var pixelsToBottom = this.wallToBorder;
@@ -249,18 +243,15 @@ export class Ray {
 
       //we get its floor/ceiling tile texture
 
-      var ceilingText;
-      var floorText;
-
-      ceilingText = this.map.getTile(this.floorPointX, this.floorPointY, "ceiling");
-      floorText = this.map.getTile(this.floorPointX, this.floorPointY, "floor");
+      var ceilingText = this.map.getTile(this.floorPointX, this.floorPointY, "ceiling");
+      var floorText = this.map.getTile(this.floorPointX, this.floorPointY, "floor");
 
       var floorYOffset = Math.floor(floorText / 9) * 64;
       var floorXOffset = (floorText - (floorYOffset * 9)) * 64;
 
       var ceilingYOffset = Math.floor(ceilingText / 9) * 64;
       var ceilingXOffset = (ceilingText - (ceilingYOffset * 9)) * 64;
-      
+
       // we map the texture
       var floorTextX = Math.floor(this.floorPointX % 64) + floorXOffset;
       var floorTextY = Math.floor(this.floorPointY % 64) + floorYOffset;

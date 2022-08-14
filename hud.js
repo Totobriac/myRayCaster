@@ -79,11 +79,11 @@ class Hud {
 
     this.ctx.restore();
 
-    this.ctx.fillStyle = "rgb(0,0,164)";
-    this.ctx.fillRect(0, 0, 8, 400);
-    this.ctx.fillRect(292, 0, 8, 400);
-    this.ctx.fillRect(0, 0, 300, 8);
-    this.ctx.fillRect(0, 392, 300, 8);
+    // this.ctx.fillStyle = "rgb(0,0,164)";
+    // this.ctx.fillRect(0, 0, 8, 400);
+    // this.ctx.fillRect(292, 0, 8, 400);
+    // this.ctx.fillRect(0, 0, 300, 8);
+    // this.ctx.fillRect(0, 392, 300, 8);
 
     this.ctx.fillStyle = "black";
     this.ctx.fillRect(0, 0, 4, 400);
@@ -91,11 +91,11 @@ class Hud {
     this.ctx.fillRect(0, 0, 300, 4);
     this.ctx.fillRect(0, 396, 300, 4);
 
-    this.ctx.fillStyle = "rgb(0,0,164)";
-    this.ctx.fillRect(900, 0, 8, 400);
-    this.ctx.fillRect(1192, 0, 8, 400);
-    this.ctx.fillRect(900, 0, 300, 8);
-    this.ctx.fillRect(900, 392, 300, 8);
+    // this.ctx.fillStyle = "rgb(0,0,164)";
+    // this.ctx.fillRect(900, 0, 8, 400);
+    // this.ctx.fillRect(1192, 0, 8, 400);
+    // this.ctx.fillRect(900, 0, 300, 8);
+    // this.ctx.fillRect(900, 392, 300, 8);
 
     this.ctx.fillStyle = "black";
     this.ctx.fillRect(900, 0, 4, 400);

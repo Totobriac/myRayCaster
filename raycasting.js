@@ -10,7 +10,7 @@ import { Weapon } from "./weapons.js";
 var floorCeilData;
 
 var canvas = document.getElementById('canvas');
-var ctx = canvas.getContext('2d');
+var ctx = canvas.getContext('2d',{ alpha: false });
 canvas.height = 400;
 canvas.width = 1200;
 
@@ -39,13 +39,11 @@ var hud = new Hud(ctx, player, map);
 var weapon = new Weapon(ctx, player);
 
 Map.prototype.player = player;
-
 createSprites(sprites, map.spritesList);
 createEnemies(sprites, map.enemiesList);
 
 function animate() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-
   hud.draw(sprites);
   map.update();
   rayCaster.draw();

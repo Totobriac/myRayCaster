@@ -15,7 +15,6 @@ class RayCaster {
     this.rayAngle = this.startAngle;
     this.screenDist = Math.floor((canvas.width / 4) / Math.tan((30 * Math.PI) / 180));
     this.init();
-
   }
   init() {
     floorSprite = this.ctx.createImageData(600, 400);
@@ -36,7 +35,7 @@ class RayCaster {
 
     this.ctx.putImageData(floorSprite, 300, 0, 0, 0, 600, 399);
 
-    for (let i = 0; i < 600; i++) {
+    for (let i = 0; i < canvas.width / 2; i++) {
       this.rays[i].cast(floorSprite);
     }
 
