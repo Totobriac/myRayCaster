@@ -33,6 +33,7 @@ class Enemy extends Sprite {
     this.isHitten = false;
     this.life = 3;
     this.character = character;
+    this.setFireRange();
   }
   draw() {
     this.update();
@@ -77,9 +78,9 @@ class Enemy extends Sprite {
     }
 
     if (this.alerted && !this.isHitten) {
-      this.findPath();
-
-      if (this.path.length > 2) {
+      this.findPath();   
+      
+      if (this.path.length > this.fireRange) {
         this.isFiring = false;
         if (this.path[0].x < this.path[1].x) {
           this.x += this.speed;
@@ -228,6 +229,16 @@ class Enemy extends Sprite {
       this.path = getPath(this.ctx, this.player, this.level, this.x, this.y);
     } else {
       this.guardPathTickount++;
+    }
+  }
+  setFireRange() {
+    switch (this.character) {
+      case "guard":
+        this.fireRange = Math.floor(Math.random() * 2 + 2);
+        break;
+      case "officer":
+        this.fireRange = Math.floor(Math.random() * 2 + 4);;
+        break;        
     }
   }
 }

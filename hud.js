@@ -13,6 +13,12 @@ weaponIcon.src = "./assets/weaponHud.png";
 var weaponBorder = new Image();
 weaponBorder.src = "./assets/weaponBorder.png";
 
+var numbers = new Image();
+numbers.src = "./assets/numbers.png";
+
+var blackback = new Image();
+blackback.src = "./assets/black.png";
+
 class Hud {
   constructor(ctx, player, map) {
     this.ctx = ctx;
@@ -21,6 +27,8 @@ class Hud {
     this.soundAngle = 310;
     this.oldWeapon = 0;
     this.wOffset = 0;
+    this.lifeGlitch = 0;
+    this.oldLife = 100;
   }
   draw(sprites) {
     this.ctx.drawImage(tableTop, 0, 0);
@@ -36,6 +44,7 @@ class Hud {
     this.drawMinimap(sprites);
     this.drawSoundMeter();
     this.drawWeaponIcon();
+    this.drawLifeMeter();
   }
   drawMinimap(sprites) {
 
@@ -79,23 +88,11 @@ class Hud {
 
     this.ctx.restore();
 
-    // this.ctx.fillStyle = "rgb(0,0,164)";
-    // this.ctx.fillRect(0, 0, 8, 400);
-    // this.ctx.fillRect(292, 0, 8, 400);
-    // this.ctx.fillRect(0, 0, 300, 8);
-    // this.ctx.fillRect(0, 392, 300, 8);
-
     this.ctx.fillStyle = "black";
     this.ctx.fillRect(0, 0, 4, 400);
     this.ctx.fillRect(296, 0, 4, 400);
     this.ctx.fillRect(0, 0, 300, 4);
     this.ctx.fillRect(0, 396, 300, 4);
-
-    // this.ctx.fillStyle = "rgb(0,0,164)";
-    // this.ctx.fillRect(900, 0, 8, 400);
-    // this.ctx.fillRect(1192, 0, 8, 400);
-    // this.ctx.fillRect(900, 0, 300, 8);
-    // this.ctx.fillRect(900, 392, 300, 8);
 
     this.ctx.fillStyle = "black";
     this.ctx.fillRect(900, 0, 4, 400);
@@ -104,29 +101,55 @@ class Hud {
     this.ctx.fillRect(900, 396, 300, 4);
   }
   drawSoundMeter() {
-    this.soundAngle < Math.floor( 310 + this.player.speed * 20 - 20) ? this.soundAngle += 0.5 : this.soundAngle -= 2;
+    this.soundAngle < Math.floor(310 + this.player.speed * 20 - 20) ? this.soundAngle += 0.5 : this.soundAngle -= 2;
     var angle;
     this.soundAngle > 360 ? angle = this.soundAngle - 360 : angle = this.soundAngle;
     this.ctx.save();
     this.ctx.translate(1050, 86);
     this.ctx.rotate(angle * Math.PI / 180);
     this.ctx.beginPath();
-    this.ctx.moveTo(0,0);
+    this.ctx.moveTo(0, 0);
     this.ctx.lineTo(0, -46);
     this.ctx.stroke();
     this.ctx.restore();
   }
   drawWeaponIcon() {
-    var diff = this.player.chosenWeapon  * 48;
+    var diff = this.player.chosenWeapon * 48;
 
     if (this.wOffset > diff) {
-      this.wOffset -=2;
-    } else if ( this.wOffset < diff) {
-      this.wOffset +=2;
+      this.wOffset -= 2;
+    } else if (this.wOffset < diff) {
+      this.wOffset += 2;
     }
 
-    this.ctx.drawImage(weaponIcon, this.wOffset, 0, 48, 24, 978, 290,  144, 72);
-    this.ctx.drawImage(weaponBorder, 966,287)
+    this.ctx.drawImage(weaponIcon, this.wOffset, 0, 48, 24, 978, 290, 144, 72);
+    this.ctx.drawImage(weaponBorder, 967, 287)
+  }
+  drawLifeMeter() {
+    var digits = this.player.life.toString().split('');
+    var numbs = digits.map(Number);
+    if (numbs.length < 3) numbs.unshift(0);
+
+    if (this.player.life != this.oldLife) {
+      this.lifeGlitch ++;
+      if (this.lifeGlitch > 7) {
+        this.oldLife = this.player.life;
+        this.lifeGlitch = 0
+      }
+    }
+    
+    var xOffset = -6
+
+    this.ctx.drawImage(blackback, 972 + xOffset, 192);
+    this.ctx.drawImage(blackback, 1025+ xOffset, 192);
+    this.ctx.drawImage(blackback, 1078+ xOffset, 192);
+
+    if (this.lifeGlitch % 2 === 0) {
+      this.ctx.drawImage(numbers, numbs[0] * 41, 0, 41, 66, 985+ xOffset, 200, 41, 66);    
+      this.ctx.drawImage(numbers, numbs[1] * 41, 0, 41, 66, 1038+ xOffset, 200, 41, 66);
+      this.ctx.drawImage(numbers, numbs[2] * 41, 0, 41, 66, 1091+ xOffset, 200, 41, 66);
+    } 
+    
   }
 }
 
