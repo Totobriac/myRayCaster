@@ -1,12 +1,15 @@
 import { Sprite } from "./sprite.js";
 import { player, ctx, map } from "./raycasting.js";
 import { getPath } from "./pathFinder.js";
+import { distance } from "./functions.js";
 
 var guard = new Image();
 guard.src = "./assets/guard.png";
 
 var officer = new Image();
 officer.src = "./assets/officer.png";
+
+var spritesList;
 
 
 class Enemy extends Sprite {
@@ -78,8 +81,8 @@ class Enemy extends Sprite {
     }
 
     if (this.alerted && !this.isHitten) {
-      this.findPath();   
-      
+      this.findPath();
+
       if (this.path.length > this.fireRange) {
         this.isFiring = false;
         if (this.path[0].x < this.path[1].x) {
@@ -167,7 +170,7 @@ class Enemy extends Sprite {
         if (this.fireTickCount > this.maxTickCount * 1.5) {
           this.xFrame < 2 ? this.xFrame++ : this.xFrame = 1;
           this.fireTickCount = 0;
-          var rand = Math.floor(Math.random() * 10);          
+          var rand = Math.floor(Math.random() * 10);
           if (rand > 7) this.player.life -= 2;
         } else {
           this.fireTickCount++;
@@ -191,6 +194,7 @@ class Enemy extends Sprite {
 
     if (this.isHitten) {
       this.alerted = true;
+      alertNme(this.x, this.y);
       if (this.life > 0) {
         if (this.hitTickCount < this.maxTickCount * 3) {
           this.hitTickCount++;
@@ -238,7 +242,7 @@ class Enemy extends Sprite {
         break;
       case "officer":
         this.fireRange = Math.floor(Math.random() * 2 + 4);;
-        break;        
+        break;
     }
   }
 }
@@ -247,6 +251,17 @@ function createEnemies(sprites, enemyList) {
   let spLength = sprites.length;
   for (let i = 0; i < enemyList.length; i++) {
     sprites[i + spLength] = new Enemy(enemyList[i][0], enemyList[i][1], eval(enemyList[i][3]), enemyList[i][2], player, enemyList[i][4], ctx, "enemy", map, enemyList[i][3]);
+  }
+  spritesList = sprites;
+}
+
+
+function alertNme(x, y) {
+  for (let i = 0; i < spritesList.length; i++) {
+    if (spritesList[i].character && spritesList[i].life > 0) {
+      var dist = distance(spritesList[i].x, spritesList[i].y, x, y);
+      if (dist < 128) spritesList[i].alerted = true;
+    }
   }
 }
 

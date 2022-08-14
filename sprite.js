@@ -1,4 +1,4 @@
-import { toRadians, distance, normalizeAngle } from "./functions.js";
+import { distance } from "./functions.js";
 import { zBuffer } from "./ray.js";
 import { player, ctx } from "./raycasting.js";
 
