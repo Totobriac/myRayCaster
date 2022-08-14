@@ -131,25 +131,28 @@ class Hud {
     if (numbs.length < 3) numbs.unshift(0);
 
     if (this.player.life != this.oldLife) {
-      this.lifeGlitch ++;
+      this.lifeGlitch++;
       if (this.lifeGlitch > 7) {
         this.oldLife = this.player.life;
         this.lifeGlitch = 0
       }
     }
-    
+
     var xOffset = -6
 
     this.ctx.drawImage(blackback, 972 + xOffset, 192);
-    this.ctx.drawImage(blackback, 1025+ xOffset, 192);
-    this.ctx.drawImage(blackback, 1078+ xOffset, 192);
+    this.ctx.drawImage(blackback, 1025 + xOffset, 192);
+    this.ctx.drawImage(blackback, 1078 + xOffset, 192);
 
     if (this.lifeGlitch % 2 === 0) {
-      this.ctx.drawImage(numbers, numbs[0] * 41, 0, 41, 66, 985+ xOffset, 200, 41, 66);    
-      this.ctx.drawImage(numbers, numbs[1] * 41, 0, 41, 66, 1038+ xOffset, 200, 41, 66);
-      this.ctx.drawImage(numbers, numbs[2] * 41, 0, 41, 66, 1091+ xOffset, 200, 41, 66);
-    } 
-    
+      this.ctx.drawImage(numbers, numbs[0] * 41, 0, 41, 66, 985 + xOffset, 200, 41, 66);      
+      this.ctx.drawImage(numbers, numbs[2] * 41, 0, 41, 66, 1091 + xOffset, 200, 41, 66);
+    }
+
+    if (this.lifeGlitch % 3 === 0) {
+      this.ctx.drawImage(numbers, numbs[1] * 41, 0, 41, 66, 1038 + xOffset, 200, 41, 66);
+    }
+
   }
 }
 

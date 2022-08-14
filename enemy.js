@@ -174,7 +174,7 @@ class Enemy extends Sprite {
         }
       }
     } else {
-      if (this.hitTickCount < this.maxTickCount / 2) {
+      if (this.hitTickCount < this.maxTickCount / 4) {
         this.hitTickCount++;
       } else {
         if (this.xFrame === 0) this.xFrame = 1;
@@ -224,7 +224,7 @@ class Enemy extends Sprite {
     }
   }
   findPath() {
-    if (this.guardPathTickount > this.maxTickCount * 1) {
+    if (this.guardPathTickount > this.maxTickCount * 2) {
       this.guardPathTickount = 0;
       this.path = getPath(this.ctx, this.player, this.level, this.x, this.y);
     } else {
