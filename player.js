@@ -8,7 +8,7 @@ export class Player {
     this.map = map;
     this.ctx = ctx;
     this.angle = 0;
-    this.speed = 1;
+    this.speed = 4;
     this.moveForward = 0;
     this.rotate = 0;
     this.rotationSpeed = 2 * (Math.PI / 180);
@@ -45,16 +45,16 @@ export class Player {
     this.rotate = 0;
   }
   speedUp() {
-    if(this.speedTick < this.maxTickCount + this.speed) {
-      this.speedTick ++;
-    } else {
-      this.speedTick = 0;
-      if (this.speed < 5) this.speed += 0.2;
-    }
+    // if(this.speedTick < this.maxTickCount + this.speed) {
+    //   this.speedTick ++;
+    // } else {
+    //   this.speedTick = 0;
+    //   if (this.speed < 5) this.speed += 0.2;
+    // }
   }
   speedDown() {
-    this.speed -= 1;
-    if (this.speed < 1) this.speed = 1;
+    // this.speed -= 1;
+    // if (this.speed < 1) this.speed = 1;
   }
   chooseWeapon(nb) {
     this.chosenWeapon = nb;

@@ -244,26 +244,44 @@ export class Ray {
       var realDistance = (directDistFloor / Math.cos(this.angleR));
 
       // we calculate it's real world coordinates with the player angle
-      this.floorPointx = this.player.x + Math.cos(this.angle) * realDistance / (this.screenDist / 100);
-      this.floorPointy = this.player.y + Math.sin(this.angle) * realDistance / (this.screenDist / 100);
+      this.floorPointX = this.player.x + Math.cos(this.angle) * realDistance / (this.screenDist / 100);
+      this.floorPointY = this.player.y + Math.sin(this.angle) * realDistance / (this.screenDist / 100);
 
+      //we get its floor/ceiling tile texture
+
+      var ceilingText;
+      var floorText;
+
+      ceilingText = this.map.getTile(this.floorPointX, this.floorPointY, "ceiling");
+      floorText = this.map.getTile(this.floorPointX, this.floorPointY, "floor");
+
+      var floorYOffset = Math.floor(floorText / 9) * 64;
+      var floorXOffset = (floorText - (floorYOffset * 9)) * 64;
+
+      var ceilingYOffset = Math.floor(ceilingText / 9) * 64;
+      var ceilingXOffset = (ceilingText - (ceilingYOffset * 9)) * 64;
+      
       // we map the texture
-      var textY = Math.floor(this.floorPointx % 64);
-      var textX = Math.floor(this.floorPointy % 64);
+      var floorTextX = Math.floor(this.floorPointX % 64) + floorXOffset;
+      var floorTextY = Math.floor(this.floorPointY % 64) + floorYOffset;
+
+      var ceilingTextX = Math.floor(this.floorPointX % 64) + ceilingXOffset;
+      var ceilingTextY = Math.floor(this.floorPointY % 64) + ceilingYOffset;
 
       if (floorCeilData) {
 
         var shade = i - 170;
-        var index = textY * 256 + textX * 4;
+        var floorIndex = floorTextY * 2304 + floorTextX * 4;
+        var ceilingIndex = ceilingTextY * 2304 + ceilingTextX * 4;
 
-        floorSprite.data[(this.index * 4) + (i + 200) * 2400] = floorCeilData.data[index] + shade
-        floorSprite.data[(this.index * 4) + (i + 200) * 2400 + 1] = floorCeilData.data[index + 1] + shade
-        floorSprite.data[(this.index * 4) + (i + 200) * 2400 + 2] = floorCeilData.data[index + 2] + shade
+        floorSprite.data[(this.index * 4) + (i + 200) * 2400] = floorCeilData.data[floorIndex] + shade;
+        floorSprite.data[(this.index * 4) + (i + 200) * 2400 + 1] = floorCeilData.data[floorIndex + 1] + shade;
+        floorSprite.data[(this.index * 4) + (i + 200) * 2400 + 2] = floorCeilData.data[floorIndex + 2] + shade;
         floorSprite.data[(this.index * 4) + (i + 200) * 2400 + 3] = 255;
 
-        floorSprite.data[(this.index * 4) + (200 - i) * 2400] = floorCeilData.data[index] + shade
-        floorSprite.data[(this.index * 4) + (200 - i) * 2400 + 1] = floorCeilData.data[index + 1] + shade
-        floorSprite.data[(this.index * 4) + (200 - i) * 2400 + 2] = floorCeilData.data[index + 2] + shade
+        floorSprite.data[(this.index * 4) + (200 - i) * 2400] = floorCeilData.data[ceilingIndex] + shade;
+        floorSprite.data[(this.index * 4) + (200 - i) * 2400 + 1] = floorCeilData.data[ceilingIndex + 1] + shade;
+        floorSprite.data[(this.index * 4) + (200 - i) * 2400 + 2] = floorCeilData.data[ceilingIndex + 2] + shade;
         floorSprite.data[(this.index * 4) + (200 - i) * 2400 + 3] = 255;
 
       }
