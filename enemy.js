@@ -176,7 +176,7 @@ class Enemy extends Sprite {
       } else {
         if (this.xFrame === 0) this.xFrame = 1;
         this.hitTickCount = 0;
-        if (this.xFrame  < 4) {
+        if (this.xFrame < 4) {
           this.xFrame++;
         } else {
           this.alerted = false;
@@ -194,7 +194,7 @@ class Enemy extends Sprite {
         } else {
           this.hitTickCount = 0;
           this.isHitten = false;
-          this.life--;
+          this.player.chosenWeapon != 3 ? this.life-- : this.life -= 2;
         }
       }
       this.imageX = 0;
@@ -205,7 +205,20 @@ class Enemy extends Sprite {
     this.alerted = true;
   }
   isHit() {
-    if (!this.isHitten) this.isHitten = true;
+    switch (true) {
+      case this.player.chosenWeapon === 0 && this.distance < 64:
+        if (!this.isHitten) this.isHitten = true;
+        break;
+      case this.player.chosenWeapon === 1 && this.distance < 256:
+        if (!this.isHitten) this.isHitten = true;
+        break;
+      case this.player.chosenWeapon === 2 && this.distance < 512:
+        if (!this.isHitten) this.isHitten = true;
+        break;
+      case this.player.chosenWeapon === 3 && this.distance < 256:
+        if (!this.isHitten) this.isHitten = true;
+        break;
+    }
   }
   findPath() {
     if (this.guardPathTickount > this.maxTickCount * 1) {

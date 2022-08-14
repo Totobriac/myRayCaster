@@ -265,16 +265,12 @@ export class Ray {
         var floorIndex = floorTextY * 2304 + floorTextX * 4;
         var ceilingIndex = ceilingTextY * 2304 + ceilingTextX * 4;
 
-        floorSprite.data[(this.index * 4) + (i + 200) * 2400] = floorCeilData.data[floorIndex] + shade;
-        floorSprite.data[(this.index * 4) + (i + 200) * 2400 + 1] = floorCeilData.data[floorIndex + 1] + shade;
-        floorSprite.data[(this.index * 4) + (i + 200) * 2400 + 2] = floorCeilData.data[floorIndex + 2] + shade;
+        for (let j = 0; j < 3; j++) {
+          floorSprite.data[(this.index * 4) + (i + 200) * 2400 + j] = floorCeilData.data[floorIndex + j] + shade;
+          floorSprite.data[(this.index * 4) + (200 - i) * 2400 + j] = floorCeilData.data[ceilingIndex + j] + shade;
+        }
         floorSprite.data[(this.index * 4) + (i + 200) * 2400 + 3] = 255;
-
-        floorSprite.data[(this.index * 4) + (200 - i) * 2400] = floorCeilData.data[ceilingIndex] + shade;
-        floorSprite.data[(this.index * 4) + (200 - i) * 2400 + 1] = floorCeilData.data[ceilingIndex + 1] + shade;
-        floorSprite.data[(this.index * 4) + (200 - i) * 2400 + 2] = floorCeilData.data[ceilingIndex + 2] + shade;
         floorSprite.data[(this.index * 4) + (200 - i) * 2400 + 3] = 255;
-
       }
     }
   }
