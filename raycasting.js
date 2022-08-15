@@ -50,7 +50,6 @@ function animate() {
   drawSprites(sprites);
   player.update();
   weapon.draw(sprites);
-
   requestAnimationFrame(animate);
 }
 

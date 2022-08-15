@@ -8,9 +8,9 @@ var zBuffer = [];
 
 export class Ray {
   constructor(player, map, ctx, angleR, screenDist, i) {
-    this.x;
-    this.y;
     this.player = player;
+    this.x = player.x;
+    this.y = player.y;
     this.dist = 0;
     this.map = map;
     this.ctx = ctx;
@@ -34,8 +34,6 @@ export class Ray {
     this.distHit = 0;
     this.texturePix;
     this.texture;
-    this.wallBottom;
-    this.playerHeight = 200;
     this.screenDist;
     this.floorPointx;
     this.floorPointy;
@@ -47,7 +45,6 @@ export class Ray {
     this.angle = normalizeAngle(this.angle)
     this.angle > Math.PI ? this.lookUp = true : this.lookUp = false;
     this.angle > Math.PI / 2 && this.angle < (3 * Math.PI) / 2 ? this.lookRight = false : this.lookRight = true;
-
     this.x = this.player.x;
     this.y = this.player.y;
   }
@@ -174,7 +171,7 @@ export class Ray {
       if (this.texture.length === 2) this.texture = this.texture[0];
 
     }
-    this.distHit = (this.distHit * Math.cos(this.player.angle - this.angle));
+    this.distHit = this.distHit * Math.cos(this.player.angle - this.angle);
 
     zBuffer[this.index] = this.distHit;
   }
@@ -221,11 +218,9 @@ export class Ray {
       );
     }
 
-    // we calculate how many pixels we have from bottom of wall to border of canvas
-    var pixelsToBottom = this.wallToBorder;
 
     // we calculate the distance between the first pixel at the bottom of the wall and the player eyes (canvas.height / 2)
-    var pixelRowHeight = 200 - pixelsToBottom;
+    var pixelRowHeight = 200 - this.wallToBorder;
 
     // then we loop through every pixels until we reach the border of the canvas
 
@@ -267,7 +262,7 @@ export class Ray {
 
         for (let j = 0; j < 3; j++) {
           floorSprite.data[(this.index * 4) + (i + 200) * 2400 + j] = floorCeilData.data[floorIndex + j] + shade;
-          floorSprite.data[(this.index * 4) + (200 - i) * 2400 + j] = floorCeilData.data[ceilingIndex + j] + shade;
+          floorSprite.data[(this.index * 4) + (200 - i) * 2400 + j] = floorCeilData.data[floorIndex + j] + shade;
         }
         floorSprite.data[(this.index * 4) + (i + 200) * 2400 + 3] = 255;
         floorSprite.data[(this.index * 4) + (200 - i) * 2400 + 3] = 255;
