@@ -7,7 +7,6 @@ import { createEnemies } from "./enemy.js";
 import { Hud } from "./hud.js";
 import { Weapon } from "./weapons.js";
 
-var floorCeilData;
 
 var canvas = document.getElementById('canvas');
 var ctx = canvas.getContext('2d',{ alpha: false });
@@ -15,21 +14,6 @@ canvas.height = 400;
 canvas.width = 1200;
 
 var sprites = [];
-
-var wallsSprite = new Image();
-
-wallsSprite.onload = function () {
-  tempCtx.drawImage(wallsSprite, 0, 0);
-  floorCeilData = tempCtx.getImageData(0, 0, 576, 128);
-}
-
-wallsSprite.src = "./assets/walls.png";
-
-var tempCanvas = document.createElement('canvas');
-var tempCtx = tempCanvas.getContext('2d');
-tempCanvas.width = 576;
-tempCanvas.height = 128;
-
 
 var map = new Map(ctx);
 var player = new Player(400, 800, map, ctx);
@@ -55,4 +39,4 @@ function animate() {
 
 animate();
 
-export { floorCeilData, player, ctx, map };
+export { player, ctx, map };

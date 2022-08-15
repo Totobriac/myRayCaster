@@ -1,5 +1,5 @@
 import { distance, normalizeAngle } from "./functions.js";
-import { floorCeilData } from "./raycasting.js";
+import { floorData, ceilingData } from "./texture.js";
 
 var wallsSprite = new Image();
 wallsSprite.src = "./assets/walls.png";
@@ -235,23 +235,32 @@ export class Ray {
         var realDistance = (directDistFloor / Math.cos(this.angleR));
 
         // we calculate it's real world coordinates with the player angle
-        this.floorPointX = this.player.x + Math.cos(this.angle) * realDistance / (this.screenDist / 100);
-        this.floorPointY = this.player.y + Math.sin(this.angle) * realDistance / (this.screenDist / 100);        
+        // 5.19 = this.screenDist / 100
+        this.floorPointX = this.player.x + Math.cos(this.angle) * realDistance / (5.19);
+        this.floorPointY = this.player.y + Math.sin(this.angle) * realDistance / (5.19);  
+        
+        var textNb;
 
-        var textX = Math.floor(this.floorPointX % 64) + this.xOffset ;
-        var textY = Math.floor(this.floorPointY % 64) + this.yOffset ;
+        this.floorPointX > 800 && this.floorPointY > 200 ? textNb = 1 : textNb = 6;
+       
+        var YOffset = Math.floor(textNb / 9) * 64;
+        var XOffset = (textNb - (YOffset * 9)) * 64;
 
-        if (floorCeilData) {
+        var textX = Math.floor(this.floorPointX % 64) + XOffset ;
+        var textY = Math.floor(this.floorPointY % 64) + YOffset ;
+       
+
+        if (floorData && ceilingData) {
 
           var shade = i - 170;
           var index = textY * 2304 + textX * 4;
           
           for (let j = 0; j < 3; j++) {
-            floorSprite.data[((this.index * 4)) + (i + 200) * 2400 + j] = floorCeilData.data[index + j] + shade;
-            floorSprite.data[(this.index + 1) * 4 + (i + 200) * 2400 + j] = floorCeilData.data[index + j] + shade;
+            floorSprite.data[((this.index * 4)) + (i + 200) * 2400 + j] = floorData.data[index + j] + shade;
+            floorSprite.data[(this.index + 1) * 4 + (i + 200) * 2400 + j] = floorData.data[index + j] + shade;
 
-            floorSprite.data[((this.index * 4)) + (200 - i) * 2400 + j] = floorCeilData.data[index + j] + shade;
-            floorSprite.data[((this.index + 1)) * 4 + (200 - i) * 2400 + j] = floorCeilData.data[index + j] + shade;
+            floorSprite.data[((this.index * 4)) + (200 - i) * 2400 + j] = ceilingData.data[index + j] + shade;
+            floorSprite.data[((this.index + 1)) * 4 + (200 - i) * 2400 + j] = ceilingData.data[index + j] + shade;
           }
         }
       }
