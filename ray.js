@@ -223,6 +223,9 @@ export class Ray {
     var pixelRowHeight = 200 - this.wallToBorder;
 
     // then we loop through every pixels until we reach the border of the canvas
+    var kk = 5
+    if (this.index % kk === 0) {
+
 
     for (let i = pixelRowHeight; i < 200; i += 1) {
 
@@ -238,36 +241,45 @@ export class Ray {
 
       //we get its floor/ceiling tile texture
 
-      var ceilingText = this.map.getTile(this.floorPointX, this.floorPointY, "ceiling");
+      //var ceilingText = this.map.getTile(this.floorPointX, this.floorPointY, "ceiling");
       var floorText = this.map.getTile(this.floorPointX, this.floorPointY, "floor");
 
       var floorYOffset = Math.floor(floorText / 9) * 64;
       var floorXOffset = (floorText - (floorYOffset * 9)) * 64;
 
-      var ceilingYOffset = Math.floor(ceilingText / 9) * 64;
-      var ceilingXOffset = (ceilingText - (ceilingYOffset * 9)) * 64;
+      //var ceilingYOffset = Math.floor(ceilingText / 9) * 64;
+      //var ceilingXOffset = (ceilingText - (ceilingYOffset * 9)) * 64;
 
       // we map the texture
       var floorTextX = Math.floor(this.floorPointX % 64) + floorXOffset;
       var floorTextY = Math.floor(this.floorPointY % 64) + floorYOffset;
 
-      var ceilingTextX = Math.floor(this.floorPointX % 64) + ceilingXOffset;
-      var ceilingTextY = Math.floor(this.floorPointY % 64) + ceilingYOffset;
+      //var ceilingTextX = Math.floor(this.floorPointX % 64) + ceilingXOffset;
+      //var ceilingTextY = Math.floor(this.floorPointY % 64) + ceilingYOffset;
 
       if (floorCeilData) {
 
         var shade = i - 170;
         var floorIndex = floorTextY * 2304 + floorTextX * 4;
-        var ceilingIndex = ceilingTextY * 2304 + ceilingTextX * 4;
+        //var ceilingIndex = ceilingTextY * 2304 + ceilingTextX * 4;
 
         for (let j = 0; j < 3; j++) {
-          floorSprite.data[(this.index * 4) + (i + 200) * 2400 + j] = floorCeilData.data[floorIndex + j] + shade;
-          floorSprite.data[(this.index * 4) + (200 - i) * 2400 + j] = floorCeilData.data[floorIndex + j] + shade;
+          for (let k = 0; k < kk; k++) {
+           floorSprite.data[(this.index + k) * 4  + (i + 200) * 2400 + j] = floorCeilData.data[floorIndex + j] + shade;
+// floorSprite.data[(this.index + 0) * 4  + (i + 200) * 2400 + j] = floorCeilData.data[floorIndex + j] + shade;
+// floorSprite.data[(this.index + 1) * 4  + (i + 200) * 2400 + j] = floorCeilData.data[floorIndex + j] + shade;
+// floorSprite.data[(this.index + 2) * 4  + (i + 200) * 2400 + j] = floorCeilData.data[floorIndex + j] + shade;
+
+
+          floorSprite.data[(this.index +k) * 4  + (200 - i) * 2400 + j] = floorCeilData.data[floorIndex + j] + shade;
+           //  floorSprite.data[(this.index) * 4  + (200 - i) * 2400 + j] = floorCeilData.data[floorIndex + j] + shade;
+           // floorSprite.data[((this.index +1) * 4) + (200 - i) * 2400 + j] = floorCeilData.data[floorIndex + j] + shade;
+           //   floorSprite.data[((this.index +2) * 4) + (200 - i) * 2400 + j] = floorCeilData.data[floorIndex + j] + shade;
+}
         }
-        floorSprite.data[(this.index * 4) + (i + 200) * 2400 + 3] = 255;
-        floorSprite.data[(this.index * 4) + (200 - i) * 2400 + 3] = 255;
       }
     }
+  }
   }
 }
 
