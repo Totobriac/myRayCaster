@@ -77,7 +77,7 @@ export class Ray {
     while (!this.isHittingY) {
       var xTile = Math.floor(nextHorizX / 64);
       var yTile = Math.floor(nextHorizY / 64);
-      if (this.map.checkCollision(yTile, xTile,nextHorizX, nextHorizY, this.angle, "yCollision", this.lookUp)) {
+      if (this.map.checkCollision(yTile, xTile, nextHorizX, nextHorizY, this.angle, "yCollision", this.lookUp)) {
         this.isHittingY = true;
         this.wallHitHX = nextHorizX;
         this.wallHitHY = nextHorizY;
@@ -144,7 +144,7 @@ export class Ray {
         this.wallHitVX += 32;
         this.wallHitVY += 32 * Math.tan(this.angle);
         horizDst = distance(this.x, this.y, this.wallHitVX, this.wallHitVY);
-      } else if (tex[0] === 8 && !this.lookRight ) {
+      } else if (tex[0] === 8 && !this.lookRight) {
         this.wallHitVX -= 32;
         this.wallHitVY -= 32 * Math.tan(this.angle);
         horizDst = distance(this.x, this.y, this.wallHitVX, this.wallHitVY);
@@ -187,15 +187,16 @@ export class Ray {
 
     this.wallToBorder = Math.floor((400 - wallHeight) / 2);
 
-    var yOffset = Math.floor(this.texture / 9);
-    var xOffset = this.texture - (yOffset * 9);
+    this.yOffset = Math.floor(this.texture / 9) * 64;
+    this.xOffset = this.texture - (this.yOffset * 9) * 64;
+
     this.ctx.imageSmoothingEnabled = false;
 
     if (this.texture != 7) {
       this.ctx.drawImage(
         wallsSprite,
-        xOffset * 64 + this.texturePix,
-        yOffset * 64,
+        this.xOffset + this.texturePix,
+        this.yOffset ,
         1,
         63,
         this.index + 300,
@@ -223,49 +224,36 @@ export class Ray {
     var pixelRowHeight = 200 - this.wallToBorder;
 
     // then we loop through every pixels until we reach the border of the canvas
+    if (this.index % 2 === 0) {
 
-    for (let i = pixelRowHeight; i < 200; i += 1) {
+      for (let i = pixelRowHeight; i < 200; i += 1) {
 
-      // we calculate the straight distance between the player and the pixel
-      var directDistFloor = (this.screenDist * 200) / i;
+        // we calculate the straight distance between the player and the pixel
+        var directDistFloor = (this.screenDist * 200) / i;
 
-      // we calculate it's real world distance with the angle relative to the player
-      var realDistance = (directDistFloor / Math.cos(this.angleR));
+        // we calculate it's real world distance with the angle relative to the player
+        var realDistance = (directDistFloor / Math.cos(this.angleR));
 
-      // we calculate it's real world coordinates with the player angle
-      this.floorPointX = this.player.x + Math.cos(this.angle) * realDistance / (this.screenDist / 100);
-      this.floorPointY = this.player.y + Math.sin(this.angle) * realDistance / (this.screenDist / 100);
+        // we calculate it's real world coordinates with the player angle
+        this.floorPointX = this.player.x + Math.cos(this.angle) * realDistance / (this.screenDist / 100);
+        this.floorPointY = this.player.y + Math.sin(this.angle) * realDistance / (this.screenDist / 100);        
 
-      //we get its floor/ceiling tile texture
+        var textX = Math.floor(this.floorPointX % 64) + this.xOffset ;
+        var textY = Math.floor(this.floorPointY % 64) + this.yOffset ;
 
-      var ceilingText = this.map.getTile(this.floorPointX, this.floorPointY, "ceiling");
-      var floorText = this.map.getTile(this.floorPointX, this.floorPointY, "floor");
+        if (floorCeilData) {
 
-      var floorYOffset = Math.floor(floorText / 9) * 64;
-      var floorXOffset = (floorText - (floorYOffset * 9)) * 64;
+          var shade = i - 170;
+          var index = textY * 2304 + textX * 4;
+          
+          for (let j = 0; j < 3; j++) {
+            floorSprite.data[((this.index * 4)) + (i + 200) * 2400 + j] = floorCeilData.data[index + j] + shade;
+            floorSprite.data[(this.index + 1) * 4 + (i + 200) * 2400 + j] = floorCeilData.data[index + j] + shade;
 
-      var ceilingYOffset = Math.floor(ceilingText / 9) * 64;
-      var ceilingXOffset = (ceilingText - (ceilingYOffset * 9)) * 64;
-
-      // we map the texture
-      var floorTextX = Math.floor(this.floorPointX % 64) + floorXOffset;
-      var floorTextY = Math.floor(this.floorPointY % 64) + floorYOffset;
-
-      var ceilingTextX = Math.floor(this.floorPointX % 64) + ceilingXOffset;
-      var ceilingTextY = Math.floor(this.floorPointY % 64) + ceilingYOffset;
-
-      if (floorCeilData) {
-
-        var shade = i - 170;
-        var floorIndex = floorTextY * 2304 + floorTextX * 4;
-        var ceilingIndex = ceilingTextY * 2304 + ceilingTextX * 4;
-
-        for (let j = 0; j < 3; j++) {
-          floorSprite.data[(this.index * 4) + (i + 200) * 2400 + j] = floorCeilData.data[floorIndex + j] + shade;
-          floorSprite.data[(this.index * 4) + (200 - i) * 2400 + j] = floorCeilData.data[floorIndex + j] + shade;
+            floorSprite.data[((this.index * 4)) + (200 - i) * 2400 + j] = floorCeilData.data[index + j] + shade;
+            floorSprite.data[((this.index + 1)) * 4 + (200 - i) * 2400 + j] = floorCeilData.data[index + j] + shade;
+          }
         }
-        floorSprite.data[(this.index * 4) + (i + 200) * 2400 + 3] = 255;
-        floorSprite.data[(this.index * 4) + (200 - i) * 2400 + 3] = 255;
       }
     }
   }
