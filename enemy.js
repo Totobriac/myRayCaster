@@ -9,6 +9,12 @@ guard.src = "./assets/guard.png";
 var officer = new Image();
 officer.src = "./assets/officer.png";
 
+var zombi = new Image();
+zombi.src = "./assets/uberZombi.png";
+
+var dog = new Image();
+dog.src = "./assets/dog.png";
+
 var spritesList;
 
 
@@ -63,7 +69,7 @@ class Enemy extends Sprite {
     this.playXGrid = Math.floor(this.player.x / 64);
     this.playYGrid = Math.floor(this.player.y / 64);
 
-    if (!this.still) {
+    if (!this.still && !this.alerted) {
       var newX = this.x + Math.cos(this.angle * Math.PI / 180) * this.speed;
       var newY = this.y + Math.sin(this.angle * Math.PI / 180) * this.speed;
 
@@ -186,6 +192,7 @@ class Enemy extends Sprite {
           this.xFrame++;
         } else {
           this.alerted = false;
+          this.still = true;
         }
         this.imageY = 5 * 64;
         this.imageX = this.xFrame * 64;
@@ -241,10 +248,16 @@ class Enemy extends Sprite {
         this.fireRange = Math.floor(Math.random() * 2 + 2);
         break;
       case "officer":
-        this.fireRange = Math.floor(Math.random() * 2 + 4);;
+        this.fireRange = Math.floor(Math.random() * 2 + 4);
         break;
-    }
+      case "zombi":
+        this.fireRange = Math.floor(Math.random() * 2 + 2);
+        break;
+      case "dog":
+        this.fireRange = 2;
+        break;
   }
+}
 }
 
 function createEnemies(sprites, enemyList) {
