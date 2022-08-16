@@ -3,7 +3,7 @@ import { zBuffer } from "./ray.js";
 import { player, ctx } from "./raycasting.js";
 
 var items = new Image();
-items.src = "./assets/items.png";
+items.src = "./assets/items2.png";
 
 class Sprite {
   constructor(x, y, image, frame, player, still, ctx, type) {
