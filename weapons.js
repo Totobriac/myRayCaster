@@ -63,7 +63,8 @@ class Weapon {
         this.xFrame = 0;
       }
     }
-    for (let i = sprites.length -1; i >= 0; i--) {
+    
+    for (let i = sprites.length -2; i >= 0; i--) {
       if (sprites[i].type === "enemy" && sprites[i].life > 0 ) {
         if (sprites[i].screenX - sprites[i].spriteWidth / 4 <= 300 && sprites[i].screenX + sprites[i].spriteWidth / 4 >= 300) {
           sprites[i].isHit();

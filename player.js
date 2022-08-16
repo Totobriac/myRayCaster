@@ -24,7 +24,6 @@ export class Player {
   up() {
     this.moveForward = 1;
     this.isMoving = true;
-    this.speedUp();
   }
   down() {
     this.moveForward = -1;
@@ -32,11 +31,9 @@ export class Player {
   }
   right() {
     this.rotate = 1;
-    this.speedUp();
   }
   left() {
     this.rotate = -1;
-    this.speedUp();
   }
   stopMove() {
     this.moveForward = 0;
@@ -44,18 +41,6 @@ export class Player {
   }
   stopTurn() {
     this.rotate = 0;
-  }
-  speedUp() {
-    // if(this.speedTick < this.maxTickCount + this.speed) {
-    //   this.speedTick ++;
-    // } else {
-    //   this.speedTick = 0;
-    //   if (this.speed < 5) this.speed += 0.2;
-    // }
-  }
-  speedDown() {
-    // this.speed -= 1;
-    // if (this.speed < 1) this.speed = 1;
   }
   chooseWeapon(nb) {
     this.chosenWeapon = nb;
@@ -72,7 +57,7 @@ export class Player {
   update() {
     var newX = this.x + this.moveForward * Math.cos(this.angle) * this.speed;
     var newY = this.y + this.moveForward * Math.sin(this.angle) * this.speed;
-    
+
     this.angle += this.rotate * this.rotationSpeed;
     this.angle = normalizeAngle(this.angle);
 
@@ -80,8 +65,6 @@ export class Player {
       this.x = newX;
       this.y = newY;
     }
-    if (this.isMoving) this.speedUp();
-    if (!this.isMoving && this.speed > 1) this.speedDown();
   }
   draw() {
     this.update();

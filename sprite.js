@@ -64,20 +64,27 @@ class Sprite {
   }
 }
 
-function createSprites(sprites, spriteList) {
-  for (let i = 0; i < spriteList.length; i++) {
-    sprites[i] = new Sprite(spriteList[i][0], spriteList[i][1], eval(spriteList[i][3]), spriteList[i][2], player, spriteList[i][3], ctx, "object");
+function createSprites(sprites, map) {
+  var index = 0
+  var spy = []
+  for( let i = 0; i < map.mapY; i++ ){
+    for (let j = 0; j < map.mapX; j++) {
+      if (map.sprites[i][j] != 0 && map.sprites[i][j].length === 1 ) {
+        index ++;
+        sprites[index] = new Sprite(j * 64, i *64 , eval(items), parseInt(map.sprites[i][j]) , player, true, ctx, "object");
+      }
+    }
   }
 }
 
 function drawSprites(sprites) {
-  sprites.sort(function (obj1, obj2) {
+  sprites.sort(function(obj1, obj2) {
     return obj2.distance - obj1.distance;
   });
-  
-  for (let i = 0; i < sprites.length; i++) {   
-    sprites[i].draw();    
+  for (let i = 0; i < sprites.length - 1; i++) {
+    sprites[i].draw();
   }
 }
+
 
 export { createSprites, drawSprites, Sprite }

@@ -23,8 +23,14 @@ var hud = new Hud(ctx, player, map);
 var weapon = new Weapon(ctx, player);
 
 Map.prototype.player = player;
-createSprites(sprites, map.spritesList);
-createEnemies(sprites, map.enemiesList);
+
+async function generateSprites() {
+  createSprites(sprites, map);
+}
+
+generateSprites().then(createEnemies(sprites, map.enemiesList));
+// createSprites(sprites, map);
+// createEnemies(sprites, map.enemiesList)
 
 function animate() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -38,5 +44,7 @@ function animate() {
 }
 
 animate();
+
+
 
 export { player, ctx, map };

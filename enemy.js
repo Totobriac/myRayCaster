@@ -20,7 +20,7 @@ var spritesList;
 
 class Enemy extends Sprite {
   constructor(x, y, image, frame, player, still, ctx, type, map, character) {
-    super(x, y, image, frame, player, still, ctx, type);
+    super(x, y, image, frame, player, still, ctx);
     this.level = map;
     this.angle = 0;
     this.tickCount = 0;
@@ -42,6 +42,7 @@ class Enemy extends Sprite {
     this.isHitten = false;
     this.life = 3;
     this.character = character;
+    this.type = "enemy";
     this.setFireRange();
   }
   draw() {
@@ -265,6 +266,7 @@ function createEnemies(sprites, enemyList) {
   for (let i = 0; i < enemyList.length; i++) {
     sprites[i + spLength] = new Enemy(enemyList[i][0], enemyList[i][1], eval(enemyList[i][3]), enemyList[i][2], player, enemyList[i][4], ctx, "enemy", map, enemyList[i][3]);
   }
+  sprites = sprites.slice(1, sprites.length);
   spritesList = sprites;
 }
 

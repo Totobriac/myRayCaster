@@ -100,21 +100,24 @@ function search(map, player, nmeX, nmeY) {
     let neighbors = current.updateNeighbors(grid);
 
     for (let i = 0; i < neighbors.length; i++) {
-      let neighbor = neighbors[i];
+      let neigh = neighbors[i];
 
-      if (!closedSet.includes(neighbor) && (map.wall[neighbor.y][neighbor.x] == 0 || (map.wall[neighbor.y][neighbor.x] == 8 && map.sprites[neighbor.y][neighbor.x][0] == 0))) {
+      if ( !closedSet.includes(neigh) &&
+            (map.wall[neigh.y][neigh.x] == 0 && map.sprites[neigh.y][neigh.x] == 0)
+         ) {
+
         let possibleG = current.g + 1;
 
-        if (!openSet.includes(neighbor)) {
-          openSet.push(neighbor);
-        } else if (possibleG >= neighbor.g) {
+        if (!openSet.includes(neigh)) {
+          openSet.push(neigh);
+        } else if (possibleG >= neigh.g) {
           continue;
         }
 
-        neighbor.g = possibleG;
-        neighbor.h = heuristic(neighbor, end);
-        neighbor.f = neighbor.g + neighbor.h;
-        neighbor.parent = current;
+        neigh.g = possibleG;
+        neigh.h = heuristic(neigh, end);
+        neigh.f = neigh.g + neigh.h;
+        neigh.parent = current;
       }
     }
   }

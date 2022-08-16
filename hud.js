@@ -75,7 +75,7 @@ class Hud {
     }
 
     for (let i = 0; i < sprites.length; i++) {
-      if (sprites[i].character) {
+      if (sprites[i] && sprites[i].character) {
         var X = Math.floor(sprites[i].x / 64);
         var Y = Math.floor(sprites[i].y / 64);
         this.ctx.fillStyle = "red";
@@ -145,7 +145,7 @@ class Hud {
     this.ctx.drawImage(blackback, 1078 + xOffset, 192);
 
     if (this.lifeGlitch % 2 === 0) {
-      this.ctx.drawImage(numbers, numbs[0] * 41, 0, 41, 66, 985 + xOffset, 200, 41, 66);      
+      this.ctx.drawImage(numbers, numbs[0] * 41, 0, 41, 66, 985 + xOffset, 200, 41, 66);
       this.ctx.drawImage(numbers, numbs[2] * 41, 0, 41, 66, 1091 + xOffset, 200, 41, 66);
     }
 
