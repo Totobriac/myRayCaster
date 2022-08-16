@@ -127,11 +127,11 @@ export class Ray {
     if (this.isHittingY) {
       vertiDst = distance(this.x, this.y, this.wallHitHX, this.wallHitHY);
       var tex = this.map.getTile(this.wallHitHX, this.wallHitHY, "wall");
-      if (tex && tex[0] === 8 && !this.lookUp) {
+      if (tex && tex === 8 && !this.lookUp) {
         this.wallHitHX += 32 / Math.tan(this.angle);
         this.wallHitHY += 32;
         vertiDst = distance(this.x, this.y, this.wallHitHX, this.wallHitHY);
-      } else if (tex && tex[0] === 8 && this.lookUp) {
+      } else if (tex && tex === 8 && this.lookUp) {
         this.wallHitHX -= 32 / Math.tan(this.angle);
         this.wallHitHY -= 32;
         vertiDst = distance(this.x, this.y, this.wallHitHX, this.wallHitHY);
@@ -195,8 +195,8 @@ export class Ray {
     if (this.texture != 7) {
       this.ctx.drawImage(
         wallsSprite,
-        this.xOffset + this.texturePix,
-        this.yOffset ,
+        this.xOffset * 64+ this.texturePix,
+        this.yOffset * 64,
         1,
         63,
         this.index + 300,
@@ -205,10 +205,14 @@ export class Ray {
         wallHeight
       );
     } else {
-      var doorStatus = this.map.getTile(this.wallHitX, this.wallHitY, "sprite");
+
+      var X = Math.floor(this.wallHitX / 64);
+      var Y = Math.floor(this.wallHitY / 64);
+      var i = this.map.getDoor(X, Y);
+
       this.ctx.drawImage(
         wallsSprite,
-        448 + this.texturePix - doorStatus[1],
+        448 + this.texturePix - this.map.doors[i].yOffset,
         0,
         1,
         63,
@@ -237,24 +241,24 @@ export class Ray {
         // we calculate it's real world coordinates with the player angle
         // 5.19 = this.screenDist / 100
         this.floorPointX = this.player.x + Math.cos(this.angle) * realDistance / (5.19);
-        this.floorPointY = this.player.y + Math.sin(this.angle) * realDistance / (5.19);  
-        
+        this.floorPointY = this.player.y + Math.sin(this.angle) * realDistance / (5.19);
+
         var textNb;
 
         this.floorPointX > 800 && this.floorPointY > 200 ? textNb = 1 : textNb = 6;
-       
+
         var YOffset = Math.floor(textNb / 9) * 64;
         var XOffset = (textNb - (YOffset * 9)) * 64;
 
         var textX = Math.floor(this.floorPointX % 64) + XOffset ;
         var textY = Math.floor(this.floorPointY % 64) + YOffset ;
-       
+
 
         if (floorData && ceilingData) {
 
           var shade = i - 170;
           var index = textY * 2304 + textX * 4;
-          
+
           for (let j = 0; j < 3; j++) {
             floorSprite.data[((this.index * 4)) + (i + 200) * 2400 + j] = floorData.data[index + j] + shade;
             floorSprite.data[(this.index + 1) * 4 + (i + 200) * 2400 + j] = floorData.data[index + j] + shade;
