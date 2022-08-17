@@ -10,7 +10,7 @@ let end;
 let path = [];
 var pathToDraw = [];
 
-function getPath(ctx, player, map, nmeX, nmeY) {
+function getPath(player, map, nmeX, nmeY) {
 
   pathToDraw = search(map, player, nmeX, nmeY);
 
@@ -49,7 +49,7 @@ class GridPoint {
 }
 
 
-function init(map, player, nmeX, nmeY) {
+function init(player, nmeX, nmeY) {
   openSet = [];
   closedSet = [];
   path = [];
@@ -71,7 +71,7 @@ function search(map, player, nmeX, nmeY) {
 
   populateGrid(map)
 
-  init(map, player, nmeX, nmeY);
+  init(player, nmeX, nmeY);
 
   while (openSet.length > 0) {
 
@@ -102,22 +102,44 @@ function search(map, player, nmeX, nmeY) {
     for (let i = 0; i < neighbors.length; i++) {
       let neigh = neighbors[i];
 
-      if ( !closedSet.includes(neigh) &&
-            (map.wall[neigh.y][neigh.x] == 0 && map.sprites[neigh.y][neigh.x] == 0)
-         ) {
+      if (!closedSet.includes(neigh)) {
 
-        let possibleG = current.g + 1;
+        if (map.wall[neigh.y][neigh.x] == 0) {
 
-        if (!openSet.includes(neigh)) {
-          openSet.push(neigh);
-        } else if (possibleG >= neigh.g) {
-          continue;
+          let possibleG = current.g + 1;
+
+          if (!openSet.includes(neigh)) {
+            openSet.push(neigh);
+          } else if (possibleG >= neigh.g) {
+            continue;
+          }
+          neigh.g = possibleG;
+          neigh.h = heuristic(neigh, end);
+          neigh.f = neigh.g + neigh.h;
+          neigh.parent = current;
+
+        } else if (map.wall[neigh.y][neigh.x] == 8) {
+          var X = neigh.x;
+          var Y = neigh.y;
+          
+          var index = map.getDoor(X, Y);
+          
+          if (map.doors[index].status == 0) {
+
+            let possibleG = current.g + 1;
+
+            if (!openSet.includes(neigh)) {
+              openSet.push(neigh);
+            } else if (possibleG >= neigh.g) {
+              continue;
+            }
+            neigh.g = possibleG;
+            neigh.h = heuristic(neigh, end);
+            neigh.f = neigh.g + neigh.h;
+            neigh.parent = current;
+
+          }
         }
-
-        neigh.g = possibleG;
-        neigh.h = heuristic(neigh, end);
-        neigh.f = neigh.g + neigh.h;
-        neigh.parent = current;
       }
     }
   }

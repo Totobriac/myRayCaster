@@ -238,7 +238,7 @@ class Enemy extends Sprite {
   findPath() {
     if (this.guardPathTickount > this.maxTickCount * 2) {
       this.guardPathTickount = 0;
-      this.path = getPath(this.ctx, this.player, this.level, this.x, this.y);
+      this.path = getPath(this.player, this.level, this.x, this.y);
     } else {
       this.guardPathTickount++;
     }
