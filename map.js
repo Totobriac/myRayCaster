@@ -1,3 +1,5 @@
+import { sprites } from "./raycasting.js";
+
 export class Map {
   constructor(ctx) {
     this.ctx = ctx;
@@ -8,6 +10,8 @@ export class Map {
     this.maxTickCount = 6;
     this.tileWidth = 64;
     this.tileHeight = 64;
+    this.isSearching = false;
+    this.itemTile;    
     this.wall = [
       //0    1    2    3    4    5    6    7    8    9   10   11   12   13   14   15   16   17   18   19   20   21   22   23   24   25
       [[1], [1], [1], [1], [1], [1], [1], [1], [1], [1], [1], [1], [1], [1], [1], [1], [1], [1], [1], [1], [1], [1], [1], [1], [1], [1]], //0
@@ -79,9 +83,9 @@ export class Map {
       [[0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0]], //24
       [[0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [35], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0]], //25
       [[0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0]], //26
-      [[0], [0], [0], [0], [0], [0], [0], [0], [0], [3], [8], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0]], //27
+      [[0], [0], [0], [0], [0], [0], [0], [0], [0], [3], [8], [0], [29], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0]], //27
       [[0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0]], //28
-      [[0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [2], [0], [0], [0], [0], [0], [0], [0], [0]], //29
+      [[0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [30], [0], [0], [0], [0], [2], [0], [0], [0], [0], [0], [0], [0], [0]], //29
       [[0], [0], [0], [0], [1], [2], [3], [4], [5], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0]], //30
       [[0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0]], //31
       [[0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0]], //32
@@ -104,8 +108,7 @@ export class Map {
     ]
     this.blockBlocks = [4, 9, 18, 37, 38, 39, 47, 48];
   }
-  update() {
-
+  update() {    
     for (let i = 0; i < this.doors.length; i++) {
       if (this.doors[i].status == 1 && this.doors[i].yOffset < 64) {
         this.doors[i].yOffset += 0.5;
@@ -115,8 +118,7 @@ export class Map {
       if (this.doors[i].status == 2 && this.doors[i].yOffset > 0) {
         this.doors[i].yOffset -= 0.5;
       }
-    }
-
+    }    
   }
   getDoor(x, y) {
     for (let i = 0; i < this.doors.length; i++) {
@@ -142,9 +144,9 @@ export class Map {
   checkCollision(y, x, wallX, wallY, angle, XYcollision, direction) {
     var collision = false;
     var tile = this.wall[y][x];
+    var X = Math.floor(wallX / 64);
+    var Y = Math.floor(wallY / 64);
     if (tile == 8) {
-      var X = Math.floor(wallX / 64);
-      var Y = Math.floor(wallY / 64);
       var i = this.getDoor(X, Y);
       var doorOffset = this.doors[i].yOffset;
       if (XYcollision === "xCollision") {
@@ -172,7 +174,7 @@ export class Map {
       }
     } else if (tile != 0) {
       collision = true;
-    }
+    }  
     return collision;
   }
   getTile(x, y, grid) {
@@ -182,16 +184,8 @@ export class Map {
       switch (grid) {
         case "wall":
           return this.wall[Y][X]
-          break;
-        case "ceiling":
-          return this.ceiling[Y][X]
-          break;
-        case "floor":
-          return this.floor[Y][X]
-          break;
         case "sprite":
           return this.sprites[Y][X]
-          break;
         default:
       }
     }
@@ -225,4 +219,20 @@ export class Map {
         break;
     }
   }
+  removeSprite(spr) {       
+    if (!this.isSearching) {    
+      this.isSearching = true;
+      var index = sprites.findIndex(find);      
+      function find(sprite) {
+        return parseInt(sprite.frame) === spr;
+      }
+      if (index) {
+        var X = Math.floor(this.player.x / 64);
+        var Y = Math.floor(this.player.y / 64);
+        
+        this.itemTile = [X,Y];  
+        sprites.splice(index, 1);        
+      }
+    }    
+  }  
 }
