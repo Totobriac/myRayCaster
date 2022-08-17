@@ -23,9 +23,9 @@ class Sprite {
     this.getImageXY();
   }
   getImageXY() {
-    var line = Math.floor(this.frame / 4);
+    var line = Math.floor(this.frame / 5);
     this.imageY = line * 64;
-    this.imageX = (this.frame - (line * 4)) * 64;
+    this.imageX = (this.frame - (line * 5)) * 64;
   }
   draw() {
     this.distance = distance(this.player.x, this.player.y, this.x, this.y);
@@ -69,7 +69,7 @@ function createSprites(sprites, map) {
   var spy = []
   for( let i = 0; i < map.mapY; i++ ){
     for (let j = 0; j < map.mapX; j++) {
-      if (map.sprites[i][j] != 0 && map.sprites[i][j].length === 1 ) {
+      if (map.sprites[i][j] != 0 ) {
         index ++;
         sprites[index] = new Sprite(j * 64, i *64 , eval(items), parseInt(map.sprites[i][j]) , player, true, ctx, "object");
       }

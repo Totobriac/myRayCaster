@@ -104,7 +104,7 @@ function search(map, player, nmeX, nmeY) {
 
       if (!closedSet.includes(neigh)) {
 
-        if (map.wall[neigh.y][neigh.x] == 0) {
+        if (map.wall[neigh.y][neigh.x] == 0 && !map.blockBlocks.includes(parseInt(map.sprites[neigh.y][neigh.x]))) {
 
           let possibleG = current.g + 1;
 
@@ -121,9 +121,9 @@ function search(map, player, nmeX, nmeY) {
         } else if (map.wall[neigh.y][neigh.x] == 8) {
           var X = neigh.x;
           var Y = neigh.y;
-          
+
           var index = map.getDoor(X, Y);
-          
+
           if (map.doors[index].status == 0) {
 
             let possibleG = current.g + 1;
