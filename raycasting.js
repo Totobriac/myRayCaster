@@ -45,4 +45,4 @@ animate();
 
 
 
-export { player, ctx, map };
+export { player, ctx, map, sprites };

@@ -39,10 +39,12 @@ export class Controls {
         case "ArrowUp":
         case "ArrowDown":
           player.stopMove();
+        
           break;
         case "ArrowRight":
         case "ArrowLeft":
           player.stopTurn();
+         
           break;
       }
     });
