@@ -20,7 +20,7 @@ export class Player {
     this.maxTickCount = 4;
     this.chosenWeapon = 0;
     this.discoWeapon = 0;
-    this.life = 100;    
+    this.life = 100;
   }
   up() {
     this.moveForward = 1;
@@ -81,19 +81,25 @@ export class Player {
   checkForItem() {
     var X = Math.floor(this.x / 64);
     var Y = Math.floor(this.y / 64);
-  
+
     switch (parseInt(this.map.sprites[Y][X])) {
       case 35:
-        if (this.discoWeapon < 1) this.map.removeSprite(35);
-        this.discoWeapon = 1;
+        if (this.discoWeapon < 1) {
+          this.map.removeSprite(35);
+          this.discoWeapon = 1;
+        }
         break;
       case 29:
-        if (this.discoWeapon < 2) this.map.removeSprite(29);
-        this.discoWeapon = 2;
+        if (this.discoWeapon < 2) {
+          this.map.removeSprite(29);
+          this.discoWeapon = 2;
+        }
         break;
       case 30:
-        if (this.discoWeapon < 3) this.map.removeSprite(30);
-        this.discoWeapon = 3;
+        if (this.discoWeapon < 3) {
+          this.map.removeSprite(30);
+          this.discoWeapon = 3;
+        }
         break;
     }
   }
@@ -101,7 +107,7 @@ export class Player {
     var X = Math.floor(this.x / 64);
     var Y = Math.floor(this.y / 64);
     if (X != this.map.itemTile[0] || Y != this.map.itemTile[1]) {
-      this.map.isSearching = false;      
+      this.map.isSearching = false;
     }
   }
 }
