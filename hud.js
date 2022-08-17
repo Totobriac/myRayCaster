@@ -60,9 +60,10 @@ class Hud {
     for (let y = 0; y < this.map.mapY; y++) {
       for (let x = 0; x < this.map.mapX; x++) {
         var color;
-        if (this.map.wall[y][x] == 8) {
-          this.map.sprites[y][x][0] === 2 ? color = "yellow" : color = "rgb(235,203,152)";
-        } else if (this.map.wall[y][x].length > 1 || this.map.wall[y][x] != 0) {
+        if (this.map.wall[y][x] == 8) {         
+          var index = this.map.getDoor(x, y);
+          this.map.doors[index].status != 0 ? color = "yellow" : color = "rgb(235,203,152)";
+        } else if (this.map.wall[y][x] != 0) {
           color = "grey";
         } else {
           color = "rgb(235,203,152)";
@@ -75,7 +76,7 @@ class Hud {
     }
 
     for (let i = 0; i < sprites.length; i++) {
-      if (sprites[i] && sprites[i].character) {
+      if (sprites[i] && sprites[i].character && sprites[i].life > 0) {
         var X = Math.floor(sprites[i].x / 64);
         var Y = Math.floor(sprites[i].y / 64);
         this.ctx.fillStyle = "red";

@@ -29,8 +29,6 @@ async function generateSprites() {
 }
 
 generateSprites().then(createEnemies(sprites, map.enemiesList));
-// createSprites(sprites, map);
-// createEnemies(sprites, map.enemiesList)
 
 function animate() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);

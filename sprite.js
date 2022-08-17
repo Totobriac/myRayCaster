@@ -45,7 +45,7 @@ class Sprite {
     if (p > 270 && playerAngle < 90) XTemp += 360;
     if (playerAngle > 270 && p < 90) XTemp -= 360;
 
-	  this.screenX = XTemp * 600 / 60;
+	  this.screenX = (XTemp * 600 / 60);
 
     var spriteHeight = (this.screenDist * 64) / this.distance;
 
@@ -71,7 +71,7 @@ function createSprites(sprites, map) {
     for (let j = 0; j < map.mapX; j++) {
       if (map.sprites[i][j] != 0 ) {
         index ++;
-        sprites[index] = new Sprite(j * 64, i *64 , eval(items), parseInt(map.sprites[i][j]) , player, true, ctx, "object");
+        sprites[index] = new Sprite((j * 64) + 32, (i *64) + 32, eval(items), parseInt(map.sprites[i][j]) , player, true, ctx, "object");
       }
     }
   }
