@@ -20,6 +20,7 @@ export class Player {
     this.maxTickCount = 4;
     this.chosenWeapon = 0;
     this.discoWeapon = 0;
+    this.keys = 0;
     this.life = 100;
   }
   up() {
@@ -99,6 +100,18 @@ export class Player {
         if (this.discoWeapon < 3) {
           this.map.removeSprite(30);
           this.discoWeapon = 3;
+        }
+        break;
+      case 22:
+        if (this.keys < 1) {
+          this.map.removeSprite(22);
+          this.keys = 1;
+        }
+        break;
+      case 23:
+        if (this.keys < 2) {
+          this.map.removeSprite(23);
+          this.keys = 2;
         }
         break;
     }
