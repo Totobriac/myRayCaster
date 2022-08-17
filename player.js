@@ -19,6 +19,7 @@ export class Player {
     this.speedTick = 0;
     this.maxTickCount = 4;
     this.chosenWeapon = 0;
+    this.discoWeapon = 2;
     this.life = 100;
   }
   up() {
@@ -43,7 +44,7 @@ export class Player {
     this.rotate = 0;
   }
   chooseWeapon(nb) {
-    this.chosenWeapon = nb;
+    if (nb <= this.discoWeapon) this.chosenWeapon = nb;
   }
   checkForCollision(x, y) {
     var collision = false;

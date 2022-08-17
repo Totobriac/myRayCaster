@@ -17,7 +17,13 @@ var numbers = new Image();
 numbers.src = "./assets/numbers.png";
 
 var blackback = new Image();
-blackback.src = "./assets/black.png";
+blackback.src = "./assets/black2.png";
+
+var keys = new Image();
+keys.src = "./assets/keys.png";
+
+var red = new Image();
+red.src = "./assets/redDot.png";
 
 class Hud {
   constructor(ctx, player, map) {
@@ -34,15 +40,7 @@ class Hud {
     this.ctx.drawImage(tableTop, 0, 0);
     this.ctx.drawImage(metalTop, 900, 0);
 
-    this.ctx.font = "48px wolf";
-    this.ctx.fillStyle = "rgb(242, 242, 242)";
-    this.ctx.fillText('level 1', 10, 44);
-
-    this.ctx.fillStyle = "red"
-    this.ctx.fillRect(1048, 86, 4, 4);
-
     this.drawMinimap(sprites);
-    this.drawSoundMeter();
     this.drawWeaponIcon();
     this.drawLifeMeter();
   }
@@ -60,7 +58,7 @@ class Hud {
     for (let y = 0; y < this.map.mapY; y++) {
       for (let x = 0; x < this.map.mapX; x++) {
         var color;
-        if (this.map.wall[y][x] == 8) {         
+        if (this.map.wall[y][x] == 8) {
           var index = this.map.getDoor(x, y);
           this.map.doors[index].status != 0 ? color = "yellow" : color = "rgb(235,203,152)";
         } else if (this.map.wall[y][x] != 0) {
@@ -101,19 +99,6 @@ class Hud {
     this.ctx.fillRect(900, 0, 300, 4);
     this.ctx.fillRect(900, 396, 300, 4);
   }
-  drawSoundMeter() {
-    this.soundAngle < Math.floor(310 + this.player.speed * 20 - 20) ? this.soundAngle += 0.5 : this.soundAngle -= 2;
-    var angle;
-    this.soundAngle > 360 ? angle = this.soundAngle - 360 : angle = this.soundAngle;
-    this.ctx.save();
-    this.ctx.translate(1050, 86);
-    this.ctx.rotate(angle * Math.PI / 180);
-    this.ctx.beginPath();
-    this.ctx.moveTo(0, 0);
-    this.ctx.lineTo(0, -46);
-    this.ctx.stroke();
-    this.ctx.restore();
-  }
   drawWeaponIcon() {
     var diff = this.player.chosenWeapon * 48;
 
@@ -123,8 +108,20 @@ class Hud {
       this.wOffset += 2;
     }
 
-    this.ctx.drawImage(weaponIcon, this.wOffset, 0, 48, 24, 978, 290, 144, 72);
-    this.ctx.drawImage(weaponBorder, 967, 287)
+    this.ctx.drawImage(weaponIcon, this.wOffset, 0, 48, 24, 978, 250, 144, 72);
+    this.ctx.drawImage(weaponBorder, 967, 247);
+
+    this.ctx.drawImage(red, 969 + this.player.chosenWeapon * 40, 340);
+    this.ctx.drawImage(keys, 
+      0,
+      0,
+      41 + this.player.discoWeapon * 40,
+      40,
+      969,
+      340,
+      41 + this.player.discoWeapon * 40,
+      40);
+
   }
   drawLifeMeter() {
     var digits = this.player.life.toString().split('');
@@ -139,19 +136,24 @@ class Hud {
       }
     }
 
-    var xOffset = -6
+    var yOffset = -120;
+    var xOffset = 30;
 
-    this.ctx.drawImage(blackback, 972 + xOffset, 192);
-    this.ctx.drawImage(blackback, 1025 + xOffset, 192);
-    this.ctx.drawImage(blackback, 1078 + xOffset, 192);
+    this.ctx.font = "48px wolf";
+    this.ctx.fillStyle = "rgb(0,0,164)";
+    this.ctx.fillText('Life:', 930, 130);
+
+    this.ctx.drawImage(blackback, 966 + xOffset, 192 + yOffset);
+    this.ctx.drawImage(blackback, 1019 + xOffset, 192 + yOffset);
+    this.ctx.drawImage(blackback, 1072 + xOffset, 192 + yOffset);
 
     if (this.lifeGlitch % 2 === 0) {
-      this.ctx.drawImage(numbers, numbs[0] * 41, 0, 41, 66, 985 + xOffset, 200, 41, 66);
-      this.ctx.drawImage(numbers, numbs[2] * 41, 0, 41, 66, 1091 + xOffset, 200, 41, 66);
+      this.ctx.drawImage(numbers, numbs[0] * 41, 0, 41, 66, 979 + xOffset, 200 + yOffset, 41, 66);
+      this.ctx.drawImage(numbers, numbs[2] * 41, 0, 41, 66, 1085 + xOffset, 200 + yOffset, 41, 66);
     }
 
     if (this.lifeGlitch % 3 === 0) {
-      this.ctx.drawImage(numbers, numbs[1] * 41, 0, 41, 66, 1038 + xOffset, 200, 41, 66);
+      this.ctx.drawImage(numbers, numbs[1] * 41, 0, 41, 66, 1032 + xOffset, 200 + yOffset, 41, 66);
     }
 
   }

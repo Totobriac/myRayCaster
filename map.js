@@ -96,11 +96,11 @@ export class Map {
     this.spritesList = [];
     this.doors = [{ x: 16, y: 16, status: 2, yOffset: 0 }]
     this.enemiesList = [
-      [800, 800, 0, "officer", true], [900, 800, 0, "dog", false],
-      [80, 80, 0, "officer", true], [190, 800, 0, "dog", false],
-      [100, 100, 0, "officer", true], [900, 100, 0, "dog", false],
-      [200, 100, 0, "zombi", false], [900, 200, 0, "guard", true],
-      [300, 100, 0, "officer", true], [900, 300, 0, "guard", true]
+      // [800, 800, 0, "officer", true], [900, 800, 0, "dog", false],
+      // [80, 80, 0, "officer", true], [190, 800, 0, "dog", false],
+      // [100, 100, 0, "officer", true], [900, 100, 0, "dog", false],
+      // [200, 100, 0, "zombi", false], [900, 200, 0, "guard", true],
+      // [300, 100, 0, "officer", true], [900, 300, 0, "guard", true]
     ]
     this.blockBlocks = [4, 9, 18, 37, 38, 39, 47, 48];
   }
