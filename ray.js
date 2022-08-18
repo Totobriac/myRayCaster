@@ -1,5 +1,5 @@
 import { distance, normalizeAngle } from "./functions.js";
-import { floorData } from "./texture.js";
+import { floorData } from "./init.js";
 
 var wallsSprite = new Image();
 wallsSprite.src = "./assets/walls.png";
@@ -239,20 +239,18 @@ export class Ray {
         var floorTextNb;
         var ceilingTextNb;
 
-        if (this.floorPointX > 800) {
-          floorTextNb = 1;          
-        } else if (this.floorPointX < 600 ) {
-          floorTextNb = 16;         
+        if (this.floorPointX > 128 && this.floorPointX < 192 && this.floorPointY > 128 && this.floorPointY < 192  ) {
+          floorTextNb = 11;          
         } else {
           floorTextNb = 12;
         }
 
         if (this.floorPointX > 1000) {
-          ceilingTextNb = 11;
+          ceilingTextNb = 1;
         } else if (this.floorPointX < 800 ) {
-          ceilingTextNb = 13;
+          ceilingTextNb = 1;
         } else {
-          ceilingTextNb = 12;
+          ceilingTextNb = 1;
         }
         
         var floorYOffset = Math.floor(floorTextNb / 10) * 64;
@@ -269,18 +267,22 @@ export class Ray {
         var ceilingTextY = Math.floor(this.floorPointY % 64) + ceilingYOffset ;
 
         if (floorData) {
+          
+          var floorShade;
+          var ceilingShade;
 
-          var shade = i - 170;
+          floorTextNb === 11 ? floorShade = 0 : floorShade = i - 170;
+          ceilingTextNb === 11 ? ceilingShade = 0 : ceilingShade = i - 170;
 
           var floorIndex = floorTextY * 2304 + floorTextX * 4;
           var ceilingIndex = ceilingTextY * 2304 + ceilingTextX * 4;
 
           for (let j = 0; j < 3; j++) {
-            floorSprite.data[((this.index * 4)) + (i + 200) * 2400 + j] = floorData.data[floorIndex + j] + shade;
-            floorSprite.data[(this.index + 1) * 4 + (i + 200) * 2400 + j] = floorData.data[floorIndex + j] + shade;
+            floorSprite.data[((this.index * 4)) + (i + 200) * 2400 + j] = floorData.data[floorIndex + j] + floorShade;
+            floorSprite.data[(this.index + 1) * 4 + (i + 200) * 2400 + j] = floorData.data[floorIndex + j] + floorShade;
 
-            floorSprite.data[((this.index * 4)) + (200 - i) * 2400 + j] = floorData.data[ceilingIndex + j] + shade;
-            floorSprite.data[((this.index + 1)) * 4 + (200 - i) * 2400 + j] = floorData.data[ceilingIndex + j] + shade;
+            floorSprite.data[((this.index * 4)) + (200 - i) * 2400 + j] = floorData.data[ceilingIndex + j] + ceilingShade;
+            floorSprite.data[((this.index + 1)) * 4 + (200 - i) * 2400 + j] = floorData.data[ceilingIndex + j] + ceilingShade;
           }
         }
       }

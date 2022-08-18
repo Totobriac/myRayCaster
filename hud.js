@@ -36,15 +36,15 @@ class Hud {
     this.lifeGlitch = 0;
     this.oldLife = 100;
   }
-  draw(sprites) {
+  draw(sprites, miniMap) {
     this.ctx.drawImage(tableTop, 0, 0);
     this.ctx.drawImage(metalTop, 900, 0);
 
-    this.drawMinimap(sprites);
+    this.drawMinimap(sprites, miniMap);
     this.drawWeaponIcon();
     this.drawLifeMeter();
   }
-  drawMinimap(sprites) {
+  drawMinimap(sprites, miniMap) {
 
     this.ctx.save();
     this.ctx.translate(150, 200);
@@ -53,7 +53,9 @@ class Hud {
     var playerX = Math.floor(this.player.x / 64 * 6);
     var playerY = Math.floor(this.player.y / 64 * 6);
 
-    this.ctx.drawImage(mapBack, -40 - playerX, -32 - playerY);
+    this.ctx.drawImage(mapBack, -20 - playerX, -26 - playerY);
+
+    this.ctx.drawImage(miniMap, 0 - playerX, 0 - playerY)
 
     for (let y = 0; y < this.map.mapY; y++) {
       for (let x = 0; x < this.map.mapX; x++) {
@@ -61,15 +63,11 @@ class Hud {
         if (this.map.wall[y][x] == 8) {
           var index = this.map.getDoor(x, y);
           this.map.doors[index].status != 0 ? color = "yellow" : color = "rgb(235,203,152)";
-        } else if (this.map.wall[y][x] != 0) {
-          color = "grey";
-        } else {
-          color = "rgb(235,203,152)";
+          this.ctx.fillStyle = color;
+          var Xo = x * 6;
+          var Yo = y * 6;
+          this.ctx.fillRect(Xo - playerX, Yo - playerY, 6, 6);
         }
-        this.ctx.fillStyle = color;
-        var Xo = x * 6;
-        var Yo = y * 6;
-        this.ctx.fillRect(Xo - playerX, Yo - playerY, 6, 6);
       }
     }
 
@@ -81,7 +79,6 @@ class Hud {
         this.ctx.fillRect(X * 6 - playerX, Y * 6 - playerY, 4, 4);
       }
     }
-
     this.ctx.fillStyle = "green";
     this.ctx.fillRect(-2, -2, 4, 4);
 
@@ -112,7 +109,7 @@ class Hud {
     this.ctx.drawImage(weaponBorder, 967, 247);
 
     this.ctx.drawImage(red, 969 + this.player.chosenWeapon * 40, 340);
-    this.ctx.drawImage(keys, 
+    this.ctx.drawImage(keys,
       0,
       0,
       41 + this.player.discoWeapon * 40,

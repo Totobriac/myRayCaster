@@ -6,6 +6,7 @@ import { createSprites, drawSprites } from "./sprite.js";
 import { createEnemies } from "./enemy.js";
 import { Hud } from "./hud.js";
 import { Weapon } from "./weapons.js";
+import { drawMini } from "./init.js";
 
 
 var canvas = document.getElementById('canvas');
@@ -16,6 +17,7 @@ canvas.width = 1200;
 var sprites = [];
 
 var map = new Map(ctx);
+var miniMap = drawMini(map);
 var player = new Player(400, 800, map, ctx);
 var controls = new Controls(player, map);
 var rayCaster = new RayCaster(player, map, ctx);
@@ -32,7 +34,7 @@ generateSprites().then(createEnemies(sprites, map.enemiesList));
 
 function animate() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  hud.draw(sprites);
+  hud.draw(sprites, miniMap);
   map.update();
   rayCaster.draw();
   drawSprites(sprites);
