@@ -30,8 +30,22 @@ function drawMini(map) {
       var Yo = y * 6;
       tempCtx2.fillRect(Xo, Yo, 6, 6);
     }
-  }  
+  }
   return tempCanvas2
 }
 
-export { floorData, drawMini };
+function doorsList(mapY, mapX, map) {
+  var doors = [];
+  
+  for (let y = 0; y < mapY; y++) {
+    for (let x = 0; x < mapX; x++) {      
+      if (Number(map[y][x]) == 24) {
+        doors.push({ x: x, y: y, status: 2, yOffset: 0 });
+      }
+    }
+  }
+  console.log(doors)
+  return doors
+}
+
+export { floorData, drawMini, doorsList };
