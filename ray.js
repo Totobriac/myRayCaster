@@ -2,7 +2,7 @@ import { distance, normalizeAngle } from "./functions.js";
 import { floorData } from "./init.js";
 
 var wallsSprite = new Image();
-wallsSprite.src = "./assets/walls.png";
+wallsSprite.src = "./assets/walls2.png";
 
 var zBuffer = [];
 
@@ -163,7 +163,8 @@ export class Ray {
       this.distHit = vertiDst;
       square = Math.floor(this.wallHitX / 64) * 64;
       this.texturePix = Math.floor(this.wallHitX) - square;
-      this.texture = this.map.getTile(this.wallHitX, this.wallHitY, "wall");     
+      this.texture = this.map.getTile(this.wallHitX, this.wallHitY, "wall");
+      this.texture ++;
     }
     this.distHit = this.distHit * Math.cos(this.player.angle - this.angle);
    
