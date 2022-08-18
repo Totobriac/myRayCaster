@@ -43,8 +43,7 @@ function doorsList(mapY, mapX, map) {
         doors.push({ x: x, y: y, status: 2, yOffset: 0 });
       }
     }
-  }
-  console.log(doors)
+  } 
   return doors
 }
 
