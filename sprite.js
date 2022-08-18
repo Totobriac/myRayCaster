@@ -65,8 +65,7 @@ class Sprite {
 }
 
 function createSprites(sprites, map) {
-  var index = 0
-  var spy = []
+  var index = 0;
   for( let i = 0; i < map.mapY; i++ ){
     for (let j = 0; j < map.mapX; j++) {
       if (map.sprites[i][j] != 0 ) {
