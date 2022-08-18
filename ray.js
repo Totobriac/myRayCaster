@@ -127,11 +127,11 @@ export class Ray {
     if (this.isHittingY) {
       vertiDst = distance(this.x, this.y, this.wallHitHX, this.wallHitHY);
       var tex = this.map.getTile(this.wallHitHX, this.wallHitHY, "wall");
-      if (tex && tex === 8 && !this.lookUp) {
+      if (tex && tex == 24 && !this.lookUp) {
         this.wallHitHX += 32 / Math.tan(this.angle);
         this.wallHitHY += 32;
         vertiDst = distance(this.x, this.y, this.wallHitHX, this.wallHitHY);
-      } else if (tex && tex === 8 && this.lookUp) {
+      } else if (tex && tex === 24 && this.lookUp) {
         this.wallHitHX -= 32 / Math.tan(this.angle);
         this.wallHitHY -= 32;
         vertiDst = distance(this.x, this.y, this.wallHitHX, this.wallHitHY);
@@ -140,11 +140,11 @@ export class Ray {
     if (this.isHittingX) {
       horizDst = distance(this.x, this.y, this.wallHitVX, this.wallHitVY);
       var tex = this.map.getTile(this.wallHitVX, this.wallHitVY, "wall");
-      if (tex[0] === 8 && this.lookRight) {
+      if (tex[0] === 24 && this.lookRight) {
         this.wallHitVX += 32;
         this.wallHitVY += 32 * Math.tan(this.angle);
         horizDst = distance(this.x, this.y, this.wallHitVX, this.wallHitVY);
-      } else if (tex[0] === 8 && !this.lookRight) {
+      } else if (tex[0] === 24 && !this.lookRight) {
         this.wallHitVX -= 32;
         this.wallHitVY -= 32 * Math.tan(this.angle);
         horizDst = distance(this.x, this.y, this.wallHitVX, this.wallHitVY);
@@ -185,7 +185,7 @@ export class Ray {
 
     this.ctx.imageSmoothingEnabled = false;
 
-    if (this.texture != 8 ) {
+    if (this.texture != 24 && this.texture != 25 ) {
       this.ctx.drawImage(
         wallsSprite,
         col * 64 + this.texturePix,        
@@ -199,15 +199,14 @@ export class Ray {
       );
     } 
     else {
-
       var X = Math.floor(this.wallHitX / 64);
       var Y = Math.floor(this.wallHitY / 64);
       var i = this.map.getDoor(X, Y);
-
+     
       this.ctx.drawImage(
         wallsSprite,
-        (8*64) + this.texturePix - this.map.doors[i].yOffset,
-        0,
+        (4*64) + this.texturePix - this.map.doors[i].yOffset,
+        128,
         1,
         63,
         this.index + 300,

@@ -60,7 +60,7 @@ class Hud {
     for (let y = 0; y < this.map.mapY; y++) {
       for (let x = 0; x < this.map.mapX; x++) {
         var color;
-        if (this.map.wall[y][x] == 8) {
+        if (this.map.wall[y][x] == 24) {
           var index = this.map.getDoor(x, y);
           this.map.doors[index].status != 0 ? color = "yellow" : color = "rgb(235,203,152)";
           this.ctx.fillStyle = color;
