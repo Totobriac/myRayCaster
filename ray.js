@@ -141,8 +141,7 @@ export class Ray {
     if (this.isHittingX) {
       horizDst = distance(this.x, this.y, this.wallHitVX, this.wallHitVY);
       var tex = this.map.getTile(this.wallHitVX, this.wallHitVY, "wall");
-      if (tex[0] == 25 || tex[0] === 24 && this.lookRight) {
-        if (this.index === 0)console.log(tex)
+      if (tex[0] == 25 || tex[0] === 24 && this.lookRight) {       
         this.wallHitVX += 32;
         this.wallHitVY += 32 * Math.tan(this.angle);
         horizDst = distance(this.x, this.y, this.wallHitVX, this.wallHitVY);
