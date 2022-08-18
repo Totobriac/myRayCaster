@@ -7,7 +7,7 @@ export class Player {
     this.y = y;
     this.map = map;
     this.ctx = ctx;
-    this.angle = 0;
+    this.angle = Math.PI;
     this.speed = 4;
     this.moveForward = 0;
     this.rotate = 0;
@@ -62,7 +62,7 @@ export class Player {
 
     this.angle += this.rotate * this.rotationSpeed;
     this.angle = normalizeAngle(this.angle);
-
+    
     if (!this.checkForCollision(newX, newY)) {
       this.x = newX;
       this.y = newY;
