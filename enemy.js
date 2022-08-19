@@ -10,7 +10,7 @@ var officer = new Image();
 officer.src = "./assets/officer.png";
 
 var zombi = new Image();
-zombi.src = "./assets/uberZombi.png";
+zombi.src = "./assets/barnacle.png";
 
 var dog = new Image();
 dog.src = "./assets/dog.png";
