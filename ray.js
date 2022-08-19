@@ -293,8 +293,18 @@ export class Ray {
         var floorTextNb;
         var ceilingTextNb;
 
-        var pX = this.floorPointX;
-        var pY = this.floorPointY;
+        var pX = Math.floor(this.floorPointX /64);
+        var pY = Math.floor(this.floorPointY /64);
+
+        // var index = pX + pY * this.map.mapX;
+        //
+        // var zone = this.map.zonesList[index];
+        //
+        // if (zone === 0 ){
+        //   ceilingTextNb = 13;
+        //   floorTextNb = 1;
+        // }
+        //console.log(this.map.zonesList[index]);
 
         if (pX < 256 && pY < 640 || pX < 768 && pY > 640 || pX < 896 && pY > 1984) {
           ceilingTextNb = 13;

@@ -47,16 +47,15 @@ function doorsList(mapY, mapX, map) {
 }
 
 function createZones(mapY, mapX, zones) {
-  var zonesArray = [[],[],[],[],[],[],[],[],[],[],[]];
+  var zonesArray = [];
 
   for (let y = 0; y < mapY; y++) {
     for (let x = 0; x < mapX; x++) {
-      if (zones[y][x] != 88) {
-        var index = zones[y][x];
-        zonesArray[index].push([x,y]);
+        zonesArray.push(zones[y][x]);
       }
     }
-  }
+
+  console.log(zonesArray);
   return zonesArray
 }
 
