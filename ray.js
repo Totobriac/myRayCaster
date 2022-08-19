@@ -293,18 +293,20 @@ export class Ray {
         var floorTextNb;
         var ceilingTextNb;
 
-        if (this.floorPointX > 128 && this.floorPointX < 192 && this.floorPointY > 128 && this.floorPointY < 192) {
-          floorTextNb = 11;
+        if (this.floorPointX > 1000) {
+          ceilingTextNb = 11;
+        } else if (this.floorPointX < 800) {
+          ceilingTextNb =11;
         } else {
-          floorTextNb = 12;
+          ceilingTextNb = 11;
         }
 
         if (this.floorPointX > 1000) {
-          ceilingTextNb = 1;
+          floorTextNb = 5;
         } else if (this.floorPointX < 800) {
-          ceilingTextNb = 1;
+          floorTextNb = 5;
         } else {
-          ceilingTextNb = 1;
+          floorTextNb = 5;
         }
 
         var floorYOffset = Math.floor(floorTextNb / 10) * 64;
