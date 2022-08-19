@@ -18,7 +18,9 @@ var sprites = [];
 
 var map = new Map(ctx);
 var miniMap = drawMini(map);
-var player = new Player(1980, 2434, map, ctx);
+// var player = new Player(1980, 2434, map, ctx);
+var player = new Player(1200, 64, map, ctx);
+
 var controls = new Controls(player, map);
 var rayCaster = new RayCaster(player, map, ctx);
 var hud = new Hud(ctx, player, map);

@@ -127,12 +127,12 @@ export class Ray {
     var square;
     if (this.isHittingY) {
       vertiDst = distance(this.x, this.y, this.wallHitHX, this.wallHitHY);
-      var tex = this.map.getTile(this.wallHitHX, this.wallHitHY, "wall");     
-      if (tex && (tex[0] == 25 || tex[0] == 24) && !this.lookUp) {        
+      var tex = this.map.getTile(this.wallHitHX, this.wallHitHY, "wall");
+      if (tex && (tex[0] == 25 || tex[0] == 24) && !this.lookUp) {
         this.wallHitHX += 32 / Math.tan(this.angle);
         this.wallHitHY += 32;
         vertiDst = distance(this.x, this.y, this.wallHitHX, this.wallHitHY);
-      } else if (tex && (tex[0] == 25 || tex[0] === 24) && this.lookUp) {       
+      } else if (tex && (tex[0] == 25 || tex[0] === 24) && this.lookUp) {
         this.wallHitHX -= 32 / Math.tan(this.angle);
         this.wallHitHY -= 32;
         vertiDst = distance(this.x, this.y, this.wallHitHX, this.wallHitHY);
@@ -141,11 +141,11 @@ export class Ray {
     if (this.isHittingX) {
       horizDst = distance(this.x, this.y, this.wallHitVX, this.wallHitVY);
       var tex = this.map.getTile(this.wallHitVX, this.wallHitVY, "wall");
-      if (tex[0] == 25 || tex[0] === 24 && this.lookRight) {       
+      if (tex[0] == 25 || tex[0] === 24 && this.lookRight) {
         this.wallHitVX += 32;
         this.wallHitVY += 32 * Math.tan(this.angle);
         horizDst = distance(this.x, this.y, this.wallHitVX, this.wallHitVY);
-      } else if (tex[0] == 25 || tex[0] === 24 && !this.lookRight) {          
+      } else if (tex[0] == 25 || tex[0] === 24 && !this.lookRight) {
         this.wallHitVX -= 32;
         this.wallHitVY -= 32 * Math.tan(this.angle);
         horizDst = distance(this.x, this.y, this.wallHitVX, this.wallHitVY);
@@ -157,7 +157,23 @@ export class Ray {
       this.distHit = horizDst;
       square = Math.floor(this.wallHitY / 64);
       this.texturePix = Math.floor(this.wallHitY) - (square * 64);
-      this.texture = this.map.getTile(this.wallHitX, this.wallHitY, "wall");    
+      this.texture = this.map.getTile(this.wallHitX, this.wallHitY, "wall");
+      switch (Number(this.texture)) {
+        case 96:        
+          this.texture = 6;
+          break;
+        case 90:
+          this.texture = 22;
+          break;
+        case 91:
+          this.texture = 14;
+          break;
+        case 69:
+          case 92:
+          case 93:
+          this.texture = 26;
+          break;
+      }
     } else {
       this.wallHitX = this.wallHitHX;
       this.wallHitY = this.wallHitHY;
@@ -165,10 +181,26 @@ export class Ray {
       square = Math.floor(this.wallHitX / 64) * 64;
       this.texturePix = Math.floor(this.wallHitX) - square;
       this.texture = this.map.getTile(this.wallHitX, this.wallHitY, "wall");
-      this.texture ++;
+      switch (Number(this.texture)) {
+        case 96:
+        case 90:
+        case 91:
+          this.texture = 26;
+          break;
+        case 69:
+          this.texture = 6;
+          break;
+        case 92:
+          this.texture = 14;
+          break;
+        case 93:
+          this.texture = 16;
+          break;
+      }
+      this.texture++;
     }
     this.distHit = this.distHit * Math.cos(this.player.angle - this.angle);
-   
+
     zBuffer[this.index] = this.distHit;
   }
   wallRendering(floorSprite) {
@@ -182,14 +214,14 @@ export class Ray {
     this.wallToBorder = Math.floor((400 - wallHeight) / 2);
 
     var line = Math.floor(this.texture / 10);
-    var col = this.texture - (line * 10); 
+    var col = this.texture - (line * 10);
 
     this.ctx.imageSmoothingEnabled = false;
 
-    if (this.texture != 24 && this.texture != 25 ) {
+    if (this.texture != 24 && this.texture != 25) {
       this.ctx.drawImage(
         wallsSprite,
-        col * 64 + this.texturePix,        
+        col * 64 + this.texturePix,
         line * 64,
         1,
         63,
@@ -198,7 +230,7 @@ export class Ray {
         1,
         wallHeight
       );
-    } 
+    }
     else {
       var X = Math.floor(this.wallHitX / 64);
       var Y = Math.floor(this.wallHitY / 64);
@@ -206,10 +238,10 @@ export class Ray {
 
       var yO;
       this.texture === 24 ? yO = 4 : yO = 5;
-     
+
       this.ctx.drawImage(
         wallsSprite,
-        (yO*64) + this.texturePix - this.map.doors[i].yOffset,
+        (yO * 64) + this.texturePix - this.map.doors[i].yOffset,
         128,
         1,
         63,
@@ -243,35 +275,35 @@ export class Ray {
         var floorTextNb;
         var ceilingTextNb;
 
-        if (this.floorPointX > 128 && this.floorPointX < 192 && this.floorPointY > 128 && this.floorPointY < 192  ) {
-          floorTextNb = 11;          
+        if (this.floorPointX > 128 && this.floorPointX < 192 && this.floorPointY > 128 && this.floorPointY < 192) {
+          floorTextNb = 11;
         } else {
           floorTextNb = 12;
         }
 
         if (this.floorPointX > 1000) {
           ceilingTextNb = 1;
-        } else if (this.floorPointX < 800 ) {
+        } else if (this.floorPointX < 800) {
           ceilingTextNb = 1;
         } else {
           ceilingTextNb = 1;
         }
-        
-        var floorYOffset = Math.floor(floorTextNb / 10) * 64;
-        var floorXOffset = (floorTextNb - (floorYOffset/6.4)) * 64;
 
-        var floorTextX = Math.floor(this.floorPointX % 64) + floorXOffset ;
-        var floorTextY = Math.floor(this.floorPointY % 64) + floorYOffset ;
+        var floorYOffset = Math.floor(floorTextNb / 10) * 64;
+        var floorXOffset = (floorTextNb - (floorYOffset / 6.4)) * 64;
+
+        var floorTextX = Math.floor(this.floorPointX % 64) + floorXOffset;
+        var floorTextY = Math.floor(this.floorPointY % 64) + floorYOffset;
 
 
         var ceilingYOffset = Math.floor(ceilingTextNb / 10) * 64;
-        var ceilingXOffset = (ceilingTextNb - (ceilingYOffset/6.4)) * 64;
+        var ceilingXOffset = (ceilingTextNb - (ceilingYOffset / 6.4)) * 64;
 
-        var ceilingTextX = Math.floor(this.floorPointX % 64) + ceilingXOffset ;
-        var ceilingTextY = Math.floor(this.floorPointY % 64) + ceilingYOffset ;
+        var ceilingTextX = Math.floor(this.floorPointX % 64) + ceilingXOffset;
+        var ceilingTextY = Math.floor(this.floorPointY % 64) + ceilingYOffset;
 
         if (floorData) {
-          
+
           var floorShade;
           var ceilingShade;
 
