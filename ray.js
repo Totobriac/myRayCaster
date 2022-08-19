@@ -47,7 +47,7 @@ export class Ray {
     this.angle > Math.PI / 2 && this.angle < (3 * Math.PI) / 2 ? this.lookRight = false : this.lookRight = true;
     this.x = this.player.x;
     this.y = this.player.y;
-    //if (this.index === 0) console.log(this.lookRight, this.lookUp, this.texture)
+    if (this.index === 0) console.log(this.lookRight, this.lookUp, this.texture)
   }
   cast(floorSprite) {
     this.update();
@@ -159,7 +159,7 @@ export class Ray {
       this.texturePix = Math.floor(this.wallHitY) - (square * 64);
       this.texture = this.map.getTile(this.wallHitX, this.wallHitY, "wall");
       switch (Number(this.texture)) {
-        case 96:        
+        case 96:
           this.texture = 6;
           break;
         case 90:
@@ -169,9 +169,21 @@ export class Ray {
           this.texture = 14;
           break;
         case 69:
-          case 92:
-          case 93:
+        case 92:
+        case 93:
           this.texture = 26;
+          break;
+        case 82:
+          this.lookRight ? this.texture = 18 : this.texture = 30;
+          break;
+        case 83:
+          this.lookRight ? this.texture = 20 : this.texture = 32;
+          break;
+        case 84:
+          this.lookRight ? this.texture = 32 : this.texture = 6;
+          break;
+        case 85:
+          this.lookRight ? this.texture = 30 : this.texture = 6;
           break;
       }
     } else {
@@ -195,6 +207,12 @@ export class Ray {
           break;
         case 93:
           this.texture = 16;
+          break;
+        case 80:
+          this.lookUp ? this.texture = 30 : this.texture = 22;
+          break;
+        case 81:
+          this.lookUp ? this.texture = 32 : this.texture = 22;
           break;
       }
       this.texture++;
