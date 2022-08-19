@@ -47,7 +47,7 @@ export class Ray {
     this.angle > Math.PI / 2 && this.angle < (3 * Math.PI) / 2 ? this.lookRight = false : this.lookRight = true;
     this.x = this.player.x;
     this.y = this.player.y;
-    if (this.index === 0) console.log(this.lookRight, this.lookUp, this.texture)
+   
   }
   cast(floorSprite) {
     this.update();
