@@ -36,15 +36,28 @@ function drawMini(map) {
 
 function doorsList(mapY, mapX, map) {
   var doors = [];
-  
   for (let y = 0; y < mapY; y++) {
-    for (let x = 0; x < mapX; x++) {      
-      if (Number(map[y][x]) == 24) {
+    for (let x = 0; x < mapX; x++) {
+      if (map[y][x] == 24) {
         doors.push({ x: x, y: y, status: 2, yOffset: 0 });
       }
     }
-  } 
+  }
   return doors
 }
 
-export { floorData, drawMini, doorsList };
+function createZones(mapY, mapX, zones) {
+  var zonesArray = [[],[],[],[],[],[],[],[],[],[],[]];
+
+  for (let y = 0; y < mapY; y++) {
+    for (let x = 0; x < mapX; x++) {
+      if (zones[y][x] != 88) {
+        var index = zones[y][x];
+        zonesArray[index].push([x,y]);
+      }
+    }
+  }
+  return zonesArray
+}
+
+export { floorData, drawMini, doorsList, createZones };
