@@ -55,7 +55,6 @@ function createZones(mapY, mapX, zones) {
       }
     }
 
-  console.log(zonesArray);
   return zonesArray
 }
 

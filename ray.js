@@ -1,5 +1,6 @@
 import { distance, normalizeAngle } from "./functions.js";
 import { floorData } from "./init.js";
+import { getTextNb } from "./zone.js";
 
 var wallsSprite = new Image();
 wallsSprite.src = "./assets/walls2.png";
@@ -228,15 +229,13 @@ export class Ray {
     var wallHeight = (realWallHeight / this.distHit) * this.screenDist;
 
     var y = 200 - Math.floor(wallHeight / 2);
-
-    this.wallToBorder = Math.floor((400 - wallHeight) / 2);
-
+   
     var line = Math.floor(this.texture / 10);
     var col = this.texture - (line * 10);
 
     this.ctx.imageSmoothingEnabled = false;
 
-    if (this.texture != 24 && this.texture != 25) {
+    if (this.texture != 24 && this.texture != 25  ) {
       this.ctx.drawImage(
         wallsSprite,
         col * 64 + this.texturePix,
@@ -270,80 +269,65 @@ export class Ray {
       );
     }
 
+    this.wallToBorder = Math.floor((400 - wallHeight) / 2);
+
+    
 
     // we calculate the distance between the first pixel at the bottom of the wall and the player eyes (canvas.height / 2)
-    var pixelRowHeight = 200 - this.wallToBorder;
+    var pixelRowHeight = 199 - this.wallToBorder;
 
     // then we loop through every pixels until we reach the border of the canvas
     if (this.index % 2 === 0) {
 
-      for (let i = pixelRowHeight; i < 200; i += 1) {
+      for (let i = pixelRowHeight; i < 199; i += 1) {
 
         // we calculate the straight distance between the player and the pixel
         var directDistFloor = (this.screenDist * 200) / i;
 
-        // we calculate it's real world distance with the angle relative to the player
-        var realDistance = (directDistFloor / Math.cos(this.angleR));
+        // we calculate it's real world distance with the angle relative to the player       
+
+
+        var realDistance = (directDistFloor / Math.cos(Math.abs(this.angleR))) / 6.4;
+
 
         // we calculate it's real world coordinates with the player angle
         // 5.19 = this.screenDist / 100
-        this.floorPointX = this.player.x + Math.cos(this.angle) * realDistance / (5.19);
-        this.floorPointY = this.player.y + Math.sin(this.angle) * realDistance / (5.19);
+     
 
-        var floorTextNb;
-        var ceilingTextNb;
+        this.floorPointX = this.player.x  + Math.cos(this.angle) * realDistance ;
+        this.floorPointY = this.player.y  + Math.sin(this.angle) * realDistance ;       
 
-        var pX = Math.floor(this.floorPointX /64);
-        var pY = Math.floor(this.floorPointY /64);
+        var textNb = getTextNb(this.floorPointX, this.floorPointY);
+      
+        if (textNb) {
 
-        // var index = pX + pY * this.map.mapX;
-        //
-        // var zone = this.map.zonesList[index];
-        //
-        // if (zone === 0 ){
-        //   ceilingTextNb = 13;
-        //   floorTextNb = 1;
-        // }
-        //console.log(this.map.zonesList[index]);
+          var floorYOffset = Math.floor(textNb[0] / 10) * 64;
+          var floorXOffset = (textNb[0] - (floorYOffset / 6.4)) * 64;
 
-        if (pX < 256 && pY < 640 || pX < 768 && pY > 640 || pX < 896 && pY > 1984) {
-          ceilingTextNb = 13;
-        } else {
-          ceilingTextNb = 1;
-        }
-
-        if (pX < 256 && pY < 640 || pX < 768 && pY > 640 || pX < 896 && pY > 1984) {
-          floorTextNb = 13;
-        } else {
-          floorTextNb = 1;
-        }
-
-        var floorYOffset = Math.floor(floorTextNb / 10) * 64;
-        var floorXOffset = (floorTextNb - (floorYOffset / 6.4)) * 64;
-
-        var floorTextX = Math.floor(this.floorPointX % 64) + floorXOffset;
-        var floorTextY = Math.floor(this.floorPointY % 64) + floorYOffset;
+          var floorTextX = Math.floor(this.floorPointX % 64) + floorXOffset;
+          var floorTextY = Math.floor(this.floorPointY % 64) + floorYOffset;
 
 
-        var ceilingYOffset = Math.floor(ceilingTextNb / 10) * 64;
-        var ceilingXOffset = (ceilingTextNb - (ceilingYOffset / 6.4)) * 64;
+          var ceilingYOffset = Math.floor(textNb[1] / 10) * 64;
+          var ceilingXOffset = (textNb[1] - (ceilingYOffset / 6.4)) * 64;
 
-        var ceilingTextX = Math.floor(this.floorPointX % 64) + ceilingXOffset;
-        var ceilingTextY = Math.floor(this.floorPointY % 64) + ceilingYOffset;
+          var ceilingTextX = Math.floor(this.floorPointX % 64) + ceilingXOffset;
+          var ceilingTextY = Math.floor(this.floorPointY % 64) + ceilingYOffset;
 
-        if (floorData) {
+          if (floorData) {
 
-          var shade = i - 150;
+            var shade = i - 150;
 
-          var floorIndex = floorTextY * 2304 + floorTextX * 4;
-          var ceilingIndex = ceilingTextY * 2304 + ceilingTextX * 4;
+            var floorIndex = floorTextY * 2304 + floorTextX * 4;
+            var ceilingIndex = ceilingTextY * 2304 + ceilingTextX * 4;
 
-          for (let j = 0; j < 3; j++) {
-            floorSprite.data[((this.index * 4)) + (i + 200) * 2400 + j] = floorData.data[floorIndex + j] + shade;
-            floorSprite.data[(this.index + 1) * 4 + (i + 200) * 2400 + j] = floorData.data[floorIndex + j] + shade;
+            for (let j = 0; j < 3; j++) {
+              floorSprite.data[((this.index * 4)) + (i + 200) * 2400 + j] = floorData.data[floorIndex + j] + shade;
+              floorSprite.data[(this.index + 1) * 4 + (i + 200) * 2400 + j] = floorData.data[floorIndex + j] + shade;
 
-            floorSprite.data[((this.index * 4)) + (200 - i) * 2400 + j] = floorData.data[ceilingIndex + j] + shade;
-            floorSprite.data[((this.index + 1)) * 4 + (200 - i) * 2400 + j] = floorData.data[ceilingIndex + j] + shade;
+              floorSprite.data[((this.index * 4)) + (200 - i) * 2400 + j] = floorData.data[ceilingIndex + j] + shade;
+              floorSprite.data[((this.index + 1)) * 4 + (200 - i) * 2400 + j] = floorData.data[ceilingIndex + j] + shade;
+            }
           }
         }
       }
