@@ -13,7 +13,7 @@ var zombi = new Image();
 zombi.src = "./assets/uberZombi.png";
 
 var dog = new Image();
-dog.src = "./assets/dog.png";
+dog.src = "./assets/FettGesicht.png";
 
 var spritesList;
 

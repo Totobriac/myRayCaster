@@ -46,16 +46,5 @@ function doorsList(mapY, mapX, map) {
   return doors
 }
 
-function createZones(mapY, mapX, zones) {
-  var zonesArray = [];
 
-  for (let y = 0; y < mapY; y++) {
-    for (let x = 0; x < mapX; x++) {
-        zonesArray.push(zones[y][x]);
-      }
-    }
-
-  return zonesArray
-}
-
-export { floorData, drawMini, doorsList, createZones };
+export { floorData, drawMini, doorsList };
