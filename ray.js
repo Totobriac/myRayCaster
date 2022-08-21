@@ -170,6 +170,7 @@ export class Ray {
           this.texture = 14;
           break;
         case 69:
+        case 68:
         case 92:
         case 93:
           this.texture = 26;
@@ -199,6 +200,9 @@ export class Ray {
         case 90:
         case 91:
           this.texture = 26;
+          break;
+        case 68:
+          this.texture = 18;
           break;
         case 69:
           this.texture = 6;
