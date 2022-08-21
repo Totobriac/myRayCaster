@@ -71,7 +71,7 @@ export class Player {
     this.checkForItem();
     if (this.map.isSearching === true) this.resetSearch();
 
-    console.log(Math.floor(this.x / 64),Math.floor(this.y / 64) );
+    //console.log(Math.floor(this.x / 64),Math.floor(this.y / 64) );
   }
   draw() {
     this.update();

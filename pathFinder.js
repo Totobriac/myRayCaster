@@ -1,6 +1,6 @@
 import { heuristic } from "./functions.js";
 
-let cols = 26;
+let cols = 32;
 let rows = 40;
 let grid;
 let openSet = [];
@@ -118,7 +118,7 @@ function search(map, player, nmeX, nmeY) {
           neigh.f = neigh.g + neigh.h;
           neigh.parent = current;
 
-        } else if (map.wall[neigh.y][neigh.x] == 8) {
+        } else if (map.wall[neigh.y][neigh.x] == 24) {
           var X = neigh.x;
           var Y = neigh.y;
 

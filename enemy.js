@@ -10,7 +10,7 @@ var officer = new Image();
 officer.src = "./assets/officer.png";
 
 var zombi = new Image();
-zombi.src = "./assets/barnacle.png";
+zombi.src = "./assets/uberZombi.png";
 
 var dog = new Image();
 dog.src = "./assets/dog.png";
@@ -29,7 +29,7 @@ class Enemy extends Sprite {
     this.isInRange = false;
     this.isShot = false;
     this.life = 5;
-    this.speed = Math.floor(Math.random() * 2) + 1;
+    this.speed = Math.floor(Math.random() * 2) + 2;
     this.yFrame = Math.floor(Math.random() * 4);
     this.xFrame = 0;
     this.guardPath = 0;
@@ -236,7 +236,7 @@ class Enemy extends Sprite {
     }
   }
   findPath() {
-    if (this.guardPathTickount > this.maxTickCount * 4) {
+    if (this.guardPathTickount > this.maxTickCount) {
       this.guardPathTickount = 0;
       this.path = getPath(this.player, this.level, this.x, this.y);
     } else {
