@@ -1,88 +1,107 @@
 function getZone(x, y) {
+  var tX = Math.floor(x / 64);
+  var tY = Math.floor(y / 64);
 
-  if (x < 288) {
-    if (y < 672) {
+
+  if (tX < 4) {
+    if (tY < 10) {
       return 0
-    } else if (y < 1376) {
+    } else if (tY < 21) {
       return 5
     } else {
       return 9
     }
-  } else if (x < 480) {
-    if (y < 672) {
+  } else if (tX < 7) {
+    if (tY < 10) {
       return 1
-    } else if (y < 1376) {
+    } else if (tY < 21) {
       return 5
     } else {
       return 9
     }
-  } else if (x < 736) {
-    if (y < 672) {
+  } else if (tX < 12) {
+    if (tY < 10) {
       return 2
-    } else if (y < 1312) {
+    } else if (tY < 21) {
       return 5
     } else {
       return 9
     }
-  } else if (x < 800) {
-    if (y < 544) {
-      return 2
-    } else if (y < 1184) {
-      return 6
-    } else if (y < 1312) {
-      return 5
-    } else {
-      return 9
-    }
-  } else if (x < 928) {
-    if (y < 512) {
+  } else if (tX < 15) {
+    if (tY < 8) {
       return 3
-    } else if (y < 1152) {
+    } else if (tY < 18) {
       return 6
-    } else if (y < 1920) {
+    } else if (tY < 31) {
       return 10
     } else {
       return 9
     }
-  } 
-  else if (x < 1248) {
-    if (y < 512) {
+  } else if (tX < 19) {
+    if (tY < 8) {
       return 3
-    } else if (y < 1248) {
+    } else if (tY < 20) {
       return 6
     } else {
       return 10
     }
-  } else if (x < 1312) {
-    if (y < 512) {
+  } else if (tX < 21) {
+    if (tY < 8) {
       return 3
-    } else if (y < 1248) {
+    } else if (tY < 18) {
       return 6
-    } else if (y < 1856){
+    } else if (tY < 21) {
+      return 7
+    } else if (tY < 29) {
       return 10
-    }else {
+    } else if (tY < 37) {
       return 11
+    } else {
+      return 3
     }
-  } else if (x < 1376) {
-    return 8
-  } else if (x < 1440) {
-    return 9
-  } else if (x < 1504) {
-    return 10
-  } else if (x < 1568) {
-    return 11
-  } else if (x < 1760) {
-    return 12
-  } else if (x < 1824) {
-    return 13
-  } else if (x < 1988) {
-    return 14
-  } else if (x < 2048) {
-    return 15
+  } else if (tX < 24) {
+    if (tY < 11) {
+      return 3
+    } else if (tY < 27) {
+      return 7
+    }
+    else if (tY < 37) {
+      return 11
+    } else {
+      return 3
+    }
+  } else if (tX < 28) {
+    if (tY < 8) {
+      return 3
+    } else if (tY < 16) {
+      return 8
+    }
+    else if (tY < 36) {
+      return 11
+    } else {
+      return 3
+    }
+  } else if (tX < 29) {
+    if (tY < 8) {
+      return 4
+    } else if (tY < 16) {
+      return 8
+    }
+    else if (tY < 36) {
+      return 11
+    } else {
+      return 3
+    }
+  } else {
+    if (tY < 17) {
+      return 4
+    } else if (tY < 37) {
+      return 11
+    } else {
+      return 3
+    }
   }
-
 }
-
 function getTextNb(x, y) {
 
   var zone = getZone(x, y);
@@ -114,7 +133,7 @@ function getTextNb(x, y) {
     case 11:
       return [2, 2]
     case 13:
-      return [2, 3]
+      return [10, 10]
     case 15:
       return [1, 1]
   }
