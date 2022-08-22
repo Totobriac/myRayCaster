@@ -72,7 +72,7 @@ class Hud {
     }
 
     for (let i = 0; i < sprites.length; i++) {
-      if (sprites[i] && sprites[i].character && sprites[i].life > 0 && sprites[i].alerted) {
+      if (sprites[i] && sprites[i].type === "enemy" && sprites[i].life > 0 ) {
         var X = Math.floor(sprites[i].x / 64);
         var Y = Math.floor(sprites[i].y / 64);
         this.ctx.fillStyle = "red";

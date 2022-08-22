@@ -3,10 +3,9 @@ import { Controls } from "./controls.js";
 import { Map } from "./map.js";
 import { RayCaster } from "./rayCaster.js";
 import { drawSprites } from "./sprite.js";
-//import { createEnemies } from "./enemy.js";
 import { Hud } from "./hud.js";
 import { Weapon } from "./weapons.js";
-import { drawMini } from "./init.js";
+import { drawMini, generateMonsters } from "./init.js";
 
 
 var canvas = document.getElementById('canvas');
@@ -26,7 +25,8 @@ var weapon = new Weapon(ctx, player, map);
 
 Map.prototype.player = player;
 
-map.init();
+map.initSprites();
+generateMonsters(map);
 
 function animate() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);

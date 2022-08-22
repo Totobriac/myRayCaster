@@ -3,23 +3,9 @@ import { player, ctx, map } from "./raycasting.js";
 import { getPath } from "./pathFinder.js";
 import { distance } from "./functions.js";
 
-var guard = new Image();
-guard.src = "./assets/guard.png";
-
-var officer = new Image();
-officer.src = "./assets/officer.png";
-
-var zombi = new Image();
-zombi.src = "./assets/uberZombi.png";
-
-var dog = new Image();
-dog.src = "./assets/FettGesicht.png";
-
-var spritesList;
-
 
 class Enemy extends Sprite {
-  constructor(x, y, image, frame, player, still, ctx, type, map, character) {
+  constructor(x, y, image, frame, player, still, ctx, map, character) {
     super(x, y, image, frame, player, still, ctx);
     this.level = map;
     this.angle = 0;
@@ -41,8 +27,8 @@ class Enemy extends Sprite {
     this.hitTickCount = 0;
     this.isHitten = false;
     this.life = 3;
-    this.character = character;
     this.type = "enemy";
+    this.character = character;
     this.setFireRange();
   }
   draw() {
@@ -66,7 +52,6 @@ class Enemy extends Sprite {
     return collision;
   }
   update() {
-
     this.playXGrid = Math.floor(this.player.x / 64);
     this.playYGrid = Math.floor(this.player.y / 64);
 
@@ -79,6 +64,7 @@ class Enemy extends Sprite {
         this.y = newY;
         this.guardPath++;
       } else {
+
         this.angle += 90;
         if (this.angle < 0) this.angle += 360;
         if (this.angle > 360) this.angle -= 360;
@@ -91,6 +77,7 @@ class Enemy extends Sprite {
       this.findPath();
 
       if (this.path.length > this.fireRange) {
+
         this.isFiring = false;
         if (this.path[0].x < this.path[1].x) {
           this.x += this.speed;
@@ -199,7 +186,6 @@ class Enemy extends Sprite {
         this.imageX = this.xFrame * 64;
       }
     }
-
     if (this.isHitten) {
       this.alerted = true;
       alertNme(this.x, this.y);
@@ -257,12 +243,9 @@ class Enemy extends Sprite {
       case "dog":
         this.fireRange = 2;
         break;
+    }
   }
 }
-}
-
-
-
 
 function alertNme(x, y) {
   for (let i = 0; i < spritesList.length; i++) {
@@ -273,4 +256,4 @@ function alertNme(x, y) {
   }
 }
 
-//export { createEnemies };
+export { Enemy };

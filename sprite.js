@@ -17,7 +17,7 @@ class Sprite {
     this.halfSprite = 0;
     this.screenDist = Math.floor(300 / Math.tan((30 * Math.PI) / 180));
     this.still = still;
-    this.type = type;
+    this.type = "object";
     this.getImageXY();
   }
   getImageXY() {
@@ -67,7 +67,7 @@ function drawSprites(map) {
     return obj2.distance - obj1.distance;
   });
   for (let i = 0; i < map.spritesList.length - 1; i++) {
-    map.spritesList[i].draw();
+    if (map.spritesList[i] != undefined) map.spritesList[i].draw();
   }
 }
 

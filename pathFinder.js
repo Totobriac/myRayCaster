@@ -69,7 +69,7 @@ function init(player, nmeX, nmeY) {
 
 function search(map, player, nmeX, nmeY) {
 
-  populateGrid(map)
+  populateGrid(map);
 
   init(player, nmeX, nmeY);
 

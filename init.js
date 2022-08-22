@@ -1,4 +1,20 @@
 import { Sprite } from "./sprite.js";
+import { Enemy } from "./enemy.js";
+
+var items = new Image();
+items.src = "./assets/items2.png";
+
+var guard = new Image();
+guard.src = "./assets/guard.png";
+
+var officer = new Image();
+officer.src = "./assets/officer.png";
+
+var zombi = new Image();
+zombi.src = "./assets/uberZombi.png";
+
+var dog = new Image();
+dog.src = "./assets/FettGesicht.png";
 
 var floorData;
 
@@ -22,8 +38,6 @@ floorSprite.onload = function () {
 floorSprite.src = "./assets/floor.png";
 
 
-var items = new Image();
-items.src = "./assets/items2.png";
 
 function drawMini(map) {
   for (let y = 0; y < map.mapY; y++) {
@@ -56,19 +70,31 @@ function doorsList(mapX, mapY,map) {
   return doors
 }
 
-function getSpritesList(mapX, mapY,map, player, ctx) {
+function getSpritesList(mapX, mapY, mapSprites, player, ctx) {
   var sprites = [];
   var index = 0;
   for (let i = 0; i < mapY; i++) {
     for (let j = 0; j < mapX; j++) {
-      if (map[i][j] != 0) {
+      if (mapSprites[i][j] != 0) {
         index++;
-        sprites[index] = new Sprite((j * 64) + 32, (i * 64) + 32, eval(items), parseInt(map[i][j]), player, true, ctx, "object");
+        sprites[index] = new Sprite((j * 64) + 32, (i * 64) + 32, eval(items), parseInt(mapSprites[i][j]), player, true, ctx);
       }
     }
-  }  
+  }
   return sprites
 }
 
+function generateMonsters(map) {
+  var index = map.spritesList.length - 1 ;
+  for (let i = 0; i < map.mapY; i++) {
+    for (let j = 0; j < map.mapX; j++) {
+      if (map.monsters[i][j] != 0 && map.monsters[i][j] != 88) {
+        if (map.monsters[i][j] == 13)
+        index++;
+        map.spritesList[index] = new Enemy(900, 800, eval("zombi"), 0, map.player, false, map.ctx, map, "zombi") ;
+      }
+    }
+  }
+}
 
-export { floorData, drawMini, doorsList, getSpritesList };
+export { floorData, drawMini, doorsList, getSpritesList, generateMonsters };
