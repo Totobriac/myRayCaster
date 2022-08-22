@@ -31,9 +31,7 @@ class Enemy extends Sprite {
   checkForCollision(x, y) {
     var collision = false;
     var Xoffset = 0;
-    var Yoffset =0;
-    // this.angle < 90 || this.angle > 270 ? Xoffset = 32 : Xoffset = -32;
-    // this.angle < 180 ? Yoffset = 32 : Yoffset = -32;
+    var Yoffset = 0;
     var xGridNb = Math.floor((x + Xoffset) / this.level.mapS);
     var yGridNb = Math.floor((y + Yoffset) / this.level.mapS);
     if (this.level.checkPlayerCollision(yGridNb, xGridNb)) {
@@ -64,7 +62,7 @@ class Enemy extends Sprite {
     if (this.alerted && !this.isHitten) {
       // il suit le joueur
       this.findPath();
-     
+
       // si il est plus loin que son champs de tir, il le suit, sinon il tire
       if (this.path.length === 0) {
         this.isFiring = false;
@@ -136,7 +134,7 @@ class Enemy extends Sprite {
       this.imageX = this.frame * 64;
     }
 
-    if (this.distance && this.distance < 200 && this.life > 0) this.alert();
+    if (this.distance && this.distance < 200 && this.life > 0 && this.path.length > 0) this.alert();
 
     if (this.life > 0) {
       if ((!this.still || this.alerted) && !this.isFiring && !this.isHitten) {
