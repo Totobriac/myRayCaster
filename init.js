@@ -10,11 +10,17 @@ guard.src = "./assets/guard.png";
 var officer = new Image();
 officer.src = "./assets/officer.png";
 
-var zombi = new Image();
-zombi.src = "./assets/uberZombi.png";
-
 var dog = new Image();
 dog.src = "./assets/FettGesicht.png";
+
+var boss1 = new Image();
+boss1.src = "./assets/barnacle.png";
+
+var boss2 = new Image();
+boss2.src = "./assets/FettGesicht.png";
+
+var boss3 = new Image();
+boss3.src = "./assets/uberZombi.png";
 
 var floorData;
 
@@ -85,13 +91,33 @@ function getSpritesList(mapX, mapY, mapSprites, player, ctx) {
 }
 
 function generateMonsters(map) {
-  var index = map.spritesList.length - 1 ;
+  var index = map.spritesList.length - 1;
   for (let i = 0; i < map.mapY; i++) {
     for (let j = 0; j < map.mapX; j++) {
       if (map.monsters[i][j] != 0 && map.monsters[i][j] != 88) {
-        if (map.monsters[i][j] == 13)
+        var monster;
+        switch (map.monsters[i][j]) {
+          case 1:
+            monster = "guard";
+            break;
+          case 2:
+            monster = "officer";
+            break;
+          case 3:
+            monster = "dog";
+            break;
+          case 4:
+            monster = "boss1";
+            break;
+          case 5:
+            monster = "boss2";
+            break;
+          case 6:
+            monster = "boss3";
+            break;
+        }
         index++;
-        map.spritesList[index] = new Enemy(900, 800, eval("zombi"), 0, map.player, false, map.ctx, map, "zombi") ;
+        map.spritesList[index] = new Enemy((j * 64) + 32, (i * 64) + 32, eval(monster), 0, map.player, false, map.ctx, map, monster);
       }
     }
   }

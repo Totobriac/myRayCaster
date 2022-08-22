@@ -14,8 +14,6 @@ class Enemy extends Sprite {
     this.maxTickCount = 12;
     this.isInRange = false;
     this.isShot = false;
-    this.life = 5;
-    this.speed = Math.floor(Math.random() * 2) + 2;
     this.yFrame = Math.floor(Math.random() * 4);
     this.xFrame = 0;
     this.guardPath = 0;
@@ -29,7 +27,7 @@ class Enemy extends Sprite {
     this.life = 3;
     this.type = "enemy";
     this.character = character;
-    this.setFireRange();
+    this.setStats();
   }
   draw() {
     this.update();
@@ -188,7 +186,7 @@ class Enemy extends Sprite {
     }
     if (this.isHitten) {
       this.alerted = true;
-      alertNme(this.x, this.y);
+      alertNme(this.x, this.y, this.level);
       if (this.life > 0) {
         if (this.hitTickCount < this.maxTickCount * 3) {
           this.hitTickCount++;
@@ -229,29 +227,47 @@ class Enemy extends Sprite {
       this.guardPathTickount++;
     }
   }
-  setFireRange() {
+  setStats() {
     switch (this.character) {
       case "guard":
         this.fireRange = Math.floor(Math.random() * 2 + 2);
+        this.life = 6;
+        this.speed = Math.floor(Math.random() * 1) + 2
         break;
       case "officer":
         this.fireRange = Math.floor(Math.random() * 2 + 4);
-        break;
-      case "zombi":
-        this.fireRange = Math.floor(Math.random() * 2 + 2);
+        this.life = 8;
+        this.speed = Math.floor(Math.random() * 2) + 2
         break;
       case "dog":
         this.fireRange = 2;
+        this.life = 6;
+        this.speed = 5;
+        break;
+      case "boss1":
+        this.fireRange = Math.floor(Math.random() * 2 + 4);
+        this.life = 20;
+        this.speed = 4;
+        break;
+      case "boss2":
+        this.fireRange = Math.floor(Math.random() * 2 + 4);
+        this.life = 25;
+        this.speed = 4;
+        break;
+      case "boss3":
+        this.fireRange = Math.floor(Math.random() * 2 + 2);
+        this.life = 30;
+        this.speed = 4;
         break;
     }
   }
 }
 
-function alertNme(x, y) {
-  for (let i = 0; i < spritesList.length; i++) {
-    if (spritesList[i].character && spritesList[i].life > 0) {
-      var dist = distance(spritesList[i].x, spritesList[i].y, x, y);
-      if (dist < 128) spritesList[i].alerted = true;
+function alertNme(x, y,level) {
+  for (let i = 0; i < level.spritesList.length; i++) {
+    if (level.spritesList[i] && level.spritesList[i].type === "enemy" && level.spritesList[i].life > 0) {
+      var dist = distance(level.spritesList[i].x, level.spritesList[i].y, x, y);
+      if (dist < 128) level.spritesList[i].alerted = true;
     }
   }
 }

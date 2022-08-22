@@ -21,12 +21,13 @@ var player = new Player(1000, 2435, map, ctx);
 var controls = new Controls(player, map);
 var rayCaster = new RayCaster(player, map, ctx);
 var hud = new Hud(ctx, player, map);
-var weapon = new Weapon(ctx, player, map);
 
 Map.prototype.player = player;
 
 map.initSprites();
 generateMonsters(map);
+
+var weapon = new Weapon(ctx, player, map);
 
 function animate() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);

@@ -15,6 +15,7 @@ class Weapon {
     this.yOffset = 0;
     this.oldWeapon = 0;
     this.sprites = map.spritesList;
+    console.log(map);
   }
   draw() {
     if (this.player.isMoving) {
