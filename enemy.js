@@ -24,7 +24,6 @@ class Enemy extends Sprite {
     this.fireTickCount = 0;
     this.hitTickCount = 0;
     this.isHitten = false;
-    this.life = 3;
     this.type = "enemy";
     this.character = character;
     this.setStats();
@@ -92,9 +91,7 @@ class Enemy extends Sprite {
           this.y -= this.speed;
           this.angle = 270;
         }
-      } else {
-        this.isFiring = true;
-      }
+      } 
     }
 
     var X = this.x - this.player.x;
@@ -246,6 +243,7 @@ class Enemy extends Sprite {
         break;
       case "boss1":
         this.fireRange = Math.floor(Math.random() * 2 + 4);
+        console.log(this.fireRange);
         this.life = 20;
         this.speed = 4;
         break;

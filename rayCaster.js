@@ -41,4 +41,4 @@ class RayCaster {
 
   }
 }
-export { RayCaster };
+export { RayCaster, floorSprite };

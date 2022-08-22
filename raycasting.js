@@ -1,7 +1,7 @@
 import { Player } from "./player.js";
 import { Controls } from "./controls.js";
 import { Map } from "./map.js";
-import { RayCaster } from "./rayCaster.js";
+import { RayCaster, floorSprite } from "./rayCaster.js";
 import { drawSprites } from "./sprite.js";
 import { Hud } from "./hud.js";
 import { Weapon } from "./weapons.js";
