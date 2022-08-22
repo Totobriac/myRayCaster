@@ -44,7 +44,6 @@ floorSprite.onload = function () {
 floorSprite.src = "./assets/floor.png";
 
 
-
 function drawMini(map) {
   for (let y = 0; y < map.mapY; y++) {
     for (let x = 0; x < map.mapX; x++) {

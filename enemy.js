@@ -1,5 +1,4 @@
 import { Sprite } from "./sprite.js";
-import { player, ctx, map } from "./raycasting.js";
 import { getPath } from "./pathFinder.js";
 import { distance } from "./functions.js";
 
@@ -13,12 +12,9 @@ class Enemy extends Sprite {
     this.guardPathTickount = 0;
     this.maxTickCount = 12;
     this.isInRange = false;
-    this.isShot = false;
-    this.yFrame = Math.floor(Math.random() * 4);
     this.xFrame = 0;
     this.guardPath = 0;
     this.alerted = false;
-    this.setMaxPath();
     this.path = [];
     this.isFiring;
     this.fireTickCount = 0;
@@ -32,15 +28,12 @@ class Enemy extends Sprite {
     this.update();
     super.draw();
   }
-  setMaxPath() {
-    this.maxPath = Math.floor(Math.random() * 4) * 64;
-  }
   checkForCollision(x, y) {
     var collision = false;
-    var Xoffset;
-    var Yoffset;
-    this.angle < 90 || this.angle > 270 ? Xoffset = 32 : Xoffset = -32;
-    this.angle < 180 ? Yoffset = 32 : Yoffset = -32;
+    var Xoffset = 0;
+    var Yoffset =0;
+    // this.angle < 90 || this.angle > 270 ? Xoffset = 32 : Xoffset = -32;
+    // this.angle < 180 ? Yoffset = 32 : Yoffset = -32;
     var xGridNb = Math.floor((x + Xoffset) / this.level.mapS);
     var yGridNb = Math.floor((y + Yoffset) / this.level.mapS);
     if (this.level.checkPlayerCollision(yGridNb, xGridNb)) {
@@ -61,20 +54,21 @@ class Enemy extends Sprite {
         this.y = newY;
         this.guardPath++;
       } else {
-
         this.angle += 90;
         if (this.angle < 0) this.angle += 360;
         if (this.angle > 360) this.angle -= 360;
         this.guardPath = 0;
-        this.setMaxPath();
       }
     }
 
     if (this.alerted && !this.isHitten) {
+      // il suit le joueur
       this.findPath();
-
-      if (this.path.length > this.fireRange) {
-
+     
+      // si il est plus loin que son champs de tir, il le suit, sinon il tire
+      if (this.path.length === 0) {
+        this.isFiring = false;
+      } else if (this.path.length > this.fireRange) {
         this.isFiring = false;
         if (this.path[0].x < this.path[1].x) {
           this.x += this.speed;
@@ -83,7 +77,6 @@ class Enemy extends Sprite {
           this.x -= this.speed;
           this.angle = 180;
         }
-
         if (this.path[0].y < this.path[1].y) {
           this.y += this.speed;
           this.angle = 90;
@@ -91,9 +84,12 @@ class Enemy extends Sprite {
           this.y -= this.speed;
           this.angle = 270;
         }
-      } 
+      } else {
+        this.isFiring = true;
+      }
     }
 
+    // on choisit le sprite en fonction de son angle par rapport au joueur
     var X = this.x - this.player.x;
     var Y = this.y - this.player.y;
 
@@ -225,6 +221,8 @@ class Enemy extends Sprite {
     }
   }
   setStats() {
+    this.yFrame = Math.floor(Math.random() * 4);
+    this.maxPath = Math.floor(Math.random() * 4) * 64;
     switch (this.character) {
       case "guard":
         this.fireRange = Math.floor(Math.random() * 2 + 2);
@@ -243,7 +241,6 @@ class Enemy extends Sprite {
         break;
       case "boss1":
         this.fireRange = Math.floor(Math.random() * 2 + 4);
-        console.log(this.fireRange);
         this.life = 20;
         this.speed = 4;
         break;
@@ -261,7 +258,7 @@ class Enemy extends Sprite {
   }
 }
 
-function alertNme(x, y,level) {
+function alertNme(x, y, level) {
   for (let i = 0; i < level.spritesList.length; i++) {
     if (level.spritesList[i] && level.spritesList[i].type === "enemy" && level.spritesList[i].life > 0) {
       var dist = distance(level.spritesList[i].x, level.spritesList[i].y, x, y);
