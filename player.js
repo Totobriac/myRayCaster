@@ -9,7 +9,10 @@ export class Player {
     this.ctx = ctx;
     this.angle = 0;
     this.speed = 4;
-    this.moveForward = 0;
+
+    this.moveX = 0;
+    this.moveY = 0;
+
     this.rotate = 0;
     this.rotationSpeed = 2 * (Math.PI / 180);
     this.isColliding = false;
@@ -24,11 +27,13 @@ export class Player {
     this.life = 100;
   }
   up() {
-    this.moveForward = 1;
+    this.moveX = 1;
+    this.moveY = 1;
     this.isMoving = true;
   }
   down() {
-    this.moveForward = -1;
+    this.moveX = -1;
+    this.moveY = -1;
     this.isMoving = true;
   }
   right() {
@@ -38,7 +43,8 @@ export class Player {
     this.rotate = -1;
   }
   stopMove() {
-    this.moveForward = 0;
+    this.moveX = 0;
+    this.moveY = 0;
     this.isMoving = false;
   }
   stopTurn() {
@@ -56,22 +62,24 @@ export class Player {
       collision = true;
     };
     return collision;
-  }
+  } 
   update() {
-    var newX = this.x + this.moveForward * Math.cos(this.angle) * this.speed;
-    var newY = this.y + this.moveForward * Math.sin(this.angle) * this.speed;
+    var newX = this.x + this.moveX * Math.cos(this.angle) * this.speed;
+    var newY = this.y + this.moveY * Math.sin(this.angle) * this.speed;
 
     this.angle += this.rotate * this.rotationSpeed;
-    this.angle = normalizeAngle(this.angle);
-    
-    if (!this.checkForCollision(newX, newY)) {
-      this.x = newX;
+    this.angle = normalizeAngle(this.angle);  
+
+     if (!this.checkForCollision(newX, this.y)) {
+      this.x = newX;      
+    }
+
+     if (!this.checkForCollision(this.x, newY)) {      
       this.y = newY;
     }
+    
     this.checkForItem();
-    if (this.map.isSearching === true) this.resetSearch();
-
-    //console.log(Math.floor(this.x / 64),Math.floor(this.y / 64) );
+      if (this.map.isSearching === true) this.resetSearch();    
   }
   draw() {
     this.update();
