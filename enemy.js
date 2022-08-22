@@ -134,7 +134,9 @@ class Enemy extends Sprite {
       this.imageX = this.frame * 64;
     }
 
-    if (this.distance && this.distance < 200 && this.life > 0 && this.path.length > 0) this.alert();
+    if (this.distance && this.distance < 200 && this.life > 0) this.alerted = true;
+    
+    if (this.path.length === 0 && this.distance > 200 ) this.alerted = false;
 
     if (this.life > 0) {
       if ((!this.still || this.alerted) && !this.isFiring && !this.isHitten) {
@@ -190,9 +192,6 @@ class Enemy extends Sprite {
       this.imageX = 0;
       this.imageY = 5 * 64;
     }
-  }
-  alert() {
-    this.alerted = true;
   }
   isHit() {
     switch (true) {

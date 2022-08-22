@@ -8,7 +8,7 @@ export class Player {
     this.map = map;
     this.ctx = ctx;
     this.angle = 0;
-    this.speed = 4;
+    this.speed = 3;
 
     this.moveX = 0;
     this.moveY = 0;
