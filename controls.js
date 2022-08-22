@@ -18,7 +18,7 @@ export class Controls {
           map.detectDoor();
           break;
         case "f":
-          player.shoot();
+          if (!e.repeat) player.shoot();
           break;
         case "0":
           player.chooseWeapon(0);
@@ -39,12 +39,11 @@ export class Controls {
         case "ArrowUp":
         case "ArrowDown":
           player.stopMove();
-        
+
           break;
         case "ArrowRight":
         case "ArrowLeft":
           player.stopTurn();
-         
           break;
       }
     });

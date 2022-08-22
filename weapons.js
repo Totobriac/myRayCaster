@@ -1,3 +1,5 @@
+import { soundPlayer } from "./raycasting.js";
+
 var pistolSprite = new Image();
 pistolSprite.src = "./assets/pistol.png";
 
@@ -54,6 +56,22 @@ class Weapon {
     }
   }
   shoot() {
+
+    switch (this.player.chosenWeapon) {
+  case 0:
+    soundPlayer.knife();
+    break;
+  case 1:
+    soundPlayer.pistol();
+    break;
+  case 2:
+    soundPlayer.machineGun();
+    break;
+  case 3:
+    soundPlayer.gatlingGun();
+    break;
+    }
+
     this.gunTickCount++;
     if (this.gunTickCount % 6 === 0) {
       if (this.xFrame < 4) {
