@@ -47,7 +47,7 @@ class Enemy extends Sprite {
       var newX = this.x + Math.cos(this.angle * Math.PI / 180) * this.speed;
       var newY = this.y + Math.sin(this.angle * Math.PI / 180) * this.speed;
 
-      if (!this.checkForCollision(newX, newY) && this.guardPath < this.maxPath) {
+      if (!this.checkForCollision(newX, newY) ) {
         this.x = newX;
         this.y = newY;
         this.guardPath++;
@@ -219,7 +219,7 @@ class Enemy extends Sprite {
   }
   setStats() {
     this.yFrame = Math.floor(Math.random() * 4);
-    this.maxPath = Math.floor(Math.random() * 4) * 64;
+    this.maxPath = Math.floor(Math.random() * 8) * 64;
     switch (this.character) {
       case "guard":
         this.fireRange = Math.floor(Math.random() * 2 + 2);
