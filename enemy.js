@@ -261,14 +261,7 @@ class Enemy extends Sprite {
 }
 }
 
-function createEnemies(sprites, enemyList) {
-  let spLength = sprites.length;
-  for (let i = 0; i < enemyList.length; i++) {
-    sprites[i + spLength] = new Enemy(enemyList[i][0], enemyList[i][1], eval(enemyList[i][3]), enemyList[i][2], player, enemyList[i][4], ctx, "enemy", map, enemyList[i][3]);
-  }
-  sprites = sprites.slice(1, sprites.length);
-  spritesList = sprites;
-}
+
 
 
 function alertNme(x, y) {
@@ -280,4 +273,4 @@ function alertNme(x, y) {
   }
 }
 
-export { createEnemies };
+//export { createEnemies };

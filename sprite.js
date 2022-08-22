@@ -2,8 +2,6 @@ import { distance } from "./functions.js";
 import { zBuffer } from "./ray.js";
 import { player, ctx } from "./raycasting.js";
 
-var items = new Image();
-items.src = "./assets/items2.png";
 
 class Sprite {
   constructor(x, y, image, frame, player, still, ctx, type) {
@@ -64,26 +62,14 @@ class Sprite {
   }
 }
 
-function createSprites(sprites, map) {
-  var index = 0;
-  for( let i = 0; i < map.mapY; i++ ){
-    for (let j = 0; j < map.mapX; j++) {
-      if (map.sprites[i][j] != 0 ) {
-        index ++;
-        sprites[index] = new Sprite((j * 64) + 32, (i *64) + 32, eval(items), parseInt(map.sprites[i][j]) , player, true, ctx, "object");
-      }
-    }
-  }
-}
-
-function drawSprites(sprites) {
-  sprites.sort(function(obj1, obj2) {
+function drawSprites(map) {
+  map.spritesList.sort(function(obj1, obj2) {
     return obj2.distance - obj1.distance;
   });
-  for (let i = 0; i < sprites.length - 1; i++) {
-    sprites[i].draw();
+  for (let i = 0; i < map.spritesList.length - 1; i++) {
+    map.spritesList[i].draw();
   }
 }
 
 
-export { createSprites, drawSprites, Sprite }
+export { drawSprites, Sprite }

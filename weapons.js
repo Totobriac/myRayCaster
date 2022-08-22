@@ -4,7 +4,7 @@ pistolSprite.src = "./assets/pistol.png";
 var up = true;
 
 class Weapon {
-  constructor(ctx, player) {
+  constructor(ctx, player,map) {
     this.ctx = ctx;
     this.tickCount = 0;
     this.gunTickCount = 0;
@@ -14,8 +14,9 @@ class Weapon {
     this.xFrame = 0;
     this.yOffset = 0;
     this.oldWeapon = 0;
+    this.sprites = map.spritesList;
   }
-  draw(sprites) {
+  draw() {
     if (this.player.isMoving) {
       if (this.tickCount < 8) {
         this.tickCount++
@@ -26,7 +27,7 @@ class Weapon {
       this.yTick > 200 ? this.yTick = 0 : this.yTick++;
     }
     if (this.player.isShooting) {
-      this.shoot(sprites);
+      this.shoot();
     }
 
     if (this.oldWeapon != this.player.chosenWeapon) {
@@ -52,7 +53,7 @@ class Weapon {
       }
     }
   }
-  shoot(sprites) {
+  shoot() {
     this.gunTickCount++;
     if (this.gunTickCount % 6 === 0) {
       if (this.xFrame < 4) {
@@ -63,11 +64,11 @@ class Weapon {
         this.xFrame = 0;
       }
     }
-    
-    for (let i = sprites.length -2; i >= 0; i--) {
-      if (sprites[i].type === "enemy" && sprites[i].life > 0 ) {
-        if (sprites[i].screenX - sprites[i].spriteWidth / 4 <= 300 && sprites[i].screenX + sprites[i].spriteWidth / 4 >= 300) {
-          sprites[i].isHit();
+
+    for (let i = this.sprites.length -2; i >= 0; i--) {
+      if (this.sprites[i].type === "enemy" && this.sprites[i].life > 0 ) {
+        if (this.sprites[i].screenX - this.sprites[i].spriteWidth / 4 <= 300 && this.sprites[i].screenX + this.sprites[i].spriteWidth / 4 >= 300) {
+          this.sprites[i].isHit();
           return
         }
       }

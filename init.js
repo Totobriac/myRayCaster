@@ -1,3 +1,5 @@
+import { Sprite } from "./sprite.js";
+
 var floorData;
 
 var tempCanvas = document.createElement('canvas');
@@ -20,6 +22,9 @@ floorSprite.onload = function () {
 floorSprite.src = "./assets/floor.png";
 
 
+var items = new Image();
+items.src = "./assets/items2.png";
+
 function drawMini(map) {
   for (let y = 0; y < map.mapY; y++) {
     for (let x = 0; x < map.mapX; x++) {
@@ -34,17 +39,36 @@ function drawMini(map) {
   return tempCanvas2
 }
 
-function doorsList(mapY, mapX, map) {
+function doorsList(mapX, mapY,map) {
   var doors = [];
   for (let y = 0; y < mapY; y++) {
     for (let x = 0; x < mapX; x++) {
       if (map[y][x] == 24) {
-        doors.push({ x: x, y: y, status: 2, yOffset: 0 });
+        doors.push({
+          x: x,
+          y: y,
+          status: 2,
+          yOffset: 0
+        });
       }
     }
   }
   return doors
 }
 
+function getSpritesList(mapX, mapY,map, player, ctx) {
+  var sprites = [];
+  var index = 0;
+  for (let i = 0; i < mapY; i++) {
+    for (let j = 0; j < mapX; j++) {
+      if (map[i][j] != 0) {
+        index++;
+        sprites[index] = new Sprite((j * 64) + 32, (i * 64) + 32, eval(items), parseInt(map[i][j]), player, true, ctx, "object");
+      }
+    }
+  }  
+  return sprites
+}
 
-export { floorData, drawMini, doorsList };
+
+export { floorData, drawMini, doorsList, getSpritesList };

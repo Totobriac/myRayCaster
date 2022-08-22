@@ -40,7 +40,7 @@ class Hud {
     this.ctx.drawImage(tableTop, 0, 0);
     this.ctx.drawImage(metalTop, 900, 0);
 
-    this.drawMinimap(sprites, miniMap);
+    this.drawMinimap(this.map.spritesList, miniMap);
     this.drawWeaponIcon();
     this.drawLifeMeter();
   }
@@ -72,7 +72,7 @@ class Hud {
     }
 
     for (let i = 0; i < sprites.length; i++) {
-      if (sprites[i] && sprites[i].character && sprites[i].life > 0) {
+      if (sprites[i] && sprites[i].character && sprites[i].life > 0 && sprites[i].alerted) {
         var X = Math.floor(sprites[i].x / 64);
         var Y = Math.floor(sprites[i].y / 64);
         this.ctx.fillStyle = "red";
