@@ -56,7 +56,6 @@ class Weapon {
     }
   }
   shoot() {
-
     switch (this.player.chosenWeapon) {
   case 0:
     soundPlayer.knife();

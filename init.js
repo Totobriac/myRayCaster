@@ -1,5 +1,6 @@
 import { Sprite } from "./sprite.js";
 import { Enemy } from "./enemy.js";
+import { sound } from "./sound.js";
 
 var items = new Image();
 items.src = "./assets/items2.png";
@@ -21,6 +22,23 @@ boss2.src = "./assets/FettGesicht.png";
 
 var boss3 = new Image();
 boss3.src = "./assets/uberZombi.png";
+
+var painSound = new sound("/assets/sounds/nme_pain2.mp3");
+var dogHitSound = new sound("/assets/sounds/dog_hit.mp3");
+
+var achtungSound = new sound("/assets/sounds/achtung.mp3");
+var alarmSound = new sound("/assets/sounds/guard_alarm.mp3");
+var spionSound = new sound("/assets/sounds/spia.mp3");
+var barkingSound = new sound("/assets/sounds/dog_barking.mp3");
+var boss1Shout = new sound("/assets/sounds/ach_so.mp3");
+
+var enemyShootingSound = new sound("/assets/sounds/enemy_shooting2.mp3");
+var dogBittingSound = new sound("/assets/sounds/dog_barking_2.mp3");
+
+var mummySound = new sound("/assets/sounds/death_mami.mp3");
+var lebenSound = new sound("/assets/sounds/death_mein_leben.mp3");
+var dyingDogSound = new sound("./assets/sounds/dog_death.mp3");
+var boss1Dies = new sound ("./assets/sounds/wenn_schon.mp3");
 
 var floorData;
 
@@ -95,9 +113,17 @@ function generateMonsters(map) {
     for (let j = 0; j < map.mapX; j++) {
       if (map.monsters[i][j] != 0 && map.monsters[i][j] != 88) {
         var monster;
+        var alarmSound;
+        var hitSound;
+        var shootSound;
+        var dieSound;
         switch (map.monsters[i][j]) {
           case 1:
             monster = "guard";
+            alarmSound = achtungSound;
+            hitSound = painSound;
+            shootSound = enemyShootingSound;
+            dieSound = mummySound;
             break;
           case 2:
             monster = "officer";
@@ -116,7 +142,7 @@ function generateMonsters(map) {
             break;
         }
         index++;
-        map.spritesList[index] = new Enemy((j * 64), (i * 64), eval(monster), 0, map.player, false, map.ctx, map, monster);
+        map.spritesList[index] = new Enemy((j * 64), (i * 64), eval(monster), 0, map.player, false, map.ctx, map, monster, alarmSound, hitSound, shootSound, dieSound);
       }
     }
   }

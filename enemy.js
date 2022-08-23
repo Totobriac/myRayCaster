@@ -1,11 +1,19 @@
-import { Sprite } from "./sprite.js";
-import { getPath } from "./pathFinder.js";
-import { distance } from "./functions.js";
-import { soundPlayer } from "./raycasting.js";
+import {
+  Sprite
+} from "./sprite.js";
+import {
+  getPath
+} from "./pathFinder.js";
+import {
+  distance
+} from "./functions.js";
+import {
+  soundPlayer
+} from "./raycasting.js";
 
 
 class Enemy extends Sprite {
-  constructor(x, y, image, frame, player, still, ctx, map, character) {
+  constructor(x, y, image, frame, player, still, ctx, map, character, alarmSound, hitSound, shootSound, dieSound) {
     super(x, y, image, frame, player, still, ctx);
     this.level = map;
     this.angle = 0;
@@ -25,6 +33,10 @@ class Enemy extends Sprite {
     this.character = character;
     this.sawEnemy = false;
     this.isDead = false;
+    this.alarmSound = alarmSound;
+    this.hittingSound = hitSound;
+    this.shootingSound = shootSound;
+    this.dieSound = dieSound;
     this.setStats();
   }
   draw() {
@@ -50,7 +62,7 @@ class Enemy extends Sprite {
       var newX = this.x + Math.cos(this.angle * Math.PI / 180) * this.speed;
       var newY = this.y + Math.sin(this.angle * Math.PI / 180) * this.speed;
 
-      if (!this.checkForCollision(newX, newY) ) {
+      if (!this.checkForCollision(newX, newY)) {
         this.x = newX;
         this.y = newY;
         this.guardPath++;
@@ -156,7 +168,7 @@ class Enemy extends Sprite {
         this.imageY = this.yFrame * 64;
         this.fireTickCount = 0;
       } else if (this.isFiring) {
-        if (!this.sawEnemy)  this.shout()
+        if (!this.sawEnemy) this.shout()
         this.imageY = 6 * 64;
         this.imageX = this.xFrame * 64;
         if (this.fireTickCount > this.maxTickCount * 1.5) {
@@ -267,80 +279,31 @@ class Enemy extends Sprite {
   }
   shout() {
     this.sawEnemy = true;
-    switch (this.character) {
-      case "guard":
-        soundPlayer.achtung();
-        break;
-      case "officer":
-        soundPlayer.spy();
-        break;
-      case "dog":
-        soundPlayer.bark();
-        break;
-      case "boss1":
-        soundPlayer.boss1Greeting();
-        break;
-    }
+    this.alarmSound.play();
   }
   deathShout() {
     this.isDead = true;
-    switch (this.character) {
-      case "guard":
-        soundPlayer.mom();
-        break;
-      case "officer":
-        soundPlayer.leben();
-        break;
-      case "dog":
-        soundPlayer.dogRip();
-        break;
-      case "boss1":
-        soundPlayer.boss1Dying();
-    }
+    this.dieSound.play();
   }
-hitSound() {
-  switch (this.character) {
-    case "guard":
-    case "officer":
-    case "boss1":
-      soundPlayer.nmePain();
-      break;
-    case "dog":
-      soundPlayer.dogHit();
-      break;
+  hitSound() {
+    this.hittingSound.play()
   }
-}
   shootSound() {
-    switch (this.character) {
-      case "guard":
-      case "officer":
-        soundPlayer.nmeShoot();
-        break;
-      case "dog":
-        soundPlayer.bite();
-        break;
-      }
+    this.shootingSound.play();
   }
   stopShootSound() {
-    switch (this.character) {
-      case "guard":
-      case "officer":
-        soundPlayer.stopNmeShoot();
-        break;
-      case "dog":
-        soundPlayer.stopBite();
-        break;
-      }
+    this.shootingSound.stop();
   }
-
 }
-
-function alertNme(x, y, level) {
-  for (let i = 0; i < level.spritesList.length; i++) {    if (level.spritesList[i] && level.spritesList[i].type === "enemy" && level.spritesList[i].life > 0) {
-      var dist = distance(level.spritesList[i].x, level.spritesList[i].y, x, y);
-      if (dist < 128) level.spritesList[i].alerted = true;
+  function alertNme(x, y, level) {
+    for (let i = 0; i < level.spritesList.length; i++) {
+      if (level.spritesList[i] && level.spritesList[i].type === "enemy" && level.spritesList[i].life > 0) {
+        var dist = distance(level.spritesList[i].x, level.spritesList[i].y, x, y);
+        if (dist < 128) level.spritesList[i].alerted = true;
+      }
     }
   }
-}
 
-export { Enemy };
+  export {
+    Enemy
+  };
