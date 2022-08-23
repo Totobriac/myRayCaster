@@ -36,6 +36,7 @@ class SoundPlayer {
     this.alarmSound = new sound("/assets/sounds/guard_alarm.mp3");
     this.spionSound = new sound("/assets/sounds/spia.mp3");
     this.barkingSound = new sound("/assets/sounds/dog_barking.mp3");
+    this.boss1Shout = new sound("/assets/sounds/ach_so.mp3");
 
     this.enemyShootingSound = new sound("/assets/sounds/enemy_shooting2.mp3");
     this.dogBittingSound = new sound("/assets/sounds/dog_barking_2.mp3");
@@ -43,6 +44,7 @@ class SoundPlayer {
     this.mummySound = new sound("/assets/sounds/death_mami.mp3");
     this.lebenSound = new sound("/assets/sounds/death_mein_leben.mp3");
     this.dyingDogSound = new sound("./assets/sounds/dog_death.mp3");
+    this.boss1Dies = new sound ("./assets/sounds/wenn_schon.mp3");
   }
   mainTheme() {
     this.theme.play();
@@ -103,6 +105,12 @@ class SoundPlayer {
   }
   dogRip() {
     this.dyingDogSound.play();
+  }
+  boss1Greeting() {
+    this.boss1Shout.play();
+  }
+  boss1Dying() {
+    this.boss1Dies.play();
   }
 }
 

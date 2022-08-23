@@ -276,6 +276,10 @@ class Enemy extends Sprite {
         break;
       case "dog":
         soundPlayer.bark();
+        break;
+      case "boss1":
+        soundPlayer.boss1Greeting();
+        break;
     }
   }
   deathShout() {
@@ -290,12 +294,15 @@ class Enemy extends Sprite {
       case "dog":
         soundPlayer.dogRip();
         break;
+      case "boss1":
+        soundPlayer.boss1Dying();
     }
   }
 hitSound() {
   switch (this.character) {
     case "guard":
     case "officer":
+    case "boss1":
       soundPlayer.nmePain();
       break;
     case "dog":

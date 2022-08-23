@@ -34,7 +34,7 @@ generateMonsters(map);
 var weapon = new Weapon(ctx, player, map);
 
 function animate() {
-  //soundPlayer.mainTheme();
+  soundPlayer.mainTheme();
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   ctx.beginPath();
