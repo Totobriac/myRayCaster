@@ -31,6 +31,9 @@ var alarmSound = new sound("/assets/sounds/guard_alarm.mp3");
 var spionSound = new sound("/assets/sounds/spia.mp3");
 var barkingSound = new sound("/assets/sounds/dog_barking.mp3");
 var boss1Shout = new sound("/assets/sounds/ach_so.mp3");
+var boss2Shout = new sound("/assets/sounds/erlauben_sie.mp3");
+var boss3Shout = new sound("/assets/sounds/zombi_intro.mp3");
+
 
 var enemyShootingSound = new sound("/assets/sounds/enemy_shooting2.mp3");
 var dogBittingSound = new sound("/assets/sounds/dog_barking_2.mp3");
@@ -39,6 +42,8 @@ var mummySound = new sound("/assets/sounds/death_mami.mp3");
 var lebenSound = new sound("/assets/sounds/death_mein_leben.mp3");
 var dyingDogSound = new sound("./assets/sounds/dog_death.mp3");
 var boss1Dies = new sound ("./assets/sounds/wenn_schon.mp3");
+var boss2Dies = new sound("./assets/sounds/rosebund.mp3");
+var boss3Dies = new sound("./assets/sounds/zombi_dead.mp3");
 
 var floorData;
 
@@ -127,18 +132,38 @@ function generateMonsters(map) {
             break;
           case 2:
             monster = "officer";
+            alarmSound = spionSound;
+            hitSound = painSound;
+            shootSound = enemyShootingSound;
+            dieSound = lebenSound;
             break;
           case 3:
             monster = "dog";
+            alarmSound = barkingSound;
+            hitSound = dogHitSound;
+            shootSound = dogBittingSound;
+            dieSound = dyingDogSound;
             break;
           case 4:
             monster = "boss1";
+            alarmSound = boss1Shout;
+            hitSound = painSound;
+            shootSound = enemyShootingSound;
+            dieSound = boss1Dies;
             break;
           case 5:
             monster = "boss2";
+            alarmSound = boss2Shout;
+            hitSound = painSound;
+            shootSound = enemyShootingSound;
+            dieSound = boss2Dies;
             break;
           case 6:
             monster = "boss3";
+            alarmSound = boss3Shout;
+            hitSound = painSound;
+            shootSound = enemyShootingSound;
+            dieSound = boss3Dies;
             break;
         }
         index++;

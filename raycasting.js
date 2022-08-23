@@ -9,8 +9,6 @@ import { drawMini, generateMonsters } from "./init.js";
 import { SoundPlayer } from "./sound.js";
 
 
-
-
 var canvas = document.getElementById('canvas');
 var ctx = canvas.getContext('2d',{ alpha: false });
 canvas.height = 400;
