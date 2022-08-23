@@ -40,15 +40,16 @@ class Enemy extends Sprite {
     this.setStats();
   }
   draw() {
+    this.angle <= 90 || this.angle >= 270 ? this.Xoffset = 32 : this.Xoffset = 96;
+    this.angle < 180 ? this.Yoffset = 64 : this.Yoffset = 0;
+
     this.update();
     super.draw();
   }
   checkForCollision(x, y) {
     var collision = false;
-    var Xoffset = 0;
-    var Yoffset = 0;
-    var xGridNb = Math.floor((x + Xoffset) / this.level.mapS);
-    var yGridNb = Math.floor((y + Yoffset) / this.level.mapS);
+    var xGridNb = Math.floor((x + this.Xoffset) / this.level.mapS);
+    var yGridNb = Math.floor((y + this.Yoffset) / this.level.mapS);
     if (this.level.checkPlayerCollision(yGridNb, xGridNb)) {
       collision = true;
     };
@@ -59,8 +60,8 @@ class Enemy extends Sprite {
     this.playYGrid = Math.floor(this.player.y / 64);
 
     if (!this.still && !this.alerted) {
-      var newX = this.x + Math.cos(this.angle * Math.PI / 180) * this.speed;
-      var newY = this.y + Math.sin(this.angle * Math.PI / 180) * this.speed;
+      var newX = this.x  + Math.cos(this.angle * Math.PI / 180) * this.speed;
+      var newY = this.y  + Math.sin(this.angle * Math.PI / 180) * this.speed;
 
       if (!this.checkForCollision(newX, newY)) {
         this.x = newX;
@@ -68,8 +69,11 @@ class Enemy extends Sprite {
         this.guardPath++;
       } else {
         this.angle += 90;
-        if (this.angle < 0) this.angle += 360;
-        if (this.angle > 360) this.angle -= 360;
+        if (this.angle < 0) {
+          this.angle += 360;
+        } else if (this.angle > 360) {
+         this.angle -= 360;
+       }
         this.guardPath = 0;
       }
     }
@@ -83,19 +87,20 @@ class Enemy extends Sprite {
         this.isFiring = false;
       } else if (this.path.length > this.fireRange) {
         this.isFiring = false;
-        if (this.path[0].x < this.path[1].x) {
+        if (this.path[0].x +32 < this.path[1].x +32) {
           this.x += this.speed;
           this.angle = 0;
-        } else if (this.path[0].x > this.path[1].x) {
+        } else if (this.path[0].x +32 > this.path[1].x +32) {
           this.x -= this.speed;
           this.angle = 180;
         }
-        if (this.path[0].y < this.path[1].y) {
+        if (this.path[0].y +32 < this.path[1].y +32) {
           this.y += this.speed;
           this.angle = 90;
-        } else if (this.path[0].y > this.path[1].y) {
+        } else if (this.path[0].y +32> this.path[1].y+32) {
           this.y -= this.speed;
           this.angle = 270;
+
         }
       } else {
         this.isFiring = true;
@@ -149,10 +154,10 @@ class Enemy extends Sprite {
       this.imageX = this.frame * 64;
     }
 
-    if (this.distance && this.distance < 200 && this.life > 0 && !this.alerted) {
-      this.alerted = true
-      this.shout();
-    };
+    // if (this.distance && this.distance < 200 && this.life > 0 && !this.alerted) {
+    //   this.alerted = true
+    //   this.shout();
+    // };
 
     //if (this.path.length === 0 && this.distance > 200 ) this.alerted = false;
 
@@ -171,7 +176,7 @@ class Enemy extends Sprite {
         if (!this.sawEnemy) this.shout()
         this.imageY = 6 * 64;
         this.imageX = this.xFrame * 64;
-        if (this.fireTickCount > this.maxTickCount * 1.5) {
+        if (this.fireTickCount > this.maxTickCount * 0.5) {
           this.xFrame < 2 ? this.xFrame++ : this.xFrame = 1;
           this.fireTickCount = 0;
           if (this.sawEnemy && this.xFrame === 1) this.shootSound();
@@ -304,6 +309,4 @@ class Enemy extends Sprite {
     }
   }
 
-  export {
-    Enemy
-  };
+  export { Enemy };

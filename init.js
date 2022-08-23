@@ -167,7 +167,7 @@ function generateMonsters(map) {
             break;
         }
         index++;
-        map.spritesList[index] = new Enemy((j * 64), (i * 64), eval(monster), 0, map.player, false, map.ctx, map, monster, alarmSound, hitSound, shootSound, dieSound);
+        map.spritesList[index] = new Enemy((j * 64) + 32, (i * 64) + 32, eval(monster), 0, map.player, false, map.ctx, map, monster, alarmSound, hitSound, shootSound, dieSound);
       }
     }
   }
