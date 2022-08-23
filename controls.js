@@ -15,7 +15,7 @@ export class Controls {
           player.left();
           break;
         case " ":
-          map.detectDoor();
+          if (!e.repeat) map.detectDoor();
           break;
         case "f":
           if (!e.repeat) player.shoot();

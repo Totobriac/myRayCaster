@@ -11,7 +11,7 @@ var officer = new Image();
 officer.src = "./assets/officer.png";
 
 var dog = new Image();
-dog.src = "./assets/FettGesicht.png";
+dog.src = "./assets/dog.png";
 
 var boss1 = new Image();
 boss1.src = "./assets/barnacle.png";
@@ -94,7 +94,7 @@ function generateMonsters(map) {
   for (let i = 0; i < map.mapY; i++) {
     for (let j = 0; j < map.mapX; j++) {
       if (map.monsters[i][j] != 0 && map.monsters[i][j] != 88) {
-        var monster;       
+        var monster;
         switch (map.monsters[i][j]) {
           case 1:
             monster = "guard";
@@ -116,7 +116,7 @@ function generateMonsters(map) {
             break;
         }
         index++;
-        map.spritesList[index] = new Enemy((j * 64), (i * 64), eval(monster), 0, map.player, false, map.ctx, map, monster);   
+        map.spritesList[index] = new Enemy((j * 64), (i * 64), eval(monster), 0, map.player, false, map.ctx, map, monster);
       }
     }
   }
