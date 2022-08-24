@@ -86,26 +86,21 @@ class Enemy extends Sprite {
         this.isFiring = false;
       } else if (this.path.length > this.fireRange) {
         this.isFiring = false;
-        console.log(this.path);
-        if (this.path[0].x  < this.path[1].x ) {
+       
+        if (this.x - 32 < this.path[1].x * 64 ) {
           this.x += this.speed;
-          //this.y < this.path[0].y ? this.y += this.speed : this.y -= this.speed; 
           this.angle = 0;
-        } else if (this.path[0].x  > this.path[1].x ) {
+        } else if (this.x + 32  > this.path[1].x * 64) {
           this.x -= this.speed;          
-          //this.y < this.path[0].y ? this.y += this.speed : this.y -= this.speed; 
           this.angle = 180;
         }
 
-        if (this.path[0].y  < this.path[1].y ) {
+        if (this.y - 32 < this.path[1].y * 64) {
           this.y += this.speed;
-          //this.x < this.path[0].x ? this.x += this.speed : this.x -= this.speed; 
           this.angle = 90;
-        } else if (this.path[0].y > this.path[1].y) {
+        } else if (this.y + 32 > this.path[1].y * 64) {
           this.y -= this.speed;
-          //this.y < this.path[0].x ? this.x += this.speed : this.x -= this.speed; 
           this.angle = 270;
-
         }
       } else {
         this.isFiring = true;
@@ -283,7 +278,7 @@ class Enemy extends Sprite {
       case "boss3":
         this.fireRange = Math.floor(Math.random() * 2 + 2);
         this.life = 30;
-        this.speed = 0;
+        this.speed = 0.8;
         break;
     }
   }
