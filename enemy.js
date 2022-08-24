@@ -56,7 +56,7 @@ class Enemy extends Sprite {
   update() {
     this.playXGrid = Math.floor(this.player.x / 64);
     this.playYGrid = Math.floor(this.player.y / 64);
-
+    console.log(this.path);
     if (!this.still && !this.alerted) {
       var newX = this.x + Math.cos(this.angle * Math.PI / 180) * this.speed;
       var newY = this.y + Math.sin(this.angle * Math.PI / 180) * this.speed;
@@ -82,6 +82,7 @@ class Enemy extends Sprite {
 
       // si il est plus loin que son champs de tir, il le suit, sinon il tire
       if (this.path.length === 0) {
+        this.alerted = false;
         this.isFiring = false;
       } else if (this.path.length > this.fireRange) {
 
@@ -159,7 +160,6 @@ class Enemy extends Sprite {
       this.shout();
     };
 
-    //if (this.path.length === 0 && this.distance > 200 ) this.alerted = false;
 
     if (this.life > 0) {
       if ((!this.still || this.alerted) && !this.isFiring && !this.isHitten) {
