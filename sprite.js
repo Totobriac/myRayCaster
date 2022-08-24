@@ -30,7 +30,7 @@ class Sprite {
     var X = this.x - this.player.x;
     var Y = this.y - this.player.y;
 
-    var p = 360 - ( Math.atan2(Y, X) * 180/ Math.PI);
+    var p = 360 - (Math.atan2(Y, X) * 180 / Math.PI);
 
     if (p < 0) p += 360;
     if (p > 360) p -= 360;
@@ -42,7 +42,7 @@ class Sprite {
     if (p > 270 && playerAngle < 90) XTemp += 360;
     if (playerAngle > 270 && p < 90) XTemp -= 360;
 
-	  this.screenX = (XTemp * 600 / 60);
+    this.screenX = (XTemp * 600 / 60);
 
     var spriteHeight = (this.screenDist * 64) / this.distance;
 
@@ -50,19 +50,21 @@ class Sprite {
 
     var columnWidth = spriteHeight / 64;
 
-    var screenY = 200 - spriteHeight/2;
-
+    var screenY = 200 - spriteHeight / 2;
+    this.canBeSeen = false;
     for (let i = 0; i < 64; i++) {
+      
       var x = Math.floor(this.screenX + (columnWidth * i) - (32 * columnWidth));
       if (zBuffer[x] + 32 > this.distance && x > 0 && x < 600) {
         this.ctx.drawImage(this.image, i + this.imageX, this.imageY, 1, 63, this.screenX + (columnWidth * i) - (32 * columnWidth) + 300, screenY, columnWidth, spriteHeight);
+        if (i === 26 || i === 38) this.canBeSeen = true;
       }
     }
   }
 }
 
 function drawSprites(map) {
-  map.spritesList.sort(function(obj1, obj2) {
+  map.spritesList.sort(function (obj1, obj2) {
     return obj2.distance - obj1.distance;
   });
   for (let i = 0; i < map.spritesList.length - 1; i++) {

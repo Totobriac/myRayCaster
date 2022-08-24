@@ -11,7 +11,7 @@ import {
 
 
 class Enemy extends Sprite {
-  constructor(x, y, image, frame, player, still, ctx, map, character, alarmSound, hitSound, shootSound, dieSound, ) {
+  constructor(x, y, image, frame, player, still, ctx, map, character, alarmSound, hitSound, shootSound, dieSound,) {
     super(x, y, image, frame, player, still, ctx);
     this.level = map;
     this.angle = 0;
@@ -35,6 +35,7 @@ class Enemy extends Sprite {
     this.hittingSound = hitSound;
     this.shootingSound = shootSound;
     this.dieSound = dieSound;
+
     this.setStats();
   }
   draw() {
@@ -79,28 +80,28 @@ class Enemy extends Sprite {
       // il suit le joueur
       this.findPath();
 
-
       // si il est plus loin que son champs de tir, il le suit, sinon il tire
       if (this.path.length === 0) {
         this.isFiring = false;
       } else if (this.path.length > this.fireRange) {
+
         this.isFiring = false;
         this.stopShootSound();
         var angleSet = false;
 
-         if(this.x - 32 === this.path[1].x * 64 ) {
-          this.x = this.x;          
-        } else if (this.x - 32 < this.path[1].x * 64 ) {
+        if (this.x - 32 === this.path[1].x * 64) {
+          this.x = this.x;
+        } else if (this.x - 32 < this.path[1].x * 64) {
           this.x += this.speed;
           if (!angleSet) this.angle = 0, angleSet = true;
         } else if (this.x + 32 > this.path[1].x * 64) {
           this.x -= this.speed;
           if (!angleSet) this.angle = 180, angleSet = true;
         }
-       
+
         if (this.y - 32 === this.path[1].y * 64) {
           this.y = this.y;
-        } else if (this.y - 32 < this.path[1].y * 64 ) {
+        } else if (this.y - 32 < this.path[1].y * 64) {
           this.y += this.speed;
           if (!angleSet) this.angle = 90, angleSet = true;
         } else if (this.y + 32 > this.path[1].y * 64) {
@@ -108,9 +109,8 @@ class Enemy extends Sprite {
           if (!angleSet) this.angle = 270, angleSet = true;
         }
 
-
       } else {
-        this.isFiring = true;
+        this.canBeSeen ? this.isFiring = true : this.isFiring = false;
       }
     }
 
@@ -186,7 +186,7 @@ class Enemy extends Sprite {
           }
         } else {
           this.fireTickCount++;
-        }        
+        }
       }
     } else {
       if (!this.isDead) this.deathShout()
