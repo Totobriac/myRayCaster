@@ -7,13 +7,11 @@ import {
 import {
   distance
 } from "./functions.js";
-import {
-  soundPlayer
-} from "./raycasting.js";
+
 
 
 class Enemy extends Sprite {
-  constructor(x, y, image, frame, player, still, ctx, map, character, alarmSound, hitSound, shootSound, dieSound) {
+  constructor(x, y, image, frame, player, still, ctx, map, character, alarmSound, hitSound, shootSound, dieSound, ) {
     super(x, y, image, frame, player, still, ctx);
     this.level = map;
     this.angle = 0;
@@ -87,7 +85,7 @@ class Enemy extends Sprite {
         this.isFiring = false;
       } else if (this.path.length > this.fireRange) {
         this.isFiring = false;
-
+        this.stopShootSound();
         var angleSet = false;
 
          if(this.x - 32 === this.path[1].x * 64 ) {
@@ -100,7 +98,9 @@ class Enemy extends Sprite {
           if (!angleSet) this.angle = 180, angleSet = true;
         }
        
-        if (this.y - 32 < this.path[1].y * 64 ) {
+        if (this.y - 32 === this.path[1].y * 64) {
+          this.y = this.y;
+        } else if (this.y - 32 < this.path[1].y * 64 ) {
           this.y += this.speed;
           if (!angleSet) this.angle = 90, angleSet = true;
         } else if (this.y + 32 > this.path[1].y * 64) {
@@ -186,7 +186,7 @@ class Enemy extends Sprite {
           }
         } else {
           this.fireTickCount++;
-        }
+        }        
       }
     } else {
       if (!this.isDead) this.deathShout()
@@ -266,16 +266,19 @@ class Enemy extends Sprite {
         this.speed = 5;
         break;
       case "boss1":
+        this.type = "boss";
         this.fireRange = Math.floor(Math.random() * 2 + 4);
         this.life = 20;
         this.speed = 4;
         break;
       case "boss2":
+        this.type = "boss";
         this.fireRange = Math.floor(Math.random() * 2 + 4);
         this.life = 25;
         this.speed = 4;
         break;
       case "boss3":
+        this.type = "boss";
         this.fireRange = Math.floor(Math.random() * 2 + 2);
         this.life = 30;
         this.speed = 1;

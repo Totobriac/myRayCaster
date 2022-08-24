@@ -15,7 +15,7 @@ var dog = new Image();
 dog.src = "./assets/dog.png";
 
 var boss1 = new Image();
-boss1.src = "./assets/barnacle.png";
+boss1.src = "./assets/barnacle2.png";
 
 var boss2 = new Image();
 boss2.src = "./assets/FettGesicht.png";
@@ -36,6 +36,7 @@ var boss3Shout = new sound("/assets/sounds/zombi_intro.mp3");
 
 
 var enemyShootingSound = new sound("/assets/sounds/enemy_shooting2.mp3");
+var bossShootingSound = new sound("/assets/sounds/boss_firing.mp3")
 var dogBittingSound = new sound("/assets/sounds/dog_barking_2.mp3");
 
 var mummySound = new sound("/assets/sounds/death_mami.mp3");
@@ -148,21 +149,21 @@ function generateMonsters(map) {
             monster = "boss1";
             alarmSound = boss1Shout;
             hitSound = painSound;
-            shootSound = enemyShootingSound;
+            shootSound = bossShootingSound;
             dieSound = boss1Dies;
             break;
           case 5:
             monster = "boss2";
             alarmSound = boss2Shout;
             hitSound = painSound;
-            shootSound = enemyShootingSound;
+            shootSound = bossShootingSound;
             dieSound = boss2Dies;
             break;
           case 6:
             monster = "boss3";
             alarmSound = boss3Shout;
             hitSound = painSound;
-            shootSound = enemyShootingSound;
+            shootSound = bossShootingSound;
             dieSound = boss3Dies;
             break;
         }
