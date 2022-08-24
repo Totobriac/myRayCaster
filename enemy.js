@@ -40,9 +40,8 @@ class Enemy extends Sprite {
     this.setStats();
   }
   draw() {
-    this.angle <= 90 || this.angle >= 270 ? this.Xoffset = 32 : this.Xoffset = 96;
-    this.angle < 180 ? this.Yoffset = 64 : this.Yoffset = 0;
-
+    this.angle <= 90 || this.angle >= 270 ? this.Xoffset = 32 : this.Xoffset = -32;
+    this.angle < 180 ? this.Yoffset = 32 : this.Yoffset = -32;
     this.update();
     super.draw();
   }
@@ -87,18 +86,24 @@ class Enemy extends Sprite {
         this.isFiring = false;
       } else if (this.path.length > this.fireRange) {
         this.isFiring = false;
-        if (this.path[0].x +32 < this.path[1].x +32) {
+        console.log(this.path);
+        if (this.path[0].x  < this.path[1].x ) {
           this.x += this.speed;
+          //this.y < this.path[0].y ? this.y += this.speed : this.y -= this.speed; 
           this.angle = 0;
-        } else if (this.path[0].x +32 > this.path[1].x +32) {
-          this.x -= this.speed;
+        } else if (this.path[0].x  > this.path[1].x ) {
+          this.x -= this.speed;          
+          //this.y < this.path[0].y ? this.y += this.speed : this.y -= this.speed; 
           this.angle = 180;
         }
-        if (this.path[0].y +32 < this.path[1].y +32) {
+
+        if (this.path[0].y  < this.path[1].y ) {
           this.y += this.speed;
+          //this.x < this.path[0].x ? this.x += this.speed : this.x -= this.speed; 
           this.angle = 90;
-        } else if (this.path[0].y +32> this.path[1].y+32) {
+        } else if (this.path[0].y > this.path[1].y) {
           this.y -= this.speed;
+          //this.y < this.path[0].x ? this.x += this.speed : this.x -= this.speed; 
           this.angle = 270;
 
         }
@@ -154,10 +159,10 @@ class Enemy extends Sprite {
       this.imageX = this.frame * 64;
     }
 
-    // if (this.distance && this.distance < 200 && this.life > 0 && !this.alerted) {
-    //   this.alerted = true
-    //   this.shout();
-    // };
+    if (this.distance && this.distance < 200 && this.life > 0 && !this.alerted) {
+      this.alerted = true
+      this.shout();
+    };
 
     //if (this.path.length === 0 && this.distance > 200 ) this.alerted = false;
 
@@ -278,7 +283,7 @@ class Enemy extends Sprite {
       case "boss3":
         this.fireRange = Math.floor(Math.random() * 2 + 2);
         this.life = 30;
-        this.speed = 4;
+        this.speed = 0;
         break;
     }
   }
