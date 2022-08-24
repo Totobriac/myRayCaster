@@ -59,8 +59,8 @@ class Enemy extends Sprite {
     this.playYGrid = Math.floor(this.player.y / 64);
 
     if (!this.still && !this.alerted) {
-      var newX = this.x  + Math.cos(this.angle * Math.PI / 180) * this.speed;
-      var newY = this.y  + Math.sin(this.angle * Math.PI / 180) * this.speed;
+      var newX = this.x + Math.cos(this.angle * Math.PI / 180) * this.speed;
+      var newY = this.y + Math.sin(this.angle * Math.PI / 180) * this.speed;
 
       if (!this.checkForCollision(newX, newY)) {
         this.x = newX;
@@ -71,8 +71,8 @@ class Enemy extends Sprite {
         if (this.angle < 0) {
           this.angle += 360;
         } else if (this.angle > 360) {
-         this.angle -= 360;
-       }
+          this.angle -= 360;
+        }
         this.guardPath = 0;
       }
     }
@@ -81,40 +81,40 @@ class Enemy extends Sprite {
       // il suit le joueur
       this.findPath();
 
+
       // si il est plus loin que son champs de tir, il le suit, sinon il tire
       if (this.path.length === 0) {
         this.isFiring = false;
       } else if (this.path.length > this.fireRange) {
         this.isFiring = false;
-       
-        if (this.x - 32 < this.path[1].x * 64 ) {
-          this.x += this.speed;
-          this.angle = 0;
-        } else if (this.x + 32  > this.path[1].x * 64) {
-          this.x -= this.speed;          
-          this.angle = 180;
-        }
 
-        if (this.y - 32 < this.path[1].y * 64) {
+        var angleSet = false;
+
+         if(this.x - 32 === this.path[1].x * 64 ) {
+          this.x = this.x;          
+        } else if (this.x - 32 < this.path[1].x * 64 ) {
+          this.x += this.speed;
+          if (!angleSet) this.angle = 0, angleSet = true;
+        } else if (this.x + 32 > this.path[1].x * 64) {
+          this.x -= this.speed;
+          if (!angleSet) this.angle = 180, angleSet = true;
+        }
+       
+        if (this.y - 32 < this.path[1].y * 64 ) {
           this.y += this.speed;
-          this.angle = 90;
+          if (!angleSet) this.angle = 90, angleSet = true;
         } else if (this.y + 32 > this.path[1].y * 64) {
           this.y -= this.speed;
-          this.angle = 270;
+          if (!angleSet) this.angle = 270, angleSet = true;
         }
+
+
       } else {
         this.isFiring = true;
       }
     }
 
     // on choisit le sprite en fonction de son angle par rapport au joueur
-    var X = this.x - this.player.x;
-    var Y = this.y - this.player.y;
-
-    var p = 360 - (Math.atan2(Y, X) * 180 / Math.PI);
-
-    if (p < 0) p += 360;
-    if (p > 360) p -= 360;
 
     var diff = (this.player.angle * 180 / Math.PI) - this.angle;
 
@@ -127,7 +127,7 @@ class Enemy extends Sprite {
           this.frame = 4
           break;
         case diff > 18 && diff < 67.5:
-          this.frame = 5
+          this.frame = 3
           break;
         case diff > 67.5 && diff < 112.5:
           this.frame = 2
@@ -145,7 +145,7 @@ class Enemy extends Sprite {
           this.frame = 6
           break;
         case diff > 292.5 && diff < 337.5:
-          this.frame = 3
+          this.frame = 5
           break;
         case diff > 342:
           this.frame = 4
@@ -278,7 +278,7 @@ class Enemy extends Sprite {
       case "boss3":
         this.fireRange = Math.floor(Math.random() * 2 + 2);
         this.life = 30;
-        this.speed = 0.8;
+        this.speed = 1;
         break;
     }
   }
@@ -300,13 +300,13 @@ class Enemy extends Sprite {
     this.shootingSound.stop();
   }
 }
-  function alertNme(x, y, level) {
-    for (let i = 0; i < level.spritesList.length; i++) {
-      if (level.spritesList[i] && level.spritesList[i].type === "enemy" && level.spritesList[i].life > 0) {
-        var dist = distance(level.spritesList[i].x, level.spritesList[i].y, x, y);
-        if (dist < 128) level.spritesList[i].alerted = true;
-      }
+function alertNme(x, y, level) {
+  for (let i = 0; i < level.spritesList.length; i++) {
+    if (level.spritesList[i] && level.spritesList[i].type === "enemy" && level.spritesList[i].life > 0) {
+      var dist = distance(level.spritesList[i].x, level.spritesList[i].y, x, y);
+      if (dist < 128) level.spritesList[i].alerted = true;
     }
   }
+}
 
-  export { Enemy };
+export { Enemy };
