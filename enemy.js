@@ -56,7 +56,6 @@ class Enemy extends Sprite {
   update() {
     this.playXGrid = Math.floor(this.player.x / 64);
     this.playYGrid = Math.floor(this.player.y / 64);
-    console.log(this.path);
     if (!this.still && !this.alerted) {
       var newX = this.x + Math.cos(this.angle * Math.PI / 180) * this.speed;
       var newY = this.y + Math.sin(this.angle * Math.PI / 180) * this.speed;
@@ -155,9 +154,9 @@ class Enemy extends Sprite {
       this.imageX = this.frame * 64;
     }
 
-    if (this.distance && this.distance < 200 && this.life > 0 && !this.alerted) {
+    if (this.distance && this.distance < 200 && this.life > 0 && !this.alerted ) {
       this.alerted = true
-      this.shout();
+      if (this.path && this.path.length > 0 ) this.shout();
     };
 
 
